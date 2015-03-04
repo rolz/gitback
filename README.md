@@ -25,11 +25,11 @@ Expose localhost with ngrok to enable github webhooks to work.
 6. your homepage url: http://3da9c26d.ngrok.com/  
 7. callback url is i.e. http://3da9c26d.ngrok.com/callback
 8. Save your Client ID & Client Secret 
-9. Do `echo "# Github" >> .env` file in root directory and add:
+9. Do `echo "# Github" >> .env` file in root directory:
 10. Then add to file with your own client id and secret:
 ```
-CLIENTID=XXXXXXX
-CLIENTSECRET=XXXXXXXX
+CLIENTID=XXX
+CLIENTSECRET=XXX
 ```
 11. add .env extension to .gitignore file
 

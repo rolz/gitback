@@ -1,6 +1,8 @@
 {
   "server": {
     "port": 5000,
+    "livereloadPort": 35729,
+    "webpackServerPort": 8090,
     "staticDir": ["/public", "/dist"]
   },
   "github": {
@@ -21,6 +23,7 @@
       "dist/**",
       "webpack.config.js",
       "gulpfile.js",
+      "gulpfile.es6",
       "package.json"
     ]
   }

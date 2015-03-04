@@ -36,10 +36,11 @@ function setHandlebars() {
   app.set('view engine', 'handlebars');
 }
 
-function setRoute() {
+function setRoute(options) {
   var obj = {
     version: require('../../package').version,
-    LRScript: app.locals.LRScript
+    options: options,
+    development: !!(process.env.NODE_ENV === 'development')
   };
   // console.log(obj);
   app.get('/admin', (function(req, res) {
@@ -56,7 +57,7 @@ exports.connect = ((expressApp, expressServer, options) => {
     express = expressServer;
     setBodyParser();
     setHandlebars();
-    setRoute();
+    setRoute(options);
     if(_.isObject(options)) {
       if(options.port) {
         var port = process.env.PORT || options.port;

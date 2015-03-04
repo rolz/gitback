@@ -12,8 +12,7 @@ var _ = require('lodash-node'),
   app = express();
 
 if(process.env.NODE_ENV === 'development') {
-  // [TODO] Make liveload work!!
-  require('express-livereload')(app, {watchDir: process.cwd() + '/views'});
+  app.use(require('connect-livereload')({port: config.server.livereloadPort}));
 }
 
 gb.server.connect(app, express, config.server, __dirname);

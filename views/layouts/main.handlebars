@@ -17,6 +17,9 @@
   </head>
   <body ng-controller="appController">
     {{{body}}}
-    {{#if LRScript}}{{{LRScript}}}{{/if}}
+    {{#if development}}
+    <script src="http://localhost:{{options.webpackServerPort}}/webpack-dev-server.js"></script>
+    <script src="http://localhost:{{options.livereloadPort}}/livereload.js"></script>
+    {{/if}}
   </body>
 </html>

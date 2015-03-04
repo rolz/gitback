@@ -11,8 +11,6 @@ git checkout dev
 npm i
 gulp
 ```
-access at: localhost:5000
-
 
 Expose localhost with ngrok to enable github webhooks to work.
 
@@ -27,8 +25,15 @@ Expose localhost with ngrok to enable github webhooks to work.
 6. your ngrok url: http://3da9c26d.ngrok.com/  
 7. callback url is i.e. http://3da9c26d.ngrok.com/callback
 8. Save your Client ID & Client Secret 
-9. create .env file in root directory and add:
-10. add .env extension to .gitignore
+9. Do `echo #Github >> .env` file in root directory and add:
+10. Then add to file with your own client id and secret:
+```
+CLIENTID=XXXXXXX
+CLIENTSECRET=XXXXXXXX
+```
+11. add .env extension to .gitignore file
+
+access at: your ngrok url i.e. http://3da9c26d.ngrok.com/
 
 ## Deployment
 

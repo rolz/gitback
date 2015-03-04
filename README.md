@@ -22,7 +22,7 @@ Expose localhost with ngrok to enable github webhooks to work.
 3. copy the ngrok url from the terminal i.e. http://3da9c26d.ngrok.com/
 4. [register new application in your github account](https://github.com/settings/applications) 
 5. add any app name 
-6. your ngrok url: http://3da9c26d.ngrok.com/  
+6. your homepage url: http://3da9c26d.ngrok.com/  
 7. callback url is i.e. http://3da9c26d.ngrok.com/callback
 8. Save your Client ID & Client Secret 
 9. Do `echo "# Github" >> .env` file in root directory and add:

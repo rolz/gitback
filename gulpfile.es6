@@ -2,6 +2,7 @@
 
 var _ = require('lodash-node'),
   gulp = require('gulp'),
+  shell = require('gulp-shell'),
   config = require('./json/config'),
   gb = require('./lib/gb'),
   colors = require('colors'),
@@ -20,14 +21,16 @@ gulp.task('livereload', () => {
   tinylr.listen(livereloadPort);
 });
 
+gulp.task('webpack', shell.task(['webpack']));
+
 gulp.task('watch', () => {
   var watch = require('gulp-watch'),
-    shell = require('gulp-shell');
-  watch('source/**/**', shell.task(['webpack']));
+    batch = require('gulp-batch');
+  watch('source/**/**', batch(() => { gulp.start('webpack'); }));
   watch(['dist/**', 'public/**/**'], (e) => {
     var fileName = require('path').relative(__dirname, e.path);
     tinylr.changed({body: {files: [fileName]}});
   });
 });
 
-gulp.task('default', ['server', 'livereload', 'watch']);
+gulp.task('default', ['webpack', 'server', 'livereload', 'watch']);

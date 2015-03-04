@@ -33,6 +33,7 @@
     "exports-loader": "^0.6.2",
     "file-loader": "^0.8.1",
     "gulp": "^3.8.11",
+    "gulp-batch": "^1.0.5",
     "gulp-jshint": "^1.9.2",
     "gulp-nodemon": "^1.0.5",
     "gulp-open": "^0.3.2",

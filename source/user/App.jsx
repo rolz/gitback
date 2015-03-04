@@ -1,7 +1,7 @@
 App = React.createClass({
   render() {
     return (
-      <div>hello</div>
+      <div>hello4</div>
     );
   }
 });

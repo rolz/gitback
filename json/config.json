@@ -8,8 +8,8 @@
   "github": {
     "oauthUrl": "https://github.com/login/oauth",
     "apiUrl": "https://api.github.com",
-    "clientId": "62f7bc9f27737728092d",
-    "clientSecret": "6a4ce1ba5e3c4a3de85e50507f2bf38d5888b308"
+    "clientId": "ea2e2c3418455a6b52cf",
+    "clientSecret": "6152c9320a9c460846e89c80360c1769116318fd"
   },
   "nodemon": {
     "script": "app.js",

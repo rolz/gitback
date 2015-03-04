@@ -6,11 +6,11 @@
 
 var _ = require('lodash-node'),
   colors = require('colors'),
-  app, github;
+  app, github, clientId, clientSecret;
 
 function setRoutes(options) {
   app.get('/login', function(req, res) {
-    res.redirect(307, options.oauthUrl + '/authorize?client_id=' + options.clientId + '&scope=user:email');
+    res.redirect(307, options.oauthUrl + '/authorize?client_id=' + clientId + '&scope=user:email');
   });
 }
 
@@ -25,6 +25,7 @@ module.exports = ((expressApp, options) => {
       'user-agent': 'GitBackApp'
     }
   });
+  clientId = process.env.CLIENTID || options.clientId;
+  clientSecret = process.env.CLIENTID || options.clientSecret;
   setRoutes(options);
 });
-

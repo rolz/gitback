@@ -42,6 +42,7 @@
     "json-loader": "^0.5.1",
     "jsx-loader": "^0.12.2",
     "lodash": "^3.3.1",
+    "node-env-file": "^0.1.7",
     "react": "^0.12.2",
     "run-sequence": "^1.0.2",
     "sass-loader": "^0.4.0",

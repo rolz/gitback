@@ -1,0 +1,59 @@
+{
+  "name": "gitbackorg",
+  "version": "0.0.0",
+  "description": "Gitback.org website",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gitbackorg/website"
+  },
+  "author": "Gitback.org",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gitbackorg/website/issues"
+  },
+  "homepage": "https://github.com/gitbackorg/website",
+  "dependencies": {
+    "babel": "^4.6.6",
+    "body-parser": "^1.12.0",
+    "colors": "^1.0.3",
+    "cryptojs": "^2.5.3",
+    "express": "^4.12.1",
+    "express-handlebars": "^1.2.1",
+    "lodash-node": "^3.3.1"
+  },
+  "devDependencies": {
+    "autoprefixer-loader": "1.1.0",
+    "compression-webpack-plugin": "^0.1.2",
+    "connect-livereload": "^0.5.3",
+    "css-loader": "^0.9.1",
+    "exports-loader": "^0.6.2",
+    "file-loader": "^0.8.1",
+    "gulp": "^3.8.11",
+    "gulp-jshint": "^1.9.2",
+    "gulp-nodemon": "^1.0.5",
+    "gulp-open": "^0.3.2",
+    "gulp-shell": "^0.3.0",
+    "gulp-util": "^3.0.4",
+    "gulp-watch": "^4.1.1",
+    "html-loader": "^0.2.3",
+    "json-loader": "^0.5.1",
+    "jsx-loader": "^0.12.2",
+    "lodash": "^3.3.1",
+    "react": "^0.12.2",
+    "run-sequence": "^1.0.2",
+    "sass-loader": "^0.4.0",
+    "style-loader": "^0.8.3",
+    "template-html-loader": "0.0.3",
+    "tiny-lr": "^0.1.5",
+    "url-loader": "^0.5.5",
+    "webpack": "^1.6.0",
+    "yargs": "^3.4.5"
+  },
+  "engines": {
+    "node": "0.10.x"
+  }
+}

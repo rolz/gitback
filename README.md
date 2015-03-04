@@ -1,5 +1,7 @@
 # website
 
+## [Project Info and Technical Resources](https://github.com/rolz/gitback/wiki)
+
 ## Development
 
 Please do NOT commit anything in master branch besides permissions.
@@ -9,6 +11,18 @@ git checkout dev
 npm i
 gulp
 ```
+localhost:5000
+
+
+Expose localhost with ngrok to enable github webhooks to work.
+
+1. [download ngrok](https://ngrok.com/)
+2.
+```
+./ngrok 5000
+```
+
+
 
 ## Deployment
 

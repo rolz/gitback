@@ -6,7 +6,7 @@ var _ = require('lodash-node'),
   config = require('./json/config'),
   gb = require('./lib/gb'),
   colors = require('colors'),
-  livereloadPort = 4002,
+  livereloadPort = 35729,
   tinylr;
 
 gulp.task('server', () => {
@@ -14,6 +14,14 @@ gulp.task('server', () => {
     app = express();
   app.use(require('connect-livereload')({port: livereloadPort}));
   gb.server.connect(app, express, config.server, __dirname);
+});
+
+gulp.task('dev-server', () => {
+  var nodemon = require('gulp-nodemon');
+  nodemon(config.nodemon)
+  .on('restart', () => {
+    console.log('restarted!');
+  });
 });
 
 gulp.task('livereload', () => {
@@ -33,4 +41,5 @@ gulp.task('watch', () => {
   });
 });
 
+gulp.task('dev', ['webpack', 'dev-server']);
 gulp.task('default', ['webpack', 'server', 'livereload', 'watch']);

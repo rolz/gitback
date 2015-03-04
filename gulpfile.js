@@ -1,3 +1,5 @@
+'use strict';
+
 /*
  * Gulp supports ES6 in the version 4.
  * For now we use babel.

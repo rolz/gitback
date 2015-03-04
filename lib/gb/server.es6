@@ -2,14 +2,18 @@
 
 var _ = require('lodash-node'),
   colors = require('colors'),
-  app;
+  app, express;
 
-function setStaticDir(express, options, dirname) {
-  var set = (dir => {app.use('', express.static(dirname + dir));});
-  if(_.isArray(options)) {
-    options.forEach(dir => {set(dir);});
-  } else if(_.isString(options)) {
-    set(options);
+function setStaticDir(options) {
+  if(app && express) {
+    var set = (dir => {app.use(express.static(process.cwd() + dir));});
+    if(_.isArray(options)) {
+      options.forEach(dir => {set(dir);});
+    } else if(_.isString(options)) {
+      set(options);
+    } else {
+      throw Error('Error');
+    }
   } else {
     throw Error('Error');
   }
@@ -33,20 +37,37 @@ function setHandlebars() {
 }
 
 function setRoute() {
+  var obj = {
+    version: require('../../package').version,
+    LRScript: app.locals.LRScript
+  };
+  // console.log(obj);
   app.get('/admin', (function(req, res) {
-    res.render('admin', {version: 'hello'});
+    res.render('admin', obj);
   }));
   app.get('/', (function(req, res) {
-    res.render('user');
+    res.render('user', obj);
   }));
 }
 
-exports.connect = ((expressApp, express, options, dirname) => {
-  app = expressApp;
-  if(options.staticDir && dirname) setStaticDir(express, options.staticDir, dirname);
-  app.listen(options.port);
-  console.log(`Listening to ${options.port}`.green);
-  setBodyParser();
-  setHandlebars();
-  setRoute();
+exports.connect = ((expressApp, expressServer, options) => {
+  if(expressApp && expressServer) {
+    app = expressApp;
+    express = expressServer;
+    setBodyParser();
+    setHandlebars();
+    setRoute();
+    if(_.isObject(options)) {
+      if(options.port) {
+        var port = process.env.PORT || options.port;
+        app.listen(port);
+        console.log(`Listening to ${port}`.green);
+      }
+      if(options.staticDir) setStaticDir(options.staticDir);
+    }
+  } else {
+    throw Error('Error');
+  }
 });
+
+exports.setStaticDir = setStaticDir;

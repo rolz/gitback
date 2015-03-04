@@ -2,5 +2,26 @@
   "server": {
     "port": 5000,
     "staticDir": ["/public", "/dist"]
+  },
+  "github": {
+    "oauthUrl": "https://github.com/login/oauth",
+    "apiUrl": "https://api.github.com",
+    "clientId": "62f7bc9f27737728092d",
+    "clientSecret": "6a4ce1ba5e3c4a3de85e50507f2bf38d5888b308"
+  },
+  "nodemon": {
+    "script": "app.js",
+    "ext": "handlebars js json es6",
+    "env": { "NODE_ENV": "development" },
+    "ignore": [
+      "node_modules/**",
+      "public/**",
+      "source/**",
+      "views/**",
+      "dist/**",
+      "webpack.config.js",
+      "gulpfile.js",
+      "package.json"
+    ]
   }
 }

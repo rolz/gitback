@@ -11,25 +11,24 @@ git checkout dev
 npm i
 gulp
 ```
-localhost:5000
+access at: localhost:5000
 
 
 Expose localhost with ngrok to enable github webhooks to work.
 
-1. [download ngrok](https://ngrok.com/)
-
-2.
+1. [Download ngrok](https://ngrok.com/)
+2. Unzip and in command line
 ```
 ./ngrok 5000
 ```
 3. copy the ngrok url from the terminal i.e. http://3da9c26d.ngrok.com/
 4. [register new application in your github account](https://github.com/settings/applications) 
-5. add any app name; 
-6. your ngrok url: http://3da9c26d.ngrok.com/ ; 
+5. add any app name 
+6. your ngrok url: http://3da9c26d.ngrok.com/  
 7. callback url is i.e. http://3da9c26d.ngrok.com/callback
 8. Save your Client ID & Client Secret 
-
-
+9. create .env file in root directory and add:
+10. add .env extension to .gitignore
 
 ## Deployment
 

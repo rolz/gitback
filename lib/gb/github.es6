@@ -44,12 +44,14 @@ function setRoutes(options) {
 
           },
           (err, res, body) => {
-            var dat = JSON.parse(body);
+            // gup represents Github User Profile
+            var gup = JSON.parse(body);
+
             db.user.add({
               tokenId: token,
-              login: dat.login,
-              avatarUrl: dat.avatar_url,
-              email: dat.email,
+              login: gup.login,
+              avatarUrl: gup.avatar_url,
+              email: gup.email
             }, ((e) => {
               if(e.status === 'success') {
                 /* Get user information */

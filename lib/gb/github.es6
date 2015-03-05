@@ -5,13 +5,47 @@
  */
 
 var _ = require('lodash-node'),
-  colors = require('colors'),
+  request = require('request'),
+  qs = require('querystring'),
   app, github, clientId, clientSecret;
 
 function setRoutes(options) {
-  app.get('/login', function(req, res) {
-    res.redirect(307, options.oauthUrl + '/authorize?client_id=' + clientId + '&scope=user:email');
+
+
+  app.get('/login', (req, res) => {
+    res.redirect(307, options.oauthUrl + '/authorize?client_id=' + clientId + '&scope=user,read:repo_hook,write:repo_hook');
   });
+
+  app.get('/callback', (req, res) => {
+    var authCode = req.query.code;
+
+    request.post({
+      url: options.oauthUrl + '/access_token',
+      form: {
+          client_id: clientId,
+          client_secret: clientSecret,
+          code: authCode
+        }
+      }, (err, res, body) => {
+
+        var token = qs.parse(body).access_token;
+        console.log("this is the user token: "+token);
+        request.get({
+            headers: {
+                'User-Agent': 'request-gitback'
+            },
+            url: options.apiUrl + '/user?access_token='+token,
+
+        },
+        (err, res, body) => {
+          var loggedInUserData = body;
+          console.log(body);
+        });
+
+      });
+
+  });
+
 }
 
 module.exports = ((expressApp, options) => {
@@ -26,6 +60,6 @@ module.exports = ((expressApp, options) => {
     }
   });
   clientId = process.env.CLIENTID || options.clientId;
-  clientSecret = process.env.CLIENTID || options.clientSecret;
+  clientSecret = process.env.CLIENTSECRET || options.clientSecret;
   setRoutes(options);
 });

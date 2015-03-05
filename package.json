@@ -24,7 +24,9 @@
     "express": "^4.12.1",
     "express-handlebars": "^1.2.1",
     "github": "^0.2.3",
-    "lodash-node": "^3.3.1"
+    "lodash-node": "^3.3.1",
+    "querystring": "^0.2.0",
+    "request": "^2.53.0"
   },
   "devDependencies": {
     "autoprefixer-loader": "1.1.0",

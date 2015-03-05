@@ -19,7 +19,7 @@ gulp
 * [Follow this instruction](http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/)
 * Open new terminal and run `mongod --dbpath=/data --port 27017`
 * Install mongod `npm i mongod -g`
-* Run mongod `$ mongod`
+* Run mongod `mongod`
 
 ###Expose localhost with ngrok to enable github webhooks to work.
 

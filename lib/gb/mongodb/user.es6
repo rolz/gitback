@@ -24,7 +24,7 @@ function setupSchema() {
 }
 
 function find(userId, cb) {
-  return PUser.find({'login': userId}).exec((err, result) => {
+  return PUser.find({'login': userId}, {'tokenId': false}).exec((err, result) => {
     if(err) log(`Error on finding #{userId}`, 'red');
     if(cb) {cb({
       status: (err? 'error': 'success'),
@@ -34,7 +34,7 @@ function find(userId, cb) {
 }
 
 function findAll(cb) {
-  return PUser.find({}).exec((err, result) => {
+  return PUser.find({}, {'tokenId': false}).exec((err, result) => {
     if(err) log(`Error on finding`, 'red');
     if(cb) {cb({
       status: (err? 'error': 'success'),

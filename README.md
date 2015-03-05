@@ -12,7 +12,14 @@ npm i
 gulp
 ```
 
-Expose localhost with ngrok to enable github webhooks to work.
+###Prepare [mongodb](http://www.mongodb.org/) in your local.
+
+* [Follow this instruction](http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/)
+* Open new terminal and run `mongod --dbpath=/data --port 27017`
+
+
+
+###Expose localhost with ngrok to enable github webhooks to work.
 
 * [Download ngrok](https://ngrok.com/)
 * Unzip and in command line

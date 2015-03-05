@@ -7,7 +7,10 @@
 var _ = require('lodash-node'),
   request = require('request'),
   qs = require('querystring'),
-  app, github, clientId, clientSecret;
+  util = require ('./util'),
+  mongodb = require ('./mongodb/index.es6'),
+  log = util.log('github', 'GB'),
+  app, db, github, clientId, clientSecret;
 
 function setRoutes(options) {
 
@@ -28,19 +31,40 @@ function setRoutes(options) {
         }
       }, (err, res, body) => {
 
-        var token = qs.parse(body).access_token;
-        console.log("this is the user token: "+token);
-        request.get({
-            headers: {
-                'User-Agent': 'request-gitback'
-            },
-            url: options.apiUrl + '/user?access_token='+token,
 
-        },
-        (err, res, body) => {
-          var loggedInUserData = body;
-          console.log(body);
-        });
+        var token = qs.parse(body).access_token;
+        log(`this is the user token: ${token}`, 'blue');
+
+        if(token) {
+
+          request.get({
+              headers: {
+                  'User-Agent': 'request-gitback'
+              },
+              url: options.apiUrl + '/user?access_token='+token
+
+          },
+          (err, res, body) => {
+            var dat = JSON.parse(body);
+            db.user.add({
+              tokenId: token,
+              login: dat.login,
+              avatarUrl: dat.avatar_url,
+              email: dat.email,
+            }, ((e) => {
+              if(e.status === 'success') {
+                /* Get user information */
+                db.user.find(e.userId, ((e) => {
+                  log(e, 'yellow');
+                }));
+              } else {
+                log(e.message, 'red');
+              }
+            }));
+          });
+        } else {
+          throw Error('no token exists.');
+        }
 
       });
 
@@ -48,7 +72,8 @@ function setRoutes(options) {
 
 }
 
-module.exports = ((expressApp, options) => {
+module.exports = ((expressApp, options, mongodb) => {
+  db = mongodb;
   app = expressApp;
   var GitHubApi = require('github');
   github = new GitHubApi({

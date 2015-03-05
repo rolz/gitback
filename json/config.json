@@ -11,6 +11,9 @@
     "clientId": "ea2e2c3418455a6b52cf",
     "clientSecret": "6152c9320a9c460846e89c80360c1769116318fd"
   },
+  "mongodb": {
+    "localMongoURL": "mongodb://localhost/gitback"
+  },
   "nodemon": {
     "script": "app.js",
     "ext": "handlebars js json es6",

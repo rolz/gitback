@@ -20,7 +20,7 @@ gulp.task('livereload', () => {
   tinylr.listen(config.server.livereloadPort);
 });
 
-gulp.task('dev-webpack', shell.task([['webpack-dev-server --progress --colors --port ' + config.server.webpackServerPort]]));
+gulp.task('dev-webpack', shell.task([['webpack-dev-server --colors --port ' + config.server.webpackServerPort]]));
 
 gulp.task('webpack', shell.task(['webpack']));
 

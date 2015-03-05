@@ -21,4 +21,8 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 gb.server.connect(app, express, config.server, __dirname);
-gb.github(app, config.github);
+gb.mongodb(app, config.mongodb, (function(e) {
+  if(e.status === 'success') {
+    gb.github(app, config.github, e.db);
+  }
+}));

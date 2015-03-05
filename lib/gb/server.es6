@@ -1,7 +1,8 @@
 'use strict';
 
 var _ = require('lodash-node'),
-  colors = require('colors'),
+  util = require ('./util'),
+  log = util.log('server', 'GB'),
   app, express;
 
 function setStaticDir(options) {
@@ -62,7 +63,7 @@ exports.connect = ((expressApp, expressServer, options) => {
       if(options.port) {
         var port = process.env.PORT || options.port;
         app.listen(port);
-        console.log(`Listening to ${port}`.green);
+        log(`listening to ${port}`, 'red');
       }
       if(options.staticDir) setStaticDir(options.staticDir);
     }

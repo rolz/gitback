@@ -1,1 +1,19 @@
-admin
+<h2>admin</h2>
+
+{{#each usr}}
+<img src="{{avatarUrl}}" width="40" />
+<ur>
+<li>{{login}}</li>
+<li>{{tokenId}}</li>
+<li>{{avatarUrl}}</li>
+<li>{{email}}</li>
+<li>
+<p>repos</p>
+<ur>
+{{#each repos}}
+<li>{{.}}</li>
+{{/each}}
+</ur>
+</li>
+</ur>
+{{/each}}

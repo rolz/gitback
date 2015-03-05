@@ -8,7 +8,6 @@ var _ = require('lodash-node'),
   request = require('request'),
   qs = require('querystring'),
   util = require ('./util'),
-  mongodb = require ('./mongodb/index.es6'),
   log = util.log('github', 'GB'),
   app, db, github, clientId, clientSecret;
 

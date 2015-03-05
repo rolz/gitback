@@ -3,7 +3,7 @@
 var _ = require('lodash-node'),
   util = require ('./util'),
   log = util.log('server', 'GB'),
-  app, express;
+  app, db, express;
 
 function setStaticDir(options) {
   if(app && express) {
@@ -43,9 +43,11 @@ function setRoute(options) {
     options: options,
     development: !!(process.env.NODE_ENV === 'development')
   };
-  // console.log(obj);
   app.get('/admin', (function(req, res) {
-    res.render('admin', obj);
+    db.user.findAll((e) => {
+      // log(e, 'blue');
+      res.render('admin', _.extend(obj, {usr: e.result}));
+    });
   }));
   app.get('/', (function(req, res) {
     res.render('user', obj);
@@ -58,18 +60,20 @@ exports.connect = ((expressApp, expressServer, options) => {
     express = expressServer;
     setBodyParser();
     setHandlebars();
-    setRoute(options);
-    if(_.isObject(options)) {
-      if(options.port) {
-        var port = process.env.PORT || options.port;
-        app.listen(port);
-        log(`listening to ${port}`, 'red');
-      }
-      if(options.staticDir) setStaticDir(options.staticDir);
+    if(_.isObject(options) && options.port) {
+      var port = process.env.PORT || options.port;
+      app.listen(port);
+      log(`listening to ${port}`, 'red');
     }
   } else {
     throw Error('Error');
   }
 });
 
-exports.setStaticDir = setStaticDir;
+exports.setup = ((options, mongodb) => {
+  db = mongodb;
+  if(_.isObject(options)) {
+    setRoute(options);
+    if(options.staticDir) setStaticDir(options.staticDir);
+  }
+});

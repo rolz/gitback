@@ -20,9 +20,10 @@ if (process.env.NODE_ENV === 'development') {
   env(__dirname + '/.env');
 }
 
-gb.server.connect(app, express, config.server, __dirname);
+gb.server.connect(app, express, config.server);
 gb.mongodb(app, config.mongodb, (function(e) {
   if(e.status === 'success') {
+    gb.server.setup(config.server, e.db);
     gb.github(app, config.github, e.db);
   }
 }));

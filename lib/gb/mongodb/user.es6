@@ -33,6 +33,16 @@ function find(userId, cb) {
   });
 }
 
+function findAll(cb) {
+  return PUser.find({}).exec((err, result) => {
+    if(err) log(`Error on finding`, 'red');
+    if(cb) {cb({
+      status: (err? 'error': 'success'),
+      result: result
+    });}
+  });
+}
+
 function add(options, cb) {
   if(options.login && options.tokenId) {
     find(options.login, (e) => {
@@ -74,7 +84,8 @@ module.exports = ((mongooseDB) => {
   return {
     add: add,
     find: find,
-    removeAll: removeAll
+    removeAll: removeAll,
+    findAll: findAll,
   };
 });
 

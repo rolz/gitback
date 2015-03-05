@@ -9,20 +9,10 @@ var _ = require('lodash-node'),
   qs = require('querystring'),
   util = require ('../util'),
   log = util.log('github', 'GB'),
-  app, db, github, auth, repos, user;
+  app, db, auth, repos, user;
 
 module.exports = ((expressApp, options, mongodb) => {
   db = mongodb;
   app = expressApp;
-  var GitHubApi = require('github');
-  github = new GitHubApi({
-    // required
-    version: '3.0.0',
-    debug: true,
-    headers: {
-      'user-agent': 'GitBackApp'
-    }
-  });
-  auth = require('./auth.es6')(app, db, options, github);
-  // user = require('./user.es6')(app, db, github);
+  auth = require('./auth.es6')(app, db, options);
 });

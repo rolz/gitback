@@ -9,9 +9,15 @@ var _ = require('lodash-node'),
   qs = require('querystring'),
   util = require ('../util'),
   log = util.log('github.auth', 'GB'),
+  GitHubApi = require('github'),
+  github = new GitHubApi({
+    version: '3.0.0',
+    debug: true,
+    headers: {'user-agent': 'GitBackApp'}
+  }),
   app, db, clientId, clientSecret;
 
-function setRoutes(options, github) {
+function setRoutes(options) {
   app.get('/login', (req, res) => {
     res.redirect(307, options.oauthUrl + '/authorize?client_id=' + clientId + '&scope=user,read:repo_hook,write:repo_hook');
   });
@@ -45,7 +51,7 @@ function setRoutes(options, github) {
             // gup represents Github User Profile
             var gup = JSON.parse(body);
 
-            addUser(github, gup.login, token, function (repos) {
+            addUser(gup.login, token, function (repos) {
               console.log(repos);
               db.user.add({
                 tokenId: token,
@@ -78,36 +84,32 @@ function setRoutes(options, github) {
 
 }
 
-
-function addUser(github, user, token, callback) {
+function addUser(user, token, callback) {
     // authenticate to github and get repos
     github.authenticate({
-        type: "oauth",
+        type: 'oauth',
         token: token
     });
 
     // Get user repos and add to collection
     var repos = github.repos.getFromUser({
         user: user
-    }, function (err, data) {
+    }, ((err, data) => {
 
         var initialReposData = [];
-        for (var i = 0; i < data.length; i++ ) {
-            var repo = {
-              name:data[i].name,
-              commits: 0,
-              webhook: false
-            };
-
-            initialReposData.push(repo);
-        }
-
+        _.each(data, ((item, index) => {
+          initialReposData.push({
+            name:data[index].name,
+            commits: 0,
+            webhook: false
+          });
+        }));
         callback(initialReposData);
-    });
+    }));
 
 }
 
-module.exports = ((expressApp, mongodb, options, github) => {
+module.exports = ((expressApp, mongodb, options) => {
   app = expressApp;
   db = mongodb;
   clientId = process.env.CLIENTID || options.clientId;

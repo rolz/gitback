@@ -12,6 +12,8 @@ npm i
 gulp
 ```
 
+## Setup
+
 ###Expose localhost with ngrok to enable github webhooks to work.
 
 * [Download ngrok](https://ngrok.com/)

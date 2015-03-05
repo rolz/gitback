@@ -7,13 +7,11 @@
 var _ = require('lodash-node'),
   request = require('request'),
   qs = require('querystring'),
-  util = require ('./util'),
-  log = util.log('github', 'GB'),
-  app, db, github, clientId, clientSecret;
+  util = require ('../util'),
+  log = util.log('github.auth', 'GB'),
+  app, db, clientId, clientSecret;
 
 function setRoutes(options) {
-
-
   app.get('/login', (req, res) => {
     res.redirect(307, options.oauthUrl + '/authorize?client_id=' + clientId + '&scope=user,read:repo_hook,write:repo_hook');
   });
@@ -28,7 +26,7 @@ function setRoutes(options) {
           client_secret: clientSecret,
           code: authCode
         }
-      }, (err, res, body) => {
+      }, (err, resp, body) => {
 
 
         var token = qs.parse(body).access_token;
@@ -43,7 +41,7 @@ function setRoutes(options) {
               url: options.apiUrl + '/user?access_token='+token
 
           },
-          (err, res, body) => {
+          (err, resp, body) => {
             // gup represents Github User Profile
             var gup = JSON.parse(body);
 
@@ -61,6 +59,8 @@ function setRoutes(options) {
               } else {
                 log(e.message, 'red');
               }
+
+              res.redirect('/admin');
             }));
           });
         } else {
@@ -73,18 +73,9 @@ function setRoutes(options) {
 
 }
 
-module.exports = ((expressApp, options, mongodb) => {
-  db = mongodb;
+module.exports = ((expressApp, mongodb, options) => {
   app = expressApp;
-  var GitHubApi = require('github');
-  github = new GitHubApi({
-    // required
-    version: '3.0.0',
-    debug: true,
-    headers: {
-      'user-agent': 'GitBackApp'
-    }
-  });
+  db = mongodb;
   clientId = process.env.CLIENTID || options.clientId;
   clientSecret = process.env.CLIENTSECRET || options.clientSecret;
   setRoutes(options);

@@ -46,6 +46,7 @@ module.exports = ((expressApp, options, cb) => {
       log(`succeeded connected to: ${uristring}`, 'green');
       user = require('./user.es6')(mongoose);
       setRoutes();
+      // user.removeAll();
       if(cb) {
         cb({
           status: 'success',

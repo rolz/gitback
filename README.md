@@ -1,5 +1,7 @@
 # website
 
+## [Project Info and Technical Resources](https://github.com/rolz/gitback/wiki)
+
 ## Development
 
 Please do NOT commit anything in master branch besides permissions.
@@ -9,6 +11,36 @@ git checkout dev
 npm i
 gulp
 ```
+
+###Prepare [mongodb](http://www.mongodb.org/) in your local.
+
+* [Follow this instruction](http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/)
+* Open new terminal and run `mongod --dbpath=/data --port 27017`
+
+
+
+###Expose localhost with ngrok to enable github webhooks to work.
+
+* [Download ngrok](https://ngrok.com/)
+* Unzip and in command line
+```
+./ngrok 5000
+```
+* copy the ngrok url from the terminal i.e. http://3da9c26d.ngrok.com/
+* [register new application in your github account](https://github.com/settings/applications)
+* add any app name
+* insert your homepage url: http://3da9c26d.ngrok.com/
+* insert callback url is i.e. http://3da9c26d.ngrok.com/callback
+* Save your Client ID & Client Secret for later and then save application
+* Go to local app directory root and `echo "# Github" >> .env`
+* Then add following to file with your own client id and secret saved from earlier:
+```
+CLIENTID=XXX
+CLIENTSECRET=XXX
+```
+
+* Your Done! Access at: your ngrok url i.e. http://3da9c26d.ngrok.com/
+* To check if working go to /login and check terminal for user logs.
 
 ## Deployment
 

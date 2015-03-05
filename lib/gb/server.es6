@@ -63,7 +63,7 @@ exports.connect = ((expressApp, expressServer, options) => {
     if(_.isObject(options) && options.port) {
       var port = process.env.PORT || options.port;
       app.listen(port);
-      log(`listening to ${port}`, 'red');
+      log(`listening to ${port}`, 'green');
     }
   } else {
     throw Error('Error');

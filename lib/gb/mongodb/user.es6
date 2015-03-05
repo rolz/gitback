@@ -47,7 +47,7 @@ function add(options, cb) {
   if(options.login && options.tokenId) {
     find(options.login, (e) => {
       if(e.status === 'success' && e.result.length === 0) {
-        var user = new PUser (_.extend(options, {repos: []}));
+        var user = new PUser (_.extend(options));
         user.save((err) => {
           if(cb) {cb({
             status: (err? 'error': 'success'),
@@ -88,6 +88,3 @@ module.exports = ((mongooseDB) => {
     findAll: findAll,
   };
 });
-
-
-

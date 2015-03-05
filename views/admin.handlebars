@@ -2,17 +2,17 @@
 
 {{#each usr}}
 <img src="{{avatarUrl}}" width="40" />
-<ur>
+<ul>
 <li>login: {{login}}</li>
 <li>avatarUrl: {{avatarUrl}}</li>
 <li>email: {{email}}</li>
 <li>
+<ul>
 <p>repos</p>
-<ur>
 {{#each repos}}
-<li>{{.}}</li>
+<li>{{name}} : {{commits}}</li>
 {{/each}}
-</ur>
+</ul>
 </li>
-</ur>
+</ul>
 {{/each}}

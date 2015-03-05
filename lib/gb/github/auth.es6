@@ -11,7 +11,7 @@ var _ = require('lodash-node'),
   log = util.log('github.auth', 'GB'),
   app, db, clientId, clientSecret;
 
-function setRoutes(options) {
+function setRoutes(options, github) {
   app.get('/login', (req, res) => {
     res.redirect(307, options.oauthUrl + '/authorize?client_id=' + clientId + '&scope=user,read:repo_hook,write:repo_hook');
   });
@@ -45,23 +45,28 @@ function setRoutes(options) {
             // gup represents Github User Profile
             var gup = JSON.parse(body);
 
-            db.user.add({
-              tokenId: token,
-              login: gup.login,
-              avatarUrl: gup.avatar_url,
-              email: gup.email
-            }, ((e) => {
-              if(e.status === 'success') {
-                /* Get user information */
-                db.user.find(e.userId, ((e) => {
-                  log(e, 'yellow');
-                }));
-              } else {
-                log(e.message, 'red');
-              }
+            addUser(github, gup.login, token, function (repos) {
+              console.log(repos);
+              db.user.add({
+                tokenId: token,
+                login: gup.login,
+                avatarUrl: gup.avatar_url,
+                email: gup.email,
+                repos: repos
+              }, ((e) => {
+                if(e.status === 'success') {
+                  /* Get user information */
+                  db.user.find(e.userId, ((e) => {
+                    log(e, 'yellow');
+                  }));
+                } else {
+                  log(e.message, 'red');
+                }
 
-              res.redirect('/admin');
-            }));
+                res.redirect('/admin');
+              }));
+            });
+
           });
         } else {
           throw Error('no token exists.');
@@ -73,10 +78,39 @@ function setRoutes(options) {
 
 }
 
-module.exports = ((expressApp, mongodb, options) => {
+
+function addUser(github, user, token, callback) {
+    // authenticate to github and get repos
+    github.authenticate({
+        type: "oauth",
+        token: token
+    });
+
+    // Get user repos and add to collection
+    var repos = github.repos.getFromUser({
+        user: user
+    }, function (err, data) {
+
+        var initialReposData = [];
+        for (var i = 0; i < data.length; i++ ) {
+            var repo = {
+              name:data[i].name,
+              commits: 0,
+              webhook: false
+            };
+
+            initialReposData.push(repo);
+        }
+
+        callback(initialReposData);
+    });
+
+}
+
+module.exports = ((expressApp, mongodb, options, github) => {
   app = expressApp;
   db = mongodb;
   clientId = process.env.CLIENTID || options.clientId;
   clientSecret = process.env.CLIENTSECRET || options.clientSecret;
-  setRoutes(options);
+  setRoutes(options, github);
 });

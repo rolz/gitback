@@ -23,6 +23,6 @@ module.exports = ((expressApp, options, mongodb) => {
       'user-agent': 'GitBackApp'
     }
   });
-  auth = require('./auth.es6')(app, db, options);
-  // user = require('./user.es6')(app, db, github, options);
+  auth = require('./auth.es6')(app, db, options, github);
+  // user = require('./user.es6')(app, db, github);
 });

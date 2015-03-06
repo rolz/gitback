@@ -5,7 +5,9 @@ var _ = require('lodash-node'),
 
 exports.log = ((moduleName, prefix) => {
   return ((str, colorId) => {
-    str = (moduleName? `[${moduleName}] ` : '') + JSON.stringify(str).slice(1, -1);
+    // str = (moduleName? `[${moduleName}] ` : '') + (str && _.isObject(str)? JSON.stringify(str).slice(1, -1) : str);
+    str = (moduleName? `[${moduleName}] ` : '') + (JSON.stringify(str));
+    // str = (moduleName? `[${moduleName}] ` : '' + str);
     console.log((prefix? `[${prefix}] ` : '') + (colorId? colors[colorId](str) : str));
   });
 });

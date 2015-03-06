@@ -15,11 +15,17 @@ function setupSchema() {
     avatarUrl: String,
     email: String,
     tokenId: String,
+    private: Boolean,
     repos: [{
       name: String,
-      commits: Number,
       webhook: Boolean,
-      commitslog: []
+      createdAt: Date,
+      lastLoggedIn: Date,
+      commitsCount: Number,
+      commitsLog: [{
+        firstCommitDateOfTheMonth: Date,
+        commits: Number
+      }]
     }]
   }));
 }

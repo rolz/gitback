@@ -29,7 +29,7 @@ function test() {
   }));
 }
 
-module.exports = ((expressApp, options, cb) => {
+exports.connect = ((expressApp, options, cb) => {
   app = expressApp;
   var uristring = process.env.MONGOLAB_URI ||
     process.env.MONGOHQ_URL ||
@@ -45,6 +45,7 @@ module.exports = ((expressApp, options, cb) => {
     } else {
       log(`succeeded connected to: ${uristring}`, 'green');
       user = require('./user.es6')(mongoose);
+      exports.user = user;
       setRoutes();
       // user.removeAll();
       if(cb) {

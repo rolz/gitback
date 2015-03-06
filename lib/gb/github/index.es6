@@ -9,11 +9,10 @@ var _ = require('lodash-node'),
   qs = require('querystring'),
   util = require ('../util'),
   log = util.log('github', 'GB'),
-  app, db, auth, webhook;
+  app, auth, webhook;
 
-module.exports = ((expressApp, options, mongodb) => {
-  db = mongodb;
+exports.setup = ((expressApp, options) => {
   app = expressApp;
-  auth = require('./auth.es6')(app, db, options);
-  webhook = require('./webhook.es6')(app, db, options);
+  auth = require('./auth.es6').setup(app, options);
+  webhook = require('./webhook.es6').setup(app, options);
 });

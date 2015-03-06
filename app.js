@@ -21,9 +21,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 gb.server.connect(app, express, config.server);
-gb.mongodb(app, config.mongodb, (function(e) {
+gb.mongodb.connect(app, config.mongodb, (function(e) {
   if(e.status === 'success') {
-    gb.server.setup(config.server, e.db);
-    gb.github(app, config.github, e.db);
+    gb.server.setup(config.server);
+    gb.github.setup(app, config.github);
   }
 }));

@@ -7,9 +7,10 @@
 var _ = require('lodash-node'),
   request = require('request'),
   qs = require('querystring'),
+  db = require ('../mongodb/index.es6'),
   util = require ('../util'),
   log = util.log('github.webhook', 'GB'),
-  app, db, webhookUrl;
+  app, webhookUrl, apiUrl;
 
 function setRoutes(options) {
 
@@ -24,35 +25,39 @@ function setRoutes(options) {
 }
 
 function createWebhook(token, user, repo, callback) {
-  log(user, repo);
-  var url = options.apiUrl+'/repos/'+user+'/'+repo+'/hooks';
+  log(`user: ${user}`, 'blue');
+  log(`repo: ${repo}`, 'blue');
+  log(`token: ${token}`, 'blue');
+  var url = apiUrl+'/repos/'+user+'/'+repo+'/hooks';
   var options = {
     headers: {
-        "user-agent": "My-Cool-GitHub-App",
-        Authorization: 'token '+ token
+      'user-agent': 'GitBackApp',
+      'Authorization': 'token '+ token
     },
-    data: {
-        name: 'web'
-    },
+    name: 'web',
     active: true,
     config: {
-        "url": webHookUrl
+      'url': webhookUrl,
+      'content_type': 'json'
     },
-    events: ['push'],
-    user: user,
-    repo: repo
+    events: ['push']
   };
 
   // post webhook to repo
   request.post(url, options, function (err, data) {
+    log('!!!!!-------', 'red');
+    console.log(err);
+    console.log(data);
     callback(data);
   });
 }
 
 
-module.exports = ((expressApp, mongodb, options) => {
+exports.setup = ((expressApp, options) => {
   app = expressApp;
-  db = mongodb;
   webhookUrl = process.env.WEBHOOKURL || options.webhookUrl;
+  apiUrl = options.apiUrl;
   setRoutes(options);
 });
+
+exports.createWebhook = createWebhook;

@@ -7,6 +7,8 @@
 var _ = require('lodash-node'),
   request = require('request'),
   qs = require('querystring'),
+  db = require ('../mongodb/index.es6'),
+  webhook = require('./webhook.es6'),
   util = require ('../util'),
   log = util.log('github.auth', 'GB'),
   GitHubApi = require('github'),
@@ -15,7 +17,7 @@ var _ = require('lodash-node'),
     debug: true,
     headers: {'user-agent': 'GitBackApp'}
   }),
-  app, db, clientId, clientSecret;
+  app, clientId, clientSecret;
 
 function setRoutes(options) {
   app.get('/login', (req, res) => {
@@ -52,7 +54,7 @@ function setRoutes(options) {
             var gup = JSON.parse(body);
 
             addUser(gup.login, token, function (repos) {
-              console.log(repos);
+              // console.log(repos);
               db.user.add({
                 tokenId: token,
                 login: gup.login,
@@ -105,17 +107,19 @@ function addUser(user, token, callback) {
             commitslog: []
           });
           if(index === 0) {
-            log(item.name);
+            webhook.createWebhook(token, user, item.name, ((e) => {
+              log('woohoo------!!!!', 'blue');
+              // console.log(e);
+              // log('end of woohoo------!!!!', 'blue');
+            }));
           }
         }));
         callback(initialReposData);
     }));
-
 }
 
-module.exports = ((expressApp, mongodb, options) => {
+exports.setup = ((expressApp, options) => {
   app = expressApp;
-  db = mongodb;
   clientId = process.env.CLIENTID || options.clientId;
   clientSecret = process.env.CLIENTSECRET || options.clientSecret;
   setRoutes(options);

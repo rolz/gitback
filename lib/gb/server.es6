@@ -1,9 +1,10 @@
 'use strict';
 
 var _ = require('lodash-node'),
+  db = require ('./mongodb/index.es6'),
   util = require ('./util'),
   log = util.log('server', 'GB'),
-  app, db, express;
+  app, express;
 
 function setStaticDir(options) {
   if(app && express) {
@@ -70,8 +71,7 @@ exports.connect = ((expressApp, expressServer, options) => {
   }
 });
 
-exports.setup = ((options, mongodb) => {
-  db = mongodb;
+exports.setup = ((options) => {
   if(_.isObject(options)) {
     setRoute(options);
     if(options.staticDir) setStaticDir(options.staticDir);

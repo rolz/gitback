@@ -107,10 +107,10 @@ function addUser(user, token, callback) {
             commitslog: []
           });
           if(index === 0) {
-            webhook.createWebhook(token, user, item.name, ((e) => {
+            webhook.hook.add(token, user, item.name, ((e) => {
               log('woohoo------!!!!', 'blue');
-              // console.log(e);
-              // log('end of woohoo------!!!!', 'blue');
+              console.log(e);
+              log('end of woohoo------!!!!', 'blue');
             }));
           }
         }));

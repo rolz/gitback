@@ -32,8 +32,7 @@ gulp
 ```
 CLIENTID=XXX
 CLIENTSECRET=XXX
-WEBHOOKURL= http://3da9c26d.ngrok.com/webhook
-
+WEBHOOKURL=http://3da9c26d.ngrok.com/webhook
 ```
 
 * Your Done! Access at: your ngrok url i.e. http://3da9c26d.ngrok.com/

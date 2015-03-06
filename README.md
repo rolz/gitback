@@ -12,12 +12,7 @@ npm i
 gulp
 ```
 
-###Prepare [mongodb](http://www.mongodb.org/) in your local.
-
-* [Follow this instruction](http://docs.mongodb.org/manual/tutorial/install-mongodb-on-os-x/)
-* Open new terminal and run `mongod --dbpath=/data --port 27017`
-
-
+## Setup
 
 ###Expose localhost with ngrok to enable github webhooks to work.
 
@@ -29,7 +24,7 @@ gulp
 * copy the ngrok url from the terminal i.e. http://3da9c26d.ngrok.com/
 * [register new application in your github account](https://github.com/settings/applications)
 * add any app name
-* insert your homepage url: http://3da9c26d.ngrok.com/
+* insert your homepage url: http://3da9c26d.ngrok.com/  
 * insert callback url is i.e. http://3da9c26d.ngrok.com/callback
 * Save your Client ID & Client Secret for later and then save application
 * Go to local app directory root and `echo "# Github" >> .env`

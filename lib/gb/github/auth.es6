@@ -9,6 +9,12 @@ var _ = require('lodash-node'),
   qs = require('querystring'),
   util = require ('../util'),
   log = util.log('github.auth', 'GB'),
+  GitHubApi = require('github'),
+  github = new GitHubApi({
+    version: '3.0.0',
+    debug: true,
+    headers: {'user-agent': 'GitBackApp'}
+  }),
   app, db, clientId, clientSecret;
 
 function setRoutes(options) {
@@ -45,23 +51,28 @@ function setRoutes(options) {
             // gup represents Github User Profile
             var gup = JSON.parse(body);
 
-            db.user.add({
-              tokenId: token,
-              login: gup.login,
-              avatarUrl: gup.avatar_url,
-              email: gup.email
-            }, ((e) => {
-              if(e.status === 'success') {
-                /* Get user information */
-                db.user.find(e.userId, ((e) => {
-                  log(e, 'yellow');
-                }));
-              } else {
-                log(e.message, 'red');
-              }
+            addUser(gup.login, token, function (repos) {
+              console.log(repos);
+              db.user.add({
+                tokenId: token,
+                login: gup.login,
+                avatarUrl: gup.avatar_url,
+                email: gup.email,
+                repos: repos
+              }, ((e) => {
+                if(e.status === 'success') {
+                  /* Get user information */
+                  db.user.find(e.userId, ((e) => {
+                    log(e, 'yellow');
+                  }));
+                } else {
+                  log(e.message, 'red');
+                }
 
-              res.redirect('/admin');
-            }));
+                res.redirect('/admin');
+              }));
+            });
+
           });
         } else {
           throw Error('no token exists.');
@@ -70,6 +81,37 @@ function setRoutes(options) {
       });
 
   });
+
+}
+
+function addUser(user, token, callback) {
+    // authenticate to github and get repos
+    github.authenticate({
+        type: 'oauth',
+        token: token
+    });
+
+    // Get user repos and add to collection
+    var repos = github.repos.getFromUser({
+        user: user
+    }, ((err, data) => {
+
+        var initialReposData = [];
+        _.each(data, ((item, index) => {
+          initialReposData.push({
+            name: item.name,
+            commits: 0,
+            webhook: null,
+            commitslog: [],
+            if(index === 0) {
+              log(item.name);
+              
+            }
+          });
+
+        }));
+        callback(initialReposData);
+    }));
 
 }
 

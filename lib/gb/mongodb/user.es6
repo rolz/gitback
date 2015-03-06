@@ -18,7 +18,8 @@ function setupSchema() {
     repos: [{
       name: String,
       commits: Number,
-      webhook: Boolean
+      webhook: Boolean,
+      commitslog[]
     }]
   }));
 }

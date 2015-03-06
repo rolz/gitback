@@ -99,10 +99,16 @@ function addUser(user, token, callback) {
         var initialReposData = [];
         _.each(data, ((item, index) => {
           initialReposData.push({
-            name:data[index].name,
+            name: item.name,
             commits: 0,
-            webhook: false
+            webhook: null,
+            commitslog: [],
+            if(index === 0) {
+              log(item.name);
+              
+            }
           });
+
         }));
         callback(initialReposData);
     }));
@@ -114,5 +120,5 @@ module.exports = ((expressApp, mongodb, options) => {
   db = mongodb;
   clientId = process.env.CLIENTID || options.clientId;
   clientSecret = process.env.CLIENTSECRET || options.clientSecret;
-  setRoutes(options, github);
+  setRoutes(options);
 });

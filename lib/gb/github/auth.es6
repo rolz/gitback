@@ -102,13 +102,11 @@ function addUser(user, token, callback) {
             name: item.name,
             commits: 0,
             webhook: null,
-            commitslog: [],
-            if(index === 0) {
-              log(item.name);
-              
-            }
+            commitslog: []
           });
-
+          if(index === 0) {
+            log(item.name);
+          }
         }));
         callback(initialReposData);
     }));

@@ -19,7 +19,7 @@ function setupSchema() {
       name: String,
       commits: Number,
       webhook: Boolean,
-      commitslog[]
+      commitslog: []
     }]
   }));
 }

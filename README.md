@@ -14,6 +14,12 @@ gulp
 
 ## Setup
 
+### Install Gulp
+
+```
+npm i gulp -g
+```
+
 ###Expose localhost with ngrok to enable github webhooks to work.
 
 * [Download ngrok](https://ngrok.com/)
@@ -26,9 +32,9 @@ gulp
 * add any app name
 * insert your homepage url: http://3da9c26d.ngrok.com/  
 * insert callback url is i.e. http://3da9c26d.ngrok.com/callback
-* Save your Client ID & Client Secret for later and then save application
-* Go to local app directory root and `echo "# Github" >> .env`
-* Then add following to file with your own client id and secret saved from earlier:
+* Take note of your Client ID & Client Secret for later
+* Go to the app directory root and `echo "# Github" >> .env`
+* Then in editor add following to .env file:
 ```
 CLIENTID=XXX
 CLIENTSECRET=XXX

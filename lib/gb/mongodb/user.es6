@@ -30,8 +30,8 @@ function setupSchema() {
   }));
 }
 
-function find(userId, cb) {
-  return PUser.find({'login': userId}, {'tokenId': false}).exec((err, result) => {
+function findOne(userId, cb) {
+  return PUser.findOne({'login': userId}, {'tokenId': false}).exec((err, result) => {
     if(err) log(`Error on finding #{userId}`, 'red');
     if(cb) {cb({
       status: (err? 'error': 'success'),
@@ -52,13 +52,13 @@ function findAll(cb) {
 
 function add(options, cb) {
   if(options.login && options.tokenId) {
-    find(options.login, (e) => {
-      if(e.status === 'success' && e.result.length === 0) {
+    findOne(options.login, (e) => {
+      if(e.status === 'success') {
         var user = new PUser (options);
         user.save((err) => {
           if(cb) {cb({
             status: (err? 'error': 'success'),
-            userId: options.login
+            message: `user added successfully: ${options.login}`
           });}
         });
       } else {
@@ -84,14 +84,24 @@ function removeAll(cb) {
   });
 }
 
+function remove(userId, cb) {
+  PUser.findOneAndRemove({'login': userId}, (err, user) => {
+    if(cb) {cb({
+      status: (err? 'error': 'success'),
+      user: user
+    });}
+  });
+}
+
 module.exports = ((mongooseDB) => {
   mongoose = mongooseDB;
   setupSchema();
   // removeAll();
   return {
     add: add,
-    find: find,
+    findOne: findOne,
     removeAll: removeAll,
+    remove: remove,
     findAll: findAll,
   };
 });

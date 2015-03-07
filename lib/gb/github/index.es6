@@ -11,8 +11,8 @@ var _ = require('lodash-node'),
   log = util.log('github', 'GB'),
   app, auth, webhook;
 
-exports.setup = ((expressApp, options) => {
+exports.setup = ((expressApp) => {
   app = expressApp;
-  auth = require('./auth.es6').setup(app, options);
-  webhook = require('./webhook.es6').setup(app, options);
+  auth = require('./auth.es6').setup(app);
+  webhook = require('./webhook.es6').setup(app);
 });

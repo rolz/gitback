@@ -15,20 +15,8 @@
   "mongodb": {
     "localMongoURL": "mongodb://root:9MDvzZv7UU@ds049661.mongolab.com:49661/gitback"
   },
-  "nodemon": {
-    "script": "app.js",
-    "ext": "handlebars js json es6",
-    "env": { "NODE_ENV": "development" },
-    "ignore": [
-      "node_modules/**",
-      "public/**",
-      "source/**",
-      "views/**",
-      "dist/**",
-      "webpack.config.js",
-      "gulpfile.js",
-      "gulpfile.es6",
-      "package.json"
-    ]
+  "admin": {
+    "id": "gitback",
+    "pw": "sheherher"
   }
 }

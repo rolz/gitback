@@ -16,10 +16,15 @@
     <title>{{content.title}}</title>
   </head>
   <body>
-    {{{body}}}
+    <div id="app"></div>
+    <script src="/socket.io/socket.io.js"></script>
+    {{#if gitlogin}}<script type="text/javascript">var GB = {gitlogin: "{{gitlogin}}"};</script>{{/if}}
     {{#if development}}
     <script src="http://localhost:{{options.webpackServerPort}}/webpack-dev-server.js"></script>
-    <script src="http://localhost:{{options.livereloadPort}}/livereload.js"></script>
+    <script src="http://localhost:{{options.webpackServerPort}}/dist/lib.js"></script>
+    {{else}}
+    <script src="/lib.js"></script>
     {{/if}}
+    {{{body}}}
   </body>
 </html>

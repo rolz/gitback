@@ -1,0 +1,20 @@
+{
+  "modules": [
+    {
+      "id": "dashboard",
+      "label": "Dashboard"
+    },
+    {
+      "id": "leaderboard",
+      "label": "Leaderboard"
+    },
+     {
+      "id": "profile",
+      "label": "Profile"
+    },
+     {
+      "id": "settings",
+      "label": "Settings"
+    }
+  ]
+}

@@ -8,11 +8,13 @@ var _ = require('lodash-node'),
   request = require('request'),
   qs = require('querystring'),
   db = require ('../mongodb/index.es6'),
+  config = require('../../../json/config'),
+  options = config.github,
   util = require ('../util'),
   log = util.log('github.webhook', 'GB'),
   app, webhookUrl, apiUrl;
 
-function setRoutes(options) {
+function setRoutes() {
 
   // receive user commit messages
   app.post('/webhook', (req,res) => {
@@ -62,11 +64,11 @@ var hook = {
 }
 
 
-exports.setup = ((expressApp, options) => {
+exports.setup = ((expressApp) => {
   app = expressApp;
   webhookUrl = process.env.WEBHOOKURL || options.webhookUrl;
   apiUrl = options.apiUrl;
-  setRoutes(options);
+  setRoutes();
 });
 
 exports.hook = hook;

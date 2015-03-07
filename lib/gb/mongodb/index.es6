@@ -6,30 +6,55 @@
 
 var _ = require('lodash-node'),
   mongoose = require ('mongoose'),
+  config = require('../../../json/config'),
+  options = config.mongodb,
   util = require ('../util'),
   log = util.log('mongodb', 'GB'),
   app, user;
 
-function setRoutes(options) {
-}
-
-function test() {
-  /* Check mayognaise exists */
-  var userId = 'mayognaise';
-  user.find(userId, ((e) => {
-    if(e.status === 'success') {
-      console.log(e.result);
-      if(e.result.length === 0) {
-        /* Add user */
-        user.add({login: userId}, ((e) => {
-          console.log(e);
-        }));
+function setRoutes() {
+  app.get('/gitlogin/:id', function (req, res, next) {
+    var userId = req.params.id;
+    user.findOne(userId, ((e) => {
+      if(e.status === 'success') {
+        if(e.result) {
+          res.json({
+            status: 'success',
+            result: e.result
+          });
+        } else {
+          res.json({
+            status: 'error',
+            message: 'invalid user'
+          });
+        }
       }
-    }
-  }));
+    }));
+  });
+
+  app.get('/gitlogins', function (req, res, next) {
+    var userId = req.params.id;
+    user.findAll(((e) => {
+      if(e.status === 'success') {
+        if(e.result) {
+          res.json({
+            status: 'success',
+            result: e.result
+          });
+        } else {
+          res.json({
+            status: 'error',
+            message: 'no data'
+          });
+        }
+      }
+    }));
+  });
 }
 
-exports.connect = ((expressApp, options, cb) => {
+
+
+exports.connect = ((expressApp, cb) => {
   app = expressApp;
   var uristring = process.env.MONGOLAB_URI ||
     process.env.MONGOHQ_URL ||

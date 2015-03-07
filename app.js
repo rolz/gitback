@@ -13,17 +13,24 @@ var _ = require('lodash-node'),
 
 if (process.env.NODE_ENV === 'development') {
   /* Add livereload */
-  app.use(require('connect-livereload')({port: config.server.livereloadPort}));
+  // app.use(require('connect-livereload')({port: config.server.livereloadPort}));
 
   /* Get local enviroment variables */
   var env = require('node-env-file');
   env(__dirname + '/.env');
 }
 
-gb.server.connect(app, express, config.server);
-gb.mongodb.connect(app, config.mongodb, (function(e) {
+/* Connect server */
+gb.server.connect(app, express);
+
+/* Connect DB */
+gb.mongodb.connect(app, (function(e) {
   if(e.status === 'success') {
-    gb.server.setup(config.server);
-    gb.github.setup(app, config.github);
+
+    /* Setup server */
+    gb.server.setup();
+
+    /* Setup Gitub */
+    gb.github.setup(app);
   }
 }));

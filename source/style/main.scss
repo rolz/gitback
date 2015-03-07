@@ -2,4 +2,32 @@
 
 body {
   background: $bgColor;
+  color: $textColor;
+  font-family: "Helvetica Neue", Arial;
+  font-weight: 200;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: 100;
+}
+
+h1, h2, h3, h4, h5, p {
+  margin: 0;
+  padding: .2em 0;
+}
+
+p {
+  color: lighten($textColor, 30%);
+}
+
+a {
+  color: hsl(200, 50%, 50%);
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
 }

@@ -1,0 +1,31 @@
+@import "../style/variables";
+
+body {
+  overflow: hidden;
+}
+
+header {
+  height: $headerTabHeight;
+  background-color: rgba(0,0,0,.2);
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    li {
+      display: inline-table;
+      width: 25%;
+      margin: 0;
+      padding: 0;
+    }
+  }
+  a {
+    text-decoration: none;
+    &.active {
+      color: hsl(0, 80%, 50%);
+    }
+  }
+}
+
+main {
+}
+

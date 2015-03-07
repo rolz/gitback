@@ -4,8 +4,10 @@ var webpack = require('webpack');
 module.exports = {
   cache: true,
   entry: {
-    // lib: './source/lib/index.jsx',
-    user: './source/user/index.jsx'
+    lib: './source/lib/index.jsx',
+    admin: './source/admin/index.jsx',
+    user: './source/user/index.jsx',
+    home: './source/home/index.jsx'
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -24,7 +26,11 @@ module.exports = {
   plugins: [
     new webpack.ProvidePlugin({
       _: 'lodash',
-      React: 'react'
+      Logger: 'js-logger',
+      Cookies: 'cookies-js',
+      React: 'react',
+      Router: 'react-router',
+      Reflux: 'reflux'
     })
   ]
 };

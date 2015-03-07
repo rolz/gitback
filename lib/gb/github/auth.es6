@@ -9,6 +9,8 @@ var _ = require('lodash-node'),
   qs = require('querystring'),
   db = require ('../mongodb/index.es6'),
   webhook = require('./webhook.es6'),
+  config = require('../../../json/config'),
+  options = config.github,
   util = require ('../util'),
   log = util.log('github.auth', 'GB'),
   GitHubApi = require('github'),
@@ -19,7 +21,7 @@ var _ = require('lodash-node'),
   }),
   app, clientId, clientSecret;
 
-function setRoutes(options) {
+function setRoutes() {
   app.get('/login', (req, res) => {
     res.redirect(307, options.oauthUrl + '/authorize?client_id=' + clientId + '&scope=user,read:repo_hook,write:repo_hook');
   });
@@ -63,15 +65,13 @@ function setRoutes(options) {
                 repos: repos
               }, ((e) => {
                 if(e.status === 'success') {
-                  /* Get user information */
-                  db.user.find(e.userId, ((e) => {
-                    log(e, 'yellow');
-                  }));
+                  log(e.message, 'green');
                 } else {
                   log(e.message, 'red');
                 }
-
-                res.redirect('/admin');
+                /* Redirect to home */
+                req.flash('gitlogin', gup.login);
+                res.redirect('/');
               }));
             });
 
@@ -108,9 +108,9 @@ function addUser(user, token, callback) {
           });
           if(index === 0) {
             webhook.hook.add(token, user, item.name, ((data) => {
-              log('woohoo------!!!!', 'blue');
-              console.log(data);
-              log('end of woohoo------!!!!', 'blue');
+              // log('woohoo------!!!!', 'blue');
+              // console.log(data);
+              // log('end of woohoo------!!!!', 'blue');
             }));
           }
         }));
@@ -118,9 +118,9 @@ function addUser(user, token, callback) {
     }));
 }
 
-exports.setup = ((expressApp, options) => {
+exports.setup = ((expressApp) => {
   app = expressApp;
   clientId = process.env.CLIENTID || options.clientId;
   clientSecret = process.env.CLIENTSECRET || options.clientSecret;
-  setRoutes(options);
+  setRoutes();
 });

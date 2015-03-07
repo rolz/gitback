@@ -1,0 +1,67 @@
+@import "../style/variables";
+
+$border: solid 1px $lineColor;
+$sectionHeight: 120px;
+
+body {
+  // margin: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+header {
+  margin: 20px;
+}
+
+main {
+
+}
+
+button {
+  font-family: "Helvetica Neue", Arial;
+  font-weight: 200;
+  border-radius: 0;
+  background: black;
+  color: white;
+  border: none;
+}
+
+
+section {
+  min-height: $sectionHeight;
+  border-bottom: $border;
+  &:first-child {
+    border-top: $border;
+  }
+  .icon {
+    float: left;
+    background: rgba(0,0,0,.05);
+    vertical-align: top;
+  }
+  img {
+    width: $sectionHeight;
+    height: $sectionHeight;
+    vertical-align: bottom;
+  }
+  h2 {
+  }
+  p {
+
+  }
+  .about {
+    width: 300px;
+    float: left;
+    vertical-align: top;
+    padding: 10px 20px;
+  }
+  .repos {
+    padding: 10px 20px;
+    float: left;
+  }
+  .right {
+    margin: 10px;
+    float: right;
+  }
+}

@@ -18,7 +18,7 @@ function setupSchema() {
     private: Boolean,
     repos: [{
       name: String,
-      webhook: Boolean,
+      webhookId: String,
       createdAt: Date,
       lastLoggedIn: Date,
       commitsCount: Number,

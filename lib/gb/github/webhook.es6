@@ -16,41 +16,13 @@ function setRoutes(options) {
 
   // receive user commit messages
   app.post('/webhook', (req,res) => {
-    log(req.body);
+    log("data coming from webhool: "+ JSON.stringify(req.body), 'blue');
 
     // add to repo commit log
     res.end('.');
   });
 
 }
-
-// function createWebhook(token, user, repo, callback) {
-//   log(`user: ${user}`, 'blue');
-//   log(`repo: ${repo}`, 'blue');
-//   log(`token: ${token}`, 'blue');
-//   var url = apiUrl+'/repos/'+user+'/'+repo+'/hooks';
-//   var options = {
-//     headers: {
-//       'user-agent': 'GitBackApp',
-//       'Authorization': 'token '+ token
-//     },
-//     name: 'web',
-//     active: true,
-//     config: {
-//       'url': webhookUrl,
-//       'content_type': 'json'
-//     },
-//     events: ['push']
-//   };
-//
-//   // post webhook to repo
-//   request.post(url, options, function (err, data) {
-//     log('!!!!!-------', 'red');
-//     console.log(err);
-//     console.log(data);
-//     callback(data);
-//   });
-// }
 
 var hook = {
 
@@ -63,7 +35,7 @@ var hook = {
         'user-agent': 'My-Cool-GitHub-App',
         'Authorization': 'token '+ token
       },
-      data: {'name': 'web','active': true,'events': ['push'],'config': {'url': webhookUrl,'content_type': 'json'}}
+      json: {name: 'web', active: true, events: ['push'], config: {url: webhookUrl, content_type: 'json'}}
     }
     return json;
   },

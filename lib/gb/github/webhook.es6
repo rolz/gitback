@@ -16,10 +16,15 @@ var _ = require('lodash-node'),
 
 function setRoutes() {
 
+  app.get('/remove-webhook/:repo/:id', ((req, res) => {
+    hook.remove('6d2bc17d3256f5f9de8f164e16b2a09add6b7267', 'rolz', req.params.repo, req.params.id, (data) => {
+      log(data, 'yellow');
+    });
+  }));
+
   // receive user commit messages
   app.post('/webhook', (req,res) => {
     log("data coming from webhool: "+ JSON.stringify(req.body), 'blue');
-
     // add to repo commit log
     res.end('.');
   });
@@ -28,13 +33,10 @@ function setRoutes() {
 
 var hook = {
 
-  url (user, repo) {
-    return apiUrl+'/repos/'+user+'/'+repo+'/hooks';
-  },
   webhookOptions (token) {
     var json = {
       headers: {
-        'user-agent': 'My-Cool-GitHub-App',
+        'user-agent': 'GitBackApp',
         'Authorization': 'token '+ token
       },
       json: {name: 'web', active: true, events: ['push'], config: {url: webhookUrl, content_type: 'json'}}
@@ -42,20 +44,20 @@ var hook = {
     return json;
   },
   add (token, user, repo, callback) {
-    request.post(this.url(user, repo), this.webhookOptions(token), function (err, data) {
+    request.post(apiUrl+'/repos/'+user+'/'+repo+'/hooks', this.webhookOptions(token), (err, data) => {
         log(`user: ${user}`, 'blue');
         log(`repo: ${repo}`, 'blue');
         log(`token: ${token}`, 'blue');
       callback(data);
     });
+  },
+  remove (token, user, repo, webhookId, callback) {
+    request.del(apiUrl+'/repos/'+user+'/'+repo+'/hooks'+webhookId, this.webhookOptions(token, user, repo), (err, data) => {
+      callback(data);
+    });
   }
   // ,
-  // remove: (token, user, repo, callback) => {
-  //   request.delete(this.url, this.webhookOptions(token, user, repo), function (err, data) {
-  //     callback(data);
-  //   });
-  // },
-  // update: (token, user, repo, callback) => {
+  // update (token, user, repo, callback) => {
   //   request.patch(this.url, this.webhookOptions(token, user, repo), function (err, data) {
   //     callback(data);
   //   });

@@ -46,7 +46,7 @@ function setRoutes() {
 
           request.get({
               headers: {
-                  'User-Agent': 'request-gitback'
+                  'User-Agent': 'GitBackApp'
               },
               url: options.apiUrl + '/user?access_token='+token
 
@@ -55,7 +55,7 @@ function setRoutes() {
             // gup represents Github User Profile
             var gup = JSON.parse(body);
 
-            addUser(gup.login, token, function (repos) {
+            addUser(gup.login, token, (repos) => {
               // console.log(repos);
               db.user.add({
                 tokenId: token,
@@ -86,6 +86,19 @@ function setRoutes() {
 
 }
 
+function addWebhooks(token, user, items) {
+  if(_.isArray(items) && items.length > 0) {
+    var item = items.shift();
+    console.log(token, user, item.name);
+    webhook.hook.add(token, user, item.name, ((data) => {
+      // TODO: updateRepo in user API to add `webhookId`
+      addWebhooks(token, user, items);
+    }));
+  } else {
+    log('done for adding webhooks!', 'green');
+  }
+}
+
 function addUser(user, token, callback) {
     // authenticate to github and get repos
     github.authenticate({
@@ -106,15 +119,12 @@ function addUser(user, token, callback) {
             webhook: null,
             commitslog: []
           });
-          if(index === 0) {
-            webhook.hook.add(token, user, item.name, ((data) => {
-              // log('woohoo------!!!!', 'blue');
-              // console.log(data);
-              // log('end of woohoo------!!!!', 'blue');
-            }));
-          }
         }));
+
+        log(initialReposData, 'blue');
         callback(initialReposData);
+        addWebhooks(token, user, _.cloneDeep(data));
+
     }));
 }
 

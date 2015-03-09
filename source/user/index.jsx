@@ -38,7 +38,6 @@ function init() {
   delete GB.init;
 }
 
-
 if(GB.page === 'user') {
   init();
 } else {

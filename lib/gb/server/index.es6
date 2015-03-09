@@ -149,7 +149,7 @@ exports.connect = ((expressApp, expressServer) => {
     setBodyParser();
     setHandlebars();
     var http = require('http').Server(app);
-    require('./socket.es6').setup(http);
+    require('./socket.es6').setup(http, app);
     var port = process.env.PORT || options.port;
     http.listen(port, (() => {
       log(`listening to ${port}`, 'green');

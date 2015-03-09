@@ -17,6 +17,7 @@ var _ = require('lodash-node'),
 function setRoutes() {
 
   app.get('/remove-webhook/:repo/:id', ((req, res) => {
+    // https://api.github.com/repos/rolz/board/hooks/4295073
     hook.remove('6d2bc17d3256f5f9de8f164e16b2a09add6b7267', 'rolz', req.params.repo, req.params.id, (data) => {
       log(data, 'yellow');
     });
@@ -24,7 +25,7 @@ function setRoutes() {
 
   // receive user commit messages
   app.post('/webhook', (req,res) => {
-    log("data coming from webhool: "+ JSON.stringify(req.body), 'blue');
+    log("data coming from webhook : "+ JSON.stringify(req.body), 'blue');
     // add to repo commit log
     res.end('.');
   });
@@ -39,7 +40,7 @@ var hook = {
         'user-agent': 'GitBackApp',
         'Authorization': 'token '+ token
       },
-      json: {name: 'web', active: true, events: ['push'], config: {url: webhookUrl, content_type: 'json'}}
+      json: {name: 'gitback', active: true, events: ['push'], config: {url: webhookUrl, content_type: 'json'}}
     }
     return json;
   },
@@ -52,7 +53,7 @@ var hook = {
     });
   },
   remove (token, user, repo, webhookId, callback) {
-    request.del(apiUrl+'/repos/'+user+'/'+repo+'/hooks'+webhookId, this.webhookOptions(token, user, repo), (err, data) => {
+    request.del(apiUrl+'/repos/'+user+'/'+repo+'/hooks/'+webhookId, this.webhookOptions(token, user, repo), (err, data) => {
       callback(data);
     });
   }

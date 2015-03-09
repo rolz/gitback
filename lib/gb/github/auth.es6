@@ -92,6 +92,7 @@ function addWebhooks(token, user, items) {
     console.log(token, user, item.name);
     webhook.hook.add(token, user, item.name, ((data) => {
       // TODO: updateRepo in user API to add `webhookId`
+      log(data, 'blue');
       addWebhooks(token, user, items);
     }));
   } else {
@@ -121,7 +122,6 @@ function addUser(user, token, callback) {
           });
         }));
 
-        log(initialReposData, 'blue');
         callback(initialReposData);
         addWebhooks(token, user, _.cloneDeep(data));
 

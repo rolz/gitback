@@ -1,7 +1,5 @@
 'use strict';
 
-var logger = Logger.get('UserStore');
-
 var util = require('../lib/util.jsx');
 
 /*
@@ -11,42 +9,38 @@ var util = require('../lib/util.jsx');
 var socket = io();
 
 socket.on('onRemoveUser', function(e){
-  console.log('onRemoveUser', e);
+  UserStore.onRemovedUser();
 });
 
-// some variables and helpers for our fake database stuff
-var todoCounter = 0,
-  localStorageKey = 'todos';
-
-function getItemByKey(user,itemKey){
-  return _.find(user, function(item) {
-      return item.key === itemKey;
-  });
-}
+socket.on('onFindAllUsers', function(e){
+  UserStore.updateUsers(e.result);
+});
 
 var UserStore = Reflux.createStore({
   listenables: [require('../actions/UserActions.jsx')],
 
   /* Remove */
   onRemovedUser(userId) {
-
+    this.refreshUsers();
   },
   removeUser(userId) {
-    logger.info('removeUser: ', userId);
     socket.emit('removeUser', userId);
   },
   onRemovedAllUsers() {
-
+    this.refreshUsers();
   },
   removeAllUsers() {
-
+    socket.emit('removeAllUsers');
   },
 
   /* Common */
+  refreshUsers() {
+    socket.emit('findAllUsers');
+  },
   updateUsers(users){
-    // if we used a real database, we would likely do the below in a callback
     this.users = users;
-    this.trigger(users); // sends the updated list to all listening components (App)
+    /* sends the updated list to all listening components (App) */
+    this.trigger(users);
   },
   getInitialState() {
     this.users = GB.users || [];

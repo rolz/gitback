@@ -47,20 +47,7 @@ var App = React.createClass({
   removeUser(userId) {
     Actions.removeUser(userId);
   },
-  // initialize() { },
-  // onStatusChange(status) {
-  //   this.setState({
-  //     currentStatus: status
-  //   });
-  // },
-  // componentDidMount() {
-  //   this.unsubscribe = statusStore.listen(this.onStatusChange);
-  // },
-  // componentWillUnmount() {
-  //   this.unsubscribe();
-  // },
   render() {
-    console.log(this.state.users);
     return (
       <div>
         <header>

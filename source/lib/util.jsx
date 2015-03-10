@@ -8,15 +8,15 @@ var request = require('superagent');
 
 module.exports = {
   getUserData(userId, cb) {
-    request.get(`/gitlogin/${userId}`, function(err, res){
+    request.get(`/gitlogin/${userId}`, ((err, res) => {
       if (err) throw err;
       if (cb) cb(JSON.parse(res.text));
-    });
+    }));
   },
   getAllUserData(cb) {
-    request.get(`/gitlogins`, function(err, res){
+    request.get(`/gitlogins`, ((err, res) => {
       if (err) throw err;
       if (cb) cb(JSON.parse(res.text));
-    });
+    }));
   }
 }

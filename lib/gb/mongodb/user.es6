@@ -36,11 +36,11 @@ function findToken(userId, cb) {
   return PUser.findOne({'login': userId}).exec((err, result) => {
     if(err) log(`Error on finding #{userId}`, 'red');
     var token = result.tokenId;
-    log(`Check this token is not expired yet: ${token}`, 'blue');
-    // if(cb) {cb({
-    //   status: (err? 'error': 'success'),
-    //   result: result && result.tokenId
-    // });}
+    // log(`Check this token is not expired yet: ${token}`, 'blue');
+    if(cb) {cb({
+      status: (err? 'error': 'success'),
+      result: result && result.tokenId
+    });}
   });
 }
 
@@ -55,13 +55,15 @@ function findOne(userId, cb) {
 }
 
 function updateUser(userId, dat, cb) {
-  return PUser.findOneAndUpdate({'login': userId}, dat, {'tokenId': false}).exec((err, result) => {
+  log(dat, 'blue');
+  return PUser.findOneAndUpdate({'login': userId}, dat, ((err, result) => {
+    log(err, 'yellow');
     if(err) log(`Error on finding #{userId}`, 'red');
     if(cb) {cb({
       status: (err? 'error': 'success'),
       result: result
     });}
-  });
+  }));
 }
 
 
@@ -77,9 +79,11 @@ function findAll(cb) {
 }
 
 function add(options, cb) {
-  if(options.login && options.tokenId) {
-    findOne(options.login, (e) => {
-      if(e.status === 'success' && !e.result) {
+  var userId = options.login,
+    tokenId = options.tokenId;
+  if(userId && tokenId) {
+    findOne(userId, (e) => {
+      if(!e.result) {
         var user = new PUser (options);
         user.save((err) => {
           if(cb) {cb({
@@ -88,10 +92,20 @@ function add(options, cb) {
           });}
         });
       } else {
-        if(cb) {cb({
-          status: 'error',
-          message: `the user already exists: ${options.login}`
-        });}
+        // Update user info
+        log(options);
+        var dat = {
+          avatarUrl: options.avatarUrl,
+          email: options.email,
+          tokenId: tokenId
+        };
+        updateUser(userId, dat, ((e) => {
+          log(e.result);
+          if(cb) {cb({
+            status: 'error',
+            message: `the user already exists: ${options.login}`
+          });}
+        }));
       }
     });
   } else {
@@ -126,6 +140,7 @@ function test() {
 }
 
 function addWebhook(webhookId, repository) {
+  log(`addWebhook: ${webhookId, repository}`, 'red');
   var repoName = repository.name,
     userId = repository.owner.login;
   findOne(userId, ((e) => {

@@ -45,7 +45,7 @@ var hook = {
         'Authorization': 'token '+ token
       },
       json: {name: 'web', active: true, events: ['push'], config: {url: webhookUrl, content_type: 'json'}}
-    }
+    };
     return json;
   },
   add (token, user, repo, callback) {

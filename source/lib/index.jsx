@@ -43,7 +43,8 @@ if(pathname === '/admin') {
   logger.info('admin app');
   init('admin');
 } else {
-  const GB_COOCKIE_KEY = 'gitback',
+  // const GB_COOCKIE_KEY = 'gitback',
+  var GB_COOCKIE_KEY = 'gitback',
     HOME_PATH = '/',
     USER_PATH = '/user';
   var coockieValue = Cookies.get(GB_COOCKIE_KEY);

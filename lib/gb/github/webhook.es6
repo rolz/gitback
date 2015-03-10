@@ -28,7 +28,7 @@ function setRoutes() {
   // receive user commit messages
   app.post('/webhook', (req,res) => {
     var dat = req.body;
-    log("data coming from webhook : "+ JSON.stringify(dat), 'blue');
+    log("data coming from webhook : "+ JSON.stringify(dat), 'yellow');
     // add webhookId to database
     db.user.addWebhook(dat.hook_id, dat.repository);
     res.end('.');

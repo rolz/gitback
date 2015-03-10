@@ -103,7 +103,8 @@ function add(options, cb) {
           log(e.result);
           if(cb) {cb({
             status: 'error',
-            message: `the user already exists: ${options.login}`
+            message: `the user already exists: ${options.login}`,
+            private: e.result.private
           });}
         }));
       }
@@ -117,7 +118,7 @@ function add(options, cb) {
 }
 
 function removeAll(cb) {
-  PUser.remove({}, (err) => {
+  PUser.remove({private: false}, (err) => {
     if(cb) {cb({
       status: (err? 'error': 'success')
     });}

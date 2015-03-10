@@ -29,7 +29,7 @@ var User = React.createClass({
   render() {
     var {_id, avatarUrl, email, login, repos} = this.props.model;
     return (
-      <section className="clearfix">
+      <section className={'clearfix' + (login === GB.user.login? ' user' : '')}>
         <div className="icon">
           <img src={avatarUrl} />
         </div>

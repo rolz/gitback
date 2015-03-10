@@ -40,6 +40,9 @@ section {
     background: rgba(0,0,0,.05);
     vertical-align: top;
   }
+  button {
+    display: none;
+  }
   img {
     width: $sectionHeight;
     height: $sectionHeight;
@@ -65,25 +68,33 @@ section {
     .repo {
       span.repoInfo {
         display: inline-block;
-        min-width: 200px;
-      }
-      button {
-        display: none;
-      }
-      &.remove {
-        button.remove {
-          display: inline-block;
-        }
-      }
-      &.add {
-        button.add {
-          display: inline-block;
-        }
+        min-width: 240px;
       }
     }
   }
   .right {
     margin: 10px;
     float: right;
+  }
+  &.user {
+    .about {
+      button {
+        display: inline-block;
+      }
+    }
+    .repos {
+      .repo {
+        &.remove {
+          button.remove {
+            display: inline-block;
+          }
+        }
+        &.add {
+          button.add {
+            display: inline-block;
+          }
+        }
+      }
+    }
   }
 }

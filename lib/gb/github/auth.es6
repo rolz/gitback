@@ -57,23 +57,28 @@ function setRoutes() {
         (err, resp, body) => {
           // gup represents Github User Profile
           var gup = JSON.parse(body);
+          var userId = gup.login;
 
-          addUser(gup.login, token, (repos) => {
+          addUser(userId, token, (repos) => {
             // console.log(repos);
             db.user.add({
               tokenId: token,
-              login: gup.login,
+              login: userId,
               avatarUrl: gup.avatar_url,
               email: gup.email,
-              repos: repos
+              repos: repos,
+              private: false
             }, ((e) => {
               if(e.status === 'success') {
                 log(e.message, 'green');
+                /* Add webhooks */
+                addWebhooks(token, userId, _.cloneDeep(repos));
               } else {
+                // User already exists.
                 log(e.message, 'red');
               }
               /* Redirect to home */
-              req.flash('gitlogin', gup.login);
+              req.flash('gitlogin', userId);
               res.redirect('/');
             }));
           });
@@ -96,6 +101,11 @@ function addWebhooks(token, user, items) {
     webhook.hook.add(token, user, item.name, ((data) => {
       // TODO: updateRepo in user API to add `webhookId`
       log(data, 'blue');
+      if(data.statusCode === 201) {
+        log('new webhook', 'green');
+      } else if(data.statusCode === 422) {
+        log(data.body.errors[0].message, 'red');
+      }
       addWebhooks(token, user, items);
     }));
   } else {
@@ -126,7 +136,6 @@ function addUser(user, token, callback) {
         }));
 
         callback(initialReposData);
-        addWebhooks(token, user, _.cloneDeep(data));
 
     }));
 }

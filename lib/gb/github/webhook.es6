@@ -28,9 +28,8 @@ function setRoutes() {
   // receive user commit messages
   app.post('/webhook', (req,res) => {
     var dat = req.body;
-    log("data coming from webhook : "+ JSON.stringify(dat), 'yellow');
-    // add webhookId to database
-    db.user.addWebhook(dat.hook_id, dat.repository);
+    log('data coming from webhook : '+ JSON.stringify(dat), 'yellow');
+    log('[TODO]: update commit info to database', 'yellow');
     res.end('.');
   });
 
@@ -53,17 +52,46 @@ var hook = {
       log(`user: ${user}`, 'blue');
       log(`repo: ${repo}`, 'blue');
       log(`token: ${token}`, 'blue');
-      callback(data);
+      log(data, 'blue');
+      if(data.statusCode === 201) {
+        var webhookId = data.body.id;
+        log(`Webhook has been added: ${webhookId}`, 'green');
+        db.user.addWebhookId(user, repo, webhookId, ((e) => {
+          callback({
+            status: 'success',
+            result: data
+          });
+        }));
+      } else if(data.statusCode === 422) {
+        log(data.body.errors[0].message, 'red');
+        callback({
+          status: 'error',
+          result: data
+        });
+      }
     });
   },
   remove (token, user, repo, webhookId, callback) {
     log(`remove: ${token}, ${user}, ${repo}, ${webhookId}`, 'yellow');
-    // /repos/:owner/:repo/hooks/:id
-    var url = `${apiUrl}/repos/${user}/${repo}/hooks/${webhookId}`;
-    log(url);
-    log(apiUrl+'/repos/'+user+'/'+repo+'/hooks/'+webhookId);
     request.del(apiUrl+'/repos/'+user+'/'+repo+'/hooks/'+webhookId, this.webhookOptions(token, user, repo), (err, data) => {
-      callback(data);
+      log(data, 'blue');
+      if(data.statusCode === 204) {
+        log('Webhook has been removed.', 'green');
+        db.user.removeWebhookId(user, repo, ((e) => {
+          callback({
+            status: 'success',
+            result: data
+          });
+        }));
+      } else if(data.statusCode === 404) {
+        log(data.body.message, 'red');
+        db.user.removeWebhookId(user, repo, ((e) => {
+          callback({
+            status: 'error',
+            result: data
+          });
+        }));
+      }
     });
   }
   // ,

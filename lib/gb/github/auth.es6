@@ -26,7 +26,7 @@ var _ = require('lodash-node'),
 
 function setRoutes() {
   app.get('/login', (req, res) => {
-    res.redirect(307, oauthUrl + '/authorize?client_id=' + clientId + '&scope=user,read:repo_hook,write:repo_hook');
+    res.redirect(307, oauthUrl + '/authorize?client_id=' + clientId + '&scope=user,read:repo_hook,write:repo_hook,admin:repo_hook');
   });
 
   app.get('/callback', (req, res) => {

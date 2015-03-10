@@ -6,6 +6,7 @@
 
 var _ = require('lodash-node'),
   util = require ('../util'),
+  webhook = require('../github/webhook.es6'),
   log = util.log('mongodb.user', 'GB'),
   PUser, mongoose;
 
@@ -44,8 +45,10 @@ function findToken(userId, cb) {
   });
 }
 
-function findOne(userId, cb) {
-  return PUser.findOne({'login': userId}, {'tokenId': false}).exec((err, result) => {
+function findOne(userId, cb, needToken) {
+  return PUser.findOne({'login': userId},
+    needToken? {} : {'tokenId': false})
+  .exec((err, result) => {
     if(err) log(`Error on finding #{userId}`, 'red');
     if(cb) {cb({
       status: (err? 'error': 'success'),
@@ -57,7 +60,6 @@ function findOne(userId, cb) {
 function updateUser(userId, dat, cb) {
   log(dat, 'blue');
   return PUser.findOneAndUpdate({'login': userId}, dat, ((err, result) => {
-    log(err, 'yellow');
     if(err) log(`Error on finding #{userId}`, 'red');
     if(cb) {cb({
       status: (err? 'error': 'success'),
@@ -126,12 +128,39 @@ function removeAll(cb) {
 }
 
 function remove(userId, cb) {
-  PUser.findOneAndRemove({'login': userId}, (err, user) => {
-    if(cb) {cb({
-      status: (err? 'error': 'success'),
-      user: user
-    });}
-  });
+  findOne(userId, ((e) => {
+    var dat = e.result,
+      token = dat.tokenId,
+      userId = dat.login;
+    var removeWebhooks = ((repos) => {
+      if(repos && repos.length > 0) {
+        // Remove webhook
+        var repo = repos.shift(),
+          repoName = repo.name,
+          webhookId = repo.webhookId;
+        console.log(repo);
+        if(webhookId && webhookId !== 'false') {
+          log(`webhookId: ${webhookId}`, 'blue');
+          webhook.hook.remove(token, userId, repoName, webhookId, ((e) => {
+            removeWebhooks(repos);
+          }));
+        } else {
+          removeWebhooks(repos);
+        }
+      } else {
+        // Removed All webhook so remove user info from DB
+        log('Removed All webhook so remove user info from DB', 'green');
+        PUser.findOneAndRemove({'login': userId}, (err, user) => {
+          if(cb) {cb({
+            status: (err? 'error': 'success'),
+            user: user
+          });}
+        });
+      }
+    });
+    removeWebhooks(dat.repos);
+    // log(e);
+  }), true);
 }
 
 function test() {
@@ -140,10 +169,8 @@ function test() {
   }));
 }
 
-function addWebhook(webhookId, repository) {
-  log(`addWebhook: ${webhookId, repository}`, 'red');
-  var repoName = repository.name,
-    userId = repository.owner.login;
+function addWebhookId(userId, repoName, webhookId, cb) {
+  log(`addWebhookId: ${userId, repoName, webhookId}`, 'blue');
   findOne(userId, ((e) => {
     var dat = e.result;
     log(dat.repos, 'green');
@@ -152,6 +179,23 @@ function addWebhook(webhookId, repository) {
       repo.webhookId = webhookId;
       updateUser(userId, dat, ((e) => {
         log('updated!' + JSON.stringify(e), 'green');
+        if(cb) cb(e);
+      }));
+    }
+  }));
+}
+
+function removeWebhookId(userId, repoName, cb) {
+  log(`removeWebhookId: ${userId, repoName}`, 'blue');
+  findOne(userId, ((e) => {
+    var dat = e.result;
+    log(dat.repos, 'green');
+    var repo = _.find(dat.repos, (repo) => { return repo.name === repoName; });
+    if(repo) {
+      repo.webhookId = false;
+      updateUser(userId, dat, ((e) => {
+        log('updated!' + JSON.stringify(e), 'green');
+        if(cb) cb(e);
       }));
     }
   }))
@@ -169,6 +213,7 @@ module.exports = ((mongooseDB) => {
     findToken: findToken,
     removeAll: removeAll,
     remove: remove,
-    addWebhook: addWebhook
+    addWebhookId: addWebhookId,
+    removeWebhookId: removeWebhookId
   };
 });

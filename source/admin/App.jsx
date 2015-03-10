@@ -11,7 +11,7 @@ var Repo = React.createClass({
       buttonClass = (() => {
         switch(webhookId) {
           case null: case undefined: return '';
-          case false: return 'add';
+          case 'false': return 'add';
           default: return 'remove';
         }
       })();
@@ -19,7 +19,7 @@ var Repo = React.createClass({
       <div className={`repo ${buttonClass}`}>
         <span className="repoInfo">{name}: {webhookId} </span>
         <button className="remove" onClick={Actions.removeWebhook.bind(null, login, name, webhookId)}>remove webhook</button>
-        <button className="add">add webhook</button>
+        <button className="add" onClick={Actions.addWebhook.bind(null, login, name)}>add webhook</button>
       </div>
     );
   }

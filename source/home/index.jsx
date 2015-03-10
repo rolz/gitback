@@ -3,6 +3,9 @@
 require('../style/main.scss');
 require('./style.scss');
 
+var util = require('../lib/util.jsx');
+util.setLogger();
+
 function init() {
   var App = require('./App.jsx');
   React.render(<App />, document.getElementById('app'));

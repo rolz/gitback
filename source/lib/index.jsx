@@ -2,27 +2,15 @@
 
 var GB = window.GB = window.GB || {};
 
-/*
- * Logger setting
- * https://www.npmjs.com/package/js-logger
- */
-Logger.useDefaults();
-
 var qs = GB.qs = require('query-string').parse(location.search);
 
-/*
- * Only debug if you have "debug=true" in query
- * https://www.npmjs.com/package/query-string
- */
-// if (qs.debug !== 'true') {
-//   Logger.setLevel(Logger.WARN);
-// }
-Logger.setLevel(Logger.DEBUG);
+var util = require('./util.jsx');
+
+util.setLogger();
 
 var logger = Logger.get('lib');
 
 
-var util = require('./util.jsx');
 
 function init(page) {
   // Get all users infomation
@@ -98,6 +86,7 @@ if(pathname === ADMIN_PATH) {
       Cookies.set(GB_COOCKIE_KEY, GB.gitlogin);
       logger.info('added coockie!!', GB_COOCKIE_KEY, GB.gitlogin);
       // Redirect to user page
+      Cookies.set(GB_LOGIN_COOCKIE_KEY, true);
       window.location.replace(USER_PATH);
     } else {
       // Show homepage

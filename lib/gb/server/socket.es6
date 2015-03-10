@@ -33,14 +33,21 @@ function parse_cookies(_cookies) {
 function setSocket() {
   io.on('connection', ((socket) => {
     log(`a user connected: ${socket.id}`, 'blue');
+    socket.on('addWebhook', ((userId, repoName) => {
+      log(`addWebhook: ${userId, repoName}`, 'yellow');
+      db.user.findToken(userId, ((e) => {
+        var token = e.result;
+        webhook.hook.add(token, userId, repoName, ((e) => {
+          io.emit('onAddWebhook', e);
+        }));
+      }));
+    }));
     socket.on('removeWebhook', ((userId, repoName, webhookId) => {
-      log(`removeWebhook: ${userId}, ${repoName}, ${webhookId}`, 'yellow');
-      // log(`[TODO] CHECK IF TOKEN IS NOT EXPIRED. IF IT IS WE HAVE TO UPDATE THE TOKEN`, 'yellow');
-      // [TODO] CHECK IF TOKEN IS NOT EXPIRED
+      log(`removeWebhook: ${userId, repoName, webhookId}`, 'yellow');
       db.user.findToken(userId, ((e) => {
         var token = e.result;
         webhook.hook.remove(token, userId, repoName, webhookId, ((e) => {
-          log(e, 'blue');
+          io.emit('onRemoveWebhook', e);
         }));
       }));
     }));

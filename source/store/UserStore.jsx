@@ -20,6 +20,10 @@ var UserStore = Reflux.createStore({
   listenables: [require('../actions/UserActions.jsx')],
 
   /* Remove */
+  removeWebhook(userId, repoName, webhookId) {
+    console.log(userId, repoName, webhookId);
+    socket.emit('removeWebhook', userId, repoName, webhookId);
+  },
   onRemovedUser(userId) {
     this.refreshUsers();
   },

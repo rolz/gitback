@@ -2,12 +2,24 @@
 
 var logger = Logger.get('admin.App');
 
+var Actions = require('../actions/UserActions.jsx');
+
 var Repo = React.createClass({
   render() {
-    var {name, commits} = this.props.model;
+    var {name, commits, webhookId} = this.props.model,
+      login = this.props.login,
+      buttonClass = (() => {
+        switch(webhookId) {
+          case null: case undefined: return '';
+          case false: return 'add';
+          default: return 'remove';
+        }
+      })();
     return (
-      <div className="repo">
-        <p>{name}: {commits}</p>
+      <div className={`repo ${buttonClass}`}>
+        <span className="repoInfo">{name}: {webhookId} </span>
+        <button className="remove" onClick={Actions.removeWebhook.bind(null, login, name, webhookId)}>remove webhook</button>
+        <button className="add">add webhook</button>
       </div>
     );
   }
@@ -24,23 +36,17 @@ var User = React.createClass({
         <div className="about">
           <h2>{login}</h2>
           <p>{email}</p>
+          <button onClick={Actions.removeUser.bind(null, login)}>remove this user</button>
         </div>
         <div className="repos">
         {_.map(repos, ((repo, index) => {
-          return <Repo key={`repo${index}`} model={repo} />
+          return <Repo key={`repo${index}`} model={repo} login={login} />
         }))}
-        </div>
-        <div className="right">
-          <button onClick={this.props.removeHandle.bind(null, login)}>
-            remove
-          </button>
         </div>
       </section>
     );
   }
 });
-
-var Actions = require('../actions/UserActions.jsx');
 
 var App = React.createClass({
   mixins: [Reflux.connect(require('../store/UserStore.jsx'),'users')],
@@ -55,7 +61,7 @@ var App = React.createClass({
         </header>
         <main>
         {_.map(this.state.users, ((user, index) => {
-          return <User key={`user${index}`} model={user} removeHandle={Actions.removeUser} />
+          return <User key={`user${index}`} model={user} />
         }))}
         </main>
       </div>

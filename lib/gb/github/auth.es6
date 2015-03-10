@@ -11,6 +11,8 @@ var _ = require('lodash-node'),
   webhook = require('./webhook.es6'),
   config = require('../../../json/config'),
   options = config.github,
+  clientId = process.env.CLIENTID || options.clientId,
+  clientSecret = process.env.CLIENTSECRET || options.clientSecret,
   util = require ('../util'),
   log = util.log('github.auth', 'GB'),
   GitHubApi = require('github'),
@@ -19,7 +21,7 @@ var _ = require('lodash-node'),
     debug: true,
     headers: {'user-agent': 'GitBackApp'}
   }),
-  app, clientId, clientSecret;
+  app;
 
 function setRoutes() {
   app.get('/login', (req, res) => {
@@ -32,55 +34,55 @@ function setRoutes() {
     request.post({
       url: options.oauthUrl + '/access_token',
       form: {
-          client_id: clientId,
-          client_secret: clientSecret,
-          code: authCode
-        }
-      }, (err, resp, body) => {
+        client_id: clientId,
+        client_secret: clientSecret,
+        code: authCode
+      }
+    }, (err, resp, body) => {
 
 
-        var token = qs.parse(body).access_token;
-        log(`this is the user token: ${token}`, 'blue');
+      var token = qs.parse(body).access_token;
+      log(`this is the user token: ${token}`, 'blue');
 
-        if(token) {
+      if(token) {
 
-          request.get({
-              headers: {
-                  'User-Agent': 'GitBackApp'
-              },
-              url: options.apiUrl + '/user?access_token='+token
-
+        request.get({
+          headers: {
+            'User-Agent': 'GitBackApp'
           },
-          (err, resp, body) => {
-            // gup represents Github User Profile
-            var gup = JSON.parse(body);
+          url: options.apiUrl + '/user?access_token='+token
 
-            addUser(gup.login, token, (repos) => {
-              // console.log(repos);
-              db.user.add({
-                tokenId: token,
-                login: gup.login,
-                avatarUrl: gup.avatar_url,
-                email: gup.email,
-                repos: repos
-              }, ((e) => {
-                if(e.status === 'success') {
-                  log(e.message, 'green');
-                } else {
-                  log(e.message, 'red');
-                }
-                /* Redirect to home */
-                req.flash('gitlogin', gup.login);
-                res.redirect('/');
-              }));
-            });
+        },
+        (err, resp, body) => {
+          // gup represents Github User Profile
+          var gup = JSON.parse(body);
 
+          addUser(gup.login, token, (repos) => {
+            // console.log(repos);
+            db.user.add({
+              tokenId: token,
+              login: gup.login,
+              avatarUrl: gup.avatar_url,
+              email: gup.email,
+              repos: repos
+            }, ((e) => {
+              if(e.status === 'success') {
+                log(e.message, 'green');
+              } else {
+                log(e.message, 'red');
+              }
+              /* Redirect to home */
+              req.flash('gitlogin', gup.login);
+              res.redirect('/');
+            }));
           });
-        } else {
-          throw Error('no token exists.');
-        }
 
-      });
+        });
+      } else {
+        throw Error('no token exists.');
+      }
+
+    });
 
   });
 
@@ -130,7 +132,5 @@ function addUser(user, token, callback) {
 
 exports.setup = ((expressApp) => {
   app = expressApp;
-  clientId = process.env.CLIENTID || options.clientId;
-  clientSecret = process.env.CLIENTSECRET || options.clientSecret;
   setRoutes();
 });

@@ -5,6 +5,7 @@ var _ = require('lodash-node'),
   config = require('../../../json/config'),
   options = config.server,
   db = require ('../mongodb/index.es6'),
+  webhook = require('../github/webhook.es6'),
   util = require ('../util'),
   log = util.log('socket', 'GB'),
   io;
@@ -32,6 +33,17 @@ function parse_cookies(_cookies) {
 function setSocket() {
   io.on('connection', ((socket) => {
     log('a user connected', 'blue');
+    socket.on('removeWebhook', ((userId, repoName, webhookId) => {
+      log(`removeWebhook: ${userId}, ${repoName}, ${webhookId}`, 'yellow');
+      log(`[TODO] CHECK IF TOKEN IS NOT EXPIRED. IF IT IS WE HAVE TO UPDATE THE TOKEN`, 'yellow');
+      // [TODO] CHECK IF TOKEN IS NOT EXPIRED
+      // db.user.findToken(userId, ((e) => {
+      //   var token = e.result;
+      //   webhook.hook.remove(token, userId, repoName, webhookId, ((e) => {
+      //     log(e, 'blue');
+      //   }));
+      // }));
+    }));
     socket.on('removeUser', ((userId) => {
       log(`removeUser: ${userId}`);
       db.user.remove(userId, ((e) => {
@@ -54,6 +66,9 @@ function setSocket() {
     }));
   }));
 }
+
+
+
 
 exports.setup = ((http, app) => {
   // var redis = require('socket.io-redis');

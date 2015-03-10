@@ -10,9 +10,11 @@ var _ = require('lodash-node'),
   db = require ('../mongodb/index.es6'),
   config = require('../../../json/config'),
   options = config.github,
+  webhookUrl = process.env.WEBHOOKURL || options.webhookUrl,
+  apiUrl = options.apiUrl,
   util = require ('../util'),
   log = util.log('github.webhook', 'GB'),
-  app, webhookUrl, apiUrl;
+  app;
 
 function setRoutes() {
 
@@ -25,8 +27,10 @@ function setRoutes() {
 
   // receive user commit messages
   app.post('/webhook', (req,res) => {
-    log("data coming from webhook : "+ JSON.stringify(req.body), 'blue');
-    // add to repo commit log
+    var dat = req.body;
+    log("data coming from webhook : "+ JSON.stringify(dat), 'blue');
+    // add webhookId to database
+    db.user.addWebhook(dat.hook_id, dat.repository);
     res.end('.');
   });
 
@@ -40,19 +44,24 @@ var hook = {
         'user-agent': 'GitBackApp',
         'Authorization': 'token '+ token
       },
-      json: {name: 'gitback', active: true, events: ['push'], config: {url: webhookUrl, content_type: 'json'}}
+      json: {name: 'web', active: true, events: ['push'], config: {url: webhookUrl, content_type: 'json'}}
     }
     return json;
   },
   add (token, user, repo, callback) {
     request.post(apiUrl+'/repos/'+user+'/'+repo+'/hooks', this.webhookOptions(token), (err, data) => {
-        log(`user: ${user}`, 'blue');
-        log(`repo: ${repo}`, 'blue');
-        log(`token: ${token}`, 'blue');
+      log(`user: ${user}`, 'blue');
+      log(`repo: ${repo}`, 'blue');
+      log(`token: ${token}`, 'blue');
       callback(data);
     });
   },
   remove (token, user, repo, webhookId, callback) {
+    log(`remove: ${token}, ${user}, ${repo}, ${webhookId}`, 'yellow');
+    // /repos/:owner/:repo/hooks/:id
+    var url = `${apiUrl}/repos/${user}/${repo}/hooks/${webhookId}`;
+    log(url);
+    log(apiUrl+'/repos/'+user+'/'+repo+'/hooks/'+webhookId);
     request.del(apiUrl+'/repos/'+user+'/'+repo+'/hooks/'+webhookId, this.webhookOptions(token, user, repo), (err, data) => {
       callback(data);
     });
@@ -69,8 +78,6 @@ var hook = {
 
 exports.setup = ((expressApp) => {
   app = expressApp;
-  webhookUrl = process.env.WEBHOOKURL || options.webhookUrl;
-  apiUrl = options.apiUrl;
   setRoutes();
 });
 

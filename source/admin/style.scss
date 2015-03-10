@@ -55,10 +55,32 @@ section {
     float: left;
     vertical-align: top;
     padding: 10px 20px;
+    button {
+      margin-top: 8px;
+    }
   }
   .repos {
     padding: 10px 20px;
     float: left;
+    .repo {
+      span.repoInfo {
+        display: inline-block;
+        min-width: 200px;
+      }
+      button {
+        display: none;
+      }
+      &.remove {
+        button.remove {
+          display: inline-block;
+        }
+      }
+      &.add {
+        button.add {
+          display: inline-block;
+        }
+      }
+    }
   }
   .right {
     margin: 10px;

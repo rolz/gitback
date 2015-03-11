@@ -9,6 +9,9 @@
 require('../style/main.scss');
 require('./style.scss');
 
+var util = require('../lib/util.jsx');
+util.setLogger();
+
 function init() {
   var { Route, DefaultRoute, NotFoundRoute } = Router,
     App = require('./App.jsx'),

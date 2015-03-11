@@ -26,14 +26,14 @@ var _ = require('lodash-node'),
 
 function setRoutes() {
   app.get('/login', (req, res) => {
-    res.redirect(307, oauthUrl + '/authorize?client_id=' + clientId + '&scope=user,read:repo_hook,write:repo_hook,admin:repo_hook');
+    res.redirect(307, `${oauthUrl}/authorize?client_id=${clientId}&scope=user,read:repo_hook,write:repo_hook,admin:repo_hook`);
   });
 
   app.get('/callback', (req, res) => {
     var authCode = req.query.code;
 
     request.post({
-      url: oauthUrl + '/access_token',
+      url: `${oauthUrl}/access_token`,
       form: {
         client_id: clientId,
         client_secret: clientSecret,

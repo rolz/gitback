@@ -57,7 +57,7 @@ if(pathname === ADMIN_PATH) {
         logger.info('timeDifference:', Math.floor(timeDifference /1000/60), 'min');
         // Check if user info is updated no longer than 1 day
         if(!loginCoockieValue && (timeDifference > 1000*60*60*24)) {
-          // Update user info
+          // Update user info for token
           Cookies.set(GB_LOGIN_COOCKIE_KEY, true);
           window.location.replace(LOGIN_PATH);
         } else {

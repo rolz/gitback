@@ -48,7 +48,7 @@ var hook = {
     return json;
   },
   add (token, user, repo, callback) {
-    request.post(apiUrl+'/repos/'+user+'/'+repo+'/hooks', this.webhookOptions(token), (err, data) => {
+    request.post(`${apiUrl}/repos/${user}/${repo}/hooks`, this.webhookOptions(token), (err, data) => {
       log(`user: ${user}`, 'blue');
       log(`repo: ${repo}`, 'blue');
       log(`token: ${token}`, 'blue');
@@ -72,8 +72,8 @@ var hook = {
     });
   },
   remove (token, user, repo, webhookId, callback) {
-    log(`remove: ${token}, ${user}, ${repo}, ${webhookId}`, 'yellow');
-    request.del(apiUrl+'/repos/'+user+'/'+repo+'/hooks/'+webhookId, this.webhookOptions(token, user, repo), (err, data) => {
+    log(`remove: ${token, user, repo, webhookId}`, 'yellow');
+    request.del(`${apiUrl}/repos/${user}/${repo}/hooks/${webhookId}`, this.webhookOptions(token, user, repo), (err, data) => {
       log(data, 'blue');
       if(data.statusCode === 204) {
         log('Webhook has been removed.', 'green');

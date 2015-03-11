@@ -24,13 +24,13 @@ module.exports = {
     Logger.setLevel(Logger.DEBUG);
   },
   getUserData(userId, cb) {
-    request.get(`/gitlogin/${userId}`, ((err, res) => {
+    request.get(`/users/${userId}`, ((err, res) => {
       if (err) throw err;
       if (cb) cb(JSON.parse(res.text));
     }));
   },
   getAllUserData(cb) {
-    request.get(`/gitlogins`, ((err, res) => {
+    request.get(`/users`, ((err, res) => {
       if (err) throw err;
       if (cb) cb(JSON.parse(res.text));
     }));

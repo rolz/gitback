@@ -124,7 +124,7 @@ function add(options, cb) {
 }
 
 function removeAll(cb) {
-  PUser.remove({private: false}, (err) => {
+  PUser.remove({}, (err) => {
     if(cb) {cb({
       status: (err? 'error': 'success')
     });}

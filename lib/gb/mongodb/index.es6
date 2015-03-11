@@ -13,7 +13,7 @@ var _ = require('lodash-node'),
   app, user;
 
 function setRoutes() {
-  app.get('/gitlogin/:id', function (req, res, next) {
+  app.get('/users/:id', function (req, res, next) {
     var userId = req.params.id;
     user.findOne(userId, ((e) => {
       if(e.status === 'success') {
@@ -32,7 +32,7 @@ function setRoutes() {
     }));
   });
 
-  app.get('/gitlogins', function (req, res, next) {
+  app.get('/users', function (req, res, next) {
     var userId = req.params.id;
     user.findAll(((e) => {
       if(e.status === 'success') {

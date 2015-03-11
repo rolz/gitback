@@ -76,7 +76,8 @@ function setConnectFlash() {
 function getContext(req) {
   return {
     gitlogin: req.flash('gitlogin'),
-    host: req.get('host')
+    host: req.get('host'),
+    date: new Date()
   };k
 }
 

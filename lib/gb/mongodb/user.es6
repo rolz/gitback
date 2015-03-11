@@ -18,11 +18,13 @@ function setupSchema() {
     email: String,
     tokenId: String,
     private: Boolean,
+    lastLoggedIn: Date,
+    createdAt: Date,
     repos: [{
       name: String,
       webhookId: String,
-      createdAt: Date,
-      lastLoggedIn: Date,
+      createdWebhookAt: Date,
+      lastCommitedAt: Date,
       commitsCount: Number,
       commitsLog: [{
         firstCommitDateOfTheMonth: Date,
@@ -100,7 +102,8 @@ function add(options, cb) {
         var dat = {
           avatarUrl: options.avatarUrl,
           email: options.email,
-          tokenId: tokenId,
+          lastLoggedIn: options.lastLoggedIn,
+          tokenId: tokenId
         };
         updateUser(userId, dat, ((e) => {
           log(e.result);
@@ -184,6 +187,7 @@ function addWebhookId(userId, repoName, webhookId, cb) {
     var repo = _.find(dat.repos, (repo) => { return repo.name === repoName; });
     if(repo) {
       repo.webhookId = webhookId;
+      repo.createdWebhookAt = new Date();
       updateUser(userId, dat, ((e) => {
         log('updated!' + JSON.stringify(e), 'green');
         if(cb) cb(e);
@@ -200,6 +204,10 @@ function removeWebhookId(userId, repoName, cb) {
     var repo = _.find(dat.repos, (repo) => { return repo.name === repoName; });
     if(repo) {
       repo.webhookId = false;
+      repo.createdWebhookAt = null;
+      repo.lastCommitedAt = null;
+      repo.commitsCount = 0;
+      repo.commitsLog = [];
       updateUser(userId, dat, ((e) => {
         log('updated!' + JSON.stringify(e), 'green');
         if(cb) cb(e);

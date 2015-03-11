@@ -67,7 +67,9 @@ function setRoutes() {
               avatarUrl: gup.avatar_url,
               email: gup.email,
               repos: repos,
-              private: false
+              private: false,
+              lastLoggedIn: new Date(),
+              createdAt: new Date(),
             }, ((e) => {
               if(e.status === 'success') {
                 log(e.message, 'green');
@@ -129,12 +131,13 @@ function addUser(user, token, callback) {
         _.each(data, ((item, index) => {
           initialReposData.push({
             name: item.name,
-            commits: 0,
-            webhook: null,
-            commitslog: []
+            webhookId: null,
+            createdWebhookAt: null,
+            lastCommitedAt: null,
+            commitsCount: 0,
+            commitsLog: []
           });
         }));
-
         callback(initialReposData);
 
     }));

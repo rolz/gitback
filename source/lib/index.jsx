@@ -51,8 +51,12 @@ if(pathname === ADMIN_PATH) {
     // Get user information
     util.getUserData(coockieValue, ((e) => {
       if(e.status === 'success') {
-        // Check if user info is updated
-        if(!loginCoockieValue) {
+        var lastLoggedIn = +new Date(e.result.lastLoggedIn),
+          currentServerTime = +new Date(st),
+          timeDifference = currentServerTime - lastLoggedIn;
+        logger.info('timeDifference:', Math.floor(timeDifference /1000/60), 'min');
+        // Check if user info is updated no longer than 1 day
+        if(!loginCoockieValue && (timeDifference > 1000*60*60*24)) {
           // Update user info
           Cookies.set(GB_LOGIN_COOCKIE_KEY, true);
           window.location.replace(LOGIN_PATH);

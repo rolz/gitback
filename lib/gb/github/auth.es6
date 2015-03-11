@@ -140,7 +140,27 @@ function addUser(user, token, callback) {
     }));
 }
 
-exports.setup = ((expressApp) => {
-  app = expressApp;
-  setRoutes();
-});
+var auth = {
+  authOptions (token) {
+    var json = {
+      headers: {
+        'user-agent': 'GitBackApp',
+        'Authorization': 'token '+ token
+      }
+    };
+    return json;
+  },
+  add (token, callback) {
+  },
+  remove (token, callback) {
+    log(`[TODO] remove auth token: ${token}. JUST CALL THE CALLBACK SO FAR`, 'yellow');
+    callback();
+  },
+  setup(expressApp) {
+    app = expressApp;
+    setRoutes();
+  }
+};
+
+module.exports = auth;
+

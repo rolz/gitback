@@ -6,6 +6,7 @@
 
 var _ = require('lodash-node'),
   util = require ('../util'),
+  auth = require('../github/auth.es6'),
   webhook = require('../github/webhook.es6'),
   log = util.log('mongodb.user', 'GB'),
   PUser, mongoose;
@@ -99,7 +100,7 @@ function add(options, cb) {
         var dat = {
           avatarUrl: options.avatarUrl,
           email: options.email,
-          tokenId: tokenId
+          tokenId: tokenId,
         };
         updateUser(userId, dat, ((e) => {
           log(e.result);
@@ -149,24 +150,30 @@ function remove(userId, cb) {
         }
       } else {
         // Removed All webhook so remove user info from DB
-        log('Removed All webhook so remove user info from DB', 'green');
-        PUser.findOneAndRemove({'login': userId}, (err, user) => {
-          if(cb) {cb({
-            status: (err? 'error': 'success'),
-            user: user
-          });}
-        });
+        log('Removed All webhook so remove app', 'green');
+        auth.remove(token, ((e) => {
+          log('Removed auth so remove user info from DB', 'green');
+          PUser.findOneAndRemove({'login': userId}, (err, user) => {
+            if(cb) {cb({
+              status: (err? 'error': 'success'),
+              user: user
+            });}
+          });
+        }));
       }
     });
     removeWebhooks(dat.repos);
-    // log(e);
   }), true);
 }
 
 function test() {
-  findOne('test', ((e) => {
-    log(e, 'green');
-  }));
+  findOne('meowyo', ((e) => {
+    log(e.result, 'red');
+    var dat = e.result;
+    auth.remove(dat.tokenId, ((e) => {
+      // log(e, 'green');
+    }));
+  }), true);
 }
 
 function addWebhookId(userId, repoName, webhookId, cb) {

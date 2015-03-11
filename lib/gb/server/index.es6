@@ -135,6 +135,9 @@ function setRoute() {
   app.get('/user/:section', noLocalhost, ((req, res) => {
     res.render('user', _.extend(obj, getContext(req)));
   }));
+  app.get('/user/:section/:section2', noLocalhost, ((req, res) => {
+    res.render('user', _.extend(obj, getContext(req)));
+  }));
   app.get('/admin', auth, ((req, res) => {
     db.user.findAll((e) => {
       res.render('admin', _.extend(obj, getContext(req), {usr: e.result}));

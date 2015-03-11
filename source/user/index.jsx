@@ -14,14 +14,17 @@ function init() {
     App = require('./App.jsx'),
     Dashboard = require('./components/dashboard'),
     Leaderboard = require('./components/leaderboard'),
-    Profile = require('./components/profile'),
     Settings = require('./components/settings');
 
   var routes = (
     <Route name="app" path="/user" handler={App}>
       <Route name="dashboard" handler={Dashboard} />
-      <Route name="leaderboard" handler={Leaderboard} />
-      <Route name="profile" handler={Profile} />
+      <Route name="leaderboard" handler={Leaderboard}>
+        <Route name="today" path="today" handler={Leaderboard} />
+        <Route name="week" path="week" handler={Leaderboard} />
+        <Route name="month" path="month" handler={Leaderboard} />
+        <Route name="alltime" path="alltime" handler={Leaderboard} />
+      </Route>
       <Route name="settings" handler={Settings} />
       <DefaultRoute handler={Dashboard}/>
       <NotFoundRoute handler={Dashboard}/>

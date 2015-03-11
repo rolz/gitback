@@ -37,7 +37,9 @@ gulp.task('livereload', () => {
 
 // CLI for webpack dev
 // http://webpack.github.io/docs/webpack-dev-server.html#cli
-gulp.task('dev-webpack', shell.task([['webpack-dev-server --quiet --port ' + config.server.webpackServerPort]]));
+// gulp.task('dev-webpack', shell.task([['webpack-dev-server --quiet --port ' + config.server.webpackServerPort]]));
+gulp.task('dev-webpack', shell.task([['webpack-dev-server --color --port ' + config.server.webpackServerPort]]));
+
 
 // CLI for webpack
 // http://webpack.github.io/docs/cli.html

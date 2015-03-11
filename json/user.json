@@ -9,10 +9,6 @@
       "label": "Leaderboard"
     },
      {
-      "id": "profile",
-      "label": "Profile"
-    },
-     {
       "id": "settings",
       "label": "Settings"
     }

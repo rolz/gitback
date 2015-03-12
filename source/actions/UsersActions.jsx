@@ -10,9 +10,7 @@
  */
 
 module.exports = Reflux.createActions([
-  'removeUser',
-  'removeWebhook',
-  'addWebhook',
-  'setAnonymous',
-  'updateUser'
+  'removeAllUsers',
+  'refreshUsers',
+  'updateUsers'
 ]);

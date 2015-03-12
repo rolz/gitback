@@ -67,7 +67,7 @@ function setRoutes() {
               avatarUrl: gup.avatar_url,
               email: gup.email,
               repos: repos,
-              private: false,
+              anonymous: false,
               lastLoggedIn: new Date(),
               createdAt: new Date(),
             }, ((e) => {

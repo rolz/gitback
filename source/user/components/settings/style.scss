@@ -1,0 +1,32 @@
+main .settings {
+  a {
+    margin-right: 10px;
+  }
+  .accountType {
+    .types {
+      &.anonymous {
+        .public {
+          cursor: pointer;
+          background: gray;
+        }
+        .private {
+        }
+      }
+      &:not(.anonymous) {
+        .public {
+        }
+        .private {
+          cursor: pointer;
+          background: gray;
+        }
+      }
+    }
+    .type {
+      border: solid 1px gray;
+      padding: 2px;
+      &:first-child {
+        border-right: none;
+      }
+    }
+  }
+}

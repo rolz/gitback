@@ -17,7 +17,7 @@ function setupSchema() {
     avatarUrl: String,
     email: String,
     tokenId: String,
-    private: Boolean,
+    anonymous: Boolean,
     lastLoggedIn: Date,
     createdAt: Date,
     repos: [{
@@ -98,7 +98,6 @@ function add(options, cb) {
         });
       } else {
         // Update user info
-        log(options);
         var dat = {
           avatarUrl: options.avatarUrl,
           email: options.email,
@@ -109,8 +108,7 @@ function add(options, cb) {
           log(e.result);
           if(cb) {cb({
             status: 'error',
-            message: `the user already exists: ${options.login}`,
-            private: e.result.private
+            message: `the user already exists: ${options.login}`
           });}
         }));
       }
@@ -226,6 +224,7 @@ module.exports = ((mongooseDB) => {
     findOne: findOne,
     findAll: findAll,
     findToken: findToken,
+    update: updateUser,
     removeAll: removeAll,
     remove: remove,
     addWebhookId: addWebhookId,

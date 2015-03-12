@@ -14,7 +14,7 @@ App = React.createClass({
           </ul>
         </header>
         <main>
-          <RouteHandler />
+          <RouteHandler {...this.props}/>
         </main>
       </div>
     );

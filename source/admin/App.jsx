@@ -1,8 +1,8 @@
 'use strict'
 
-var logger = Logger.get('admin.App');
+var logger = Logger.get('App');
 
-var Actions = require('../actions/UserActions.jsx');
+var UserActions = require('../actions/UserActions.jsx');
 
 var Repo = React.createClass({
   render() {
@@ -18,8 +18,8 @@ var Repo = React.createClass({
     return (
       <div className={`repo ${buttonClass}`}>
         <span className="repoInfo">{name}: {webhookId} </span>
-        <button className="remove" onClick={Actions.removeWebhook.bind(null, login, name, webhookId)}>remove webhook</button>
-        <button className="add" onClick={Actions.addWebhook.bind(null, login, name)}>add webhook</button>
+        <button className="remove" onClick={UserActions.removeWebhook.bind(null, login, name, webhookId)}>remove webhook</button>
+        <button className="add" onClick={UserActions.addWebhook.bind(null, login, name)}>add webhook</button>
       </div>
     );
   }
@@ -29,14 +29,14 @@ var User = React.createClass({
   render() {
     var {_id, avatarUrl, email, login, repos} = this.props.model;
     return (
-      <section className={'clearfix' + (login === GB.user.login? ' user' : '')}>
+      <section className={'clearfix' + (login === this.props.user.login? ' user' : '')}>
         <div className="icon">
           <img src={avatarUrl} />
         </div>
         <div className="about">
           <h2>{login}</h2>
           <p>{email}</p>
-          <button onClick={Actions.removeUser.bind(null, login)}>remove this user</button>
+          <button onClick={UserActions.removeUser.bind(null, login)}>remove this user</button>
         </div>
         <div className="repos">
         {_.map(repos, ((repo, index) => {
@@ -49,11 +49,12 @@ var User = React.createClass({
 });
 
 var App = React.createClass({
-  mixins: [Reflux.connect(require('../store/UserStore.jsx'),'users')],
-  removeUser(userId) {
-    Actions.removeUser(userId);
-  },
+  mixins: [
+    Reflux.connect(require('../store/UsersStore.jsx'), 'users'),
+    Reflux.connect(require('../store/UserStore.jsx'), 'user')
+  ],
   render() {
+    var self = this;
     return (
       <div>
         <header>
@@ -61,7 +62,7 @@ var App = React.createClass({
         </header>
         <main>
         {_.map(this.state.users, ((user, index) => {
-          return <User key={`user${index}`} model={user} />
+          return <User key={`user${index}`} model={user} user={self.state.user} />
         }))}
         </main>
       </div>

@@ -9,6 +9,10 @@ body {
   padding: 0;
 }
 
+* {
+  box-sizing: border-box;
+}
+
 h1, h2, h3, h4, h5 {
   font-weight: 100;
 }
@@ -24,6 +28,10 @@ p {
 
 a {
   color: hsl(200, 50%, 50%);
+}
+
+button {
+  cursor: pointer;
 }
 
 .clearfix:after {

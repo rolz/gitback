@@ -33,12 +33,21 @@ function parse_cookies(_cookies) {
 function setSocket() {
   io.on('connection', ((socket) => {
     log(`a user connected: ${socket.id}`, 'blue');
+    socket.on('setAnonymous', ((userId, flag) => {
+      log(`setAnonymous: ${userId, flag}`, 'yellow');
+      db.user.update(userId, {anonymous: flag}, ((e) => {
+        log(e.result);
+        io.emit('onSetAnonymous', e.result);
+      }));
+    }));
     socket.on('addWebhook', ((userId, repoName) => {
       log(`addWebhook: ${userId, repoName}`, 'yellow');
       db.user.findToken(userId, ((e) => {
         var token = e.result;
         webhook.hook.add(token, userId, repoName, ((e) => {
-          io.emit('onAddWebhook', e);
+          db.user.findOne(userId, ((e) => {
+            io.emit('onAddWebhook', e.result);
+          }));
         }));
       }));
     }));
@@ -47,14 +56,16 @@ function setSocket() {
       db.user.findToken(userId, ((e) => {
         var token = e.result;
         webhook.hook.remove(token, userId, repoName, webhookId, ((e) => {
-          io.emit('onRemoveWebhook', e);
+          db.user.findOne(userId, ((e) => {
+            io.emit('onRemoveWebhook', e.result);
+          }));
         }));
       }));
     }));
     socket.on('removeUser', ((userId) => {
       log(`removeUser: ${userId}`);
       db.user.remove(userId, ((e) => {
-        io.emit('onRemoveUser', e);
+        io.emit('onRemoveUser', userId);
       }));
     }));
     socket.on('removeAllUsers', (() => {

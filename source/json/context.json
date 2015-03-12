@@ -1,0 +1,60 @@
+{
+  "common": {
+    "projectTitle": "Root For HER"
+  },
+  "admin": {
+  },
+  "home": {
+  },
+  "user": {
+    "dashboard": {
+      "title": "Dashboard"
+    },
+    "leaderboard": {
+      "title": "Leaderboard"
+    },
+    "settings": {
+      "title": "Settings",
+      "items": [
+        {
+          "id": "accountType",
+          "label": "Account type",
+          "types": [
+            {
+              "id": "public",
+              "label": "Public"
+            },
+            {
+              "id": "private",
+              "label": "Private"
+            }
+          ]
+        },
+        {
+          "id": "email",
+          "label": "Email"
+        },
+        {
+          "id": "payment",
+          "label": "Donation Method"
+        },
+        {
+          "id": "partners",
+          "label": "See our cause",
+          "partners": [
+            {
+              "id": "codeEd",
+              "label": "Code Ed",
+              "url": "http://www.codeed.org/"
+            },
+            {
+              "id": "womenWhoCode",
+              "label": "Women Who Code",
+              "url": "https://www.womenwhocode.com/"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,87 +1,54 @@
 'use strict';
 
-var util = require('../lib/util.jsx');
-var logger = Logger.get('UserStore');
-
-/*
- * SOCKET.IO
- * http://socket.io/
- */
-var socket = io();
-
-socket.on('onAddWebhook', function(e){
-  logger.debug('onAddWebhook', e);
-  UserStore.onAddedWebhook();
-});
-
-socket.on('onRemoveWebhook', function(e){
-  logger.debug('onRemoveWebhook', e);
-  UserStore.onRemovedWebhook();
-});
-
-socket.on('onRemoveAllUsers', function(e){
-  logger.debug('onRemoveAllUsers', e);
-  UserStore.onRemovedAllUsers();
-});
-
-socket.on('onRemoveUser', function(e){
-  logger.debug('onRemoveUser', e);
-  UserStore.onRemovedUser();
-});
-
-socket.on('onFindAllUsers', function(e){
-  logger.debug('onFindAllUsers', e);
-  UserStore.updateUsers(e.result);
-});
+var util = require('../lib/util.jsx'),
+  logger = Logger.get('UserStore'),
+  UsersActions = require('../actions/UsersActions.jsx'),
+  socket;
 
 var UserStore = Reflux.createStore({
   listenables: [require('../actions/UserActions.jsx')],
 
-  /* Add */
-  onAddedWebhook() {
-    logger.debug('onAddWebhook');
-    this.refreshUsers();
+  init() {
+    setTimeout(() => {
+      socket = require('../lib/socket.jsx')();
+    });
   },
-  addWebhook(userId, repoName) {
-    logger.debug('addWebhook');
+
+  /* Set */
+  onSetAnonymous(userId, flag) {
+    // logger.debug('setAnonymous', userId, flag);
+    socket.emit('setAnonymous', userId, flag);
+  },
+
+  /* Add */
+  onAddWebhook(userId, repoName) {
+    // logger.debug('addWebhook');
     socket.emit('addWebhook', userId, repoName);
   },
 
   /* Remove */
-  onRemovedWebhook() {
-    this.refreshUsers();
-  },
-  removeWebhook(userId, repoName, webhookId) {
-    logger.debug(userId, repoName, webhookId);
+  onRemoveWebhook(userId, repoName, webhookId) {
+    // logger.debug(userId, repoName, webhookId);
     socket.emit('removeWebhook', userId, repoName, webhookId);
   },
-  onRemovedUser() {
-    this.refreshUsers();
-  },
-  removeUser(userId) {
+  onRemoveUser(userId) {
+    // logger.debug('onRemoveUser', userId);
     socket.emit('removeUser', userId);
-  },
-  onRemovedAllUsers() {
-    this.refreshUsers();
-  },
-  removeAllUsers() {
-    socket.emit('removeAllUsers');
   },
 
   /* Common */
-  refreshUsers() {
-    logger.debug('refreshUsers');
-    socket.emit('findAllUsers');
+  refreshUser(userId) {
+    // logger.debug('refreshUser');
+    socket.emit('findUser', userId);
   },
-  updateUsers(users){
-    logger.debug('updateUsers', users);
-    this.users = users;
-    /* sends the updated list to all listening components (App) */
-    this.trigger(users);
+  updateUser(user){
+    // logger.debug('updateUser', user);
+    this.user = user;
+    this.trigger(user);
   },
   getInitialState() {
-    this.users = GB.users || [];
-    return this.users;
+    this.user = GB.user || _.find(GB.users, ((user) => {return user.login === GB.login})) || {};
+    return this.user;
   }
 });
 

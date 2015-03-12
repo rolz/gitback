@@ -1,4 +1,4 @@
-var logger = Logger.get('lib.util');
+'use strict';
 
 /*
  * SuperAgent: a light-weight progressive ajax API

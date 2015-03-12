@@ -11,7 +11,25 @@
       "title": "Dashboard"
     },
     "leaderboard": {
-      "title": "Leaderboard"
+      "title": "Leaderboard",
+      "rankings": [
+        {
+          "id": "today",
+          "label": "Today"
+        },
+        {
+          "id": "week",
+          "label": "This Week"
+        },
+        {
+          "id": "month",
+          "label": "This Month"
+        },
+        {
+          "id": "alltime",
+          "label": "All Time"
+        }
+      ]
     },
     "settings": {
       "title": "Settings",

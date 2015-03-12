@@ -2,9 +2,9 @@
 
 var util = require('../../../lib/util.jsx'),
   logger = Logger.get('Settings'),
-  UserActions = require('../../../actions/UserActions.jsx');
+  UserActions = require('../../../actions/UserActions.jsx'),
 
-module.exports = React.createClass({
+Settings = React.createClass({
   mixins: [Reflux.connect(require('../../../store/UserStore.jsx'), 'user')],
   setAnonymous(flag) {
     var {login, anonymous} = this.state.user;
@@ -51,7 +51,7 @@ module.exports = React.createClass({
         }
       });
     return (
-      <div className={name}>
+      <main className={name}>
         <h1>{title}</h1>
         <h2>{login}</h2>
         {_.map(items, ((item, index) => {
@@ -61,7 +61,9 @@ module.exports = React.createClass({
             </section>
           );
         }))}
-      </div>
+      </main>
     );
   }
 });
+
+module.exports = Settings;

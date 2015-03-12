@@ -1,12 +1,21 @@
 'use strict'
 
-module.exports = React.createClass({
+var Dashboard = React.createClass({
+  mixins: [Reflux.connect(require('../../../store/UserStore.jsx'), 'user')],
   render() {
+    var self = this,
+      {login, avatarUrl} = this.state.user,
+      {name, state, context} = this.props.params,
+      {title} = context;
     return (
-      <div>
-        <h1>Dashboard</h1>
+      <main className={name}>
+        <h1>{title}</h1>
+        <h2>{login}</h2>
+        <img src={avatarUrl} />
         <p>Now we just need to connect your donation method. Than you can adjust your repos, see your ranking, and start changing the world.</p>
-      </div>
+      </main>
     );
   }
 });
+
+module.exports = Dashboard;

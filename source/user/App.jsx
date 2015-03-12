@@ -1,6 +1,6 @@
 'use strict'
 
-var { RouteHandler, Link } = Router,
+var {RouteHandler, Link} = Router,
 
 App = React.createClass({
   render() {
@@ -13,9 +13,7 @@ App = React.createClass({
             <li><Link to="settings">Settings</Link></li>
           </ul>
         </header>
-        <main>
-          <RouteHandler {...this.props}/>
-        </main>
+        <RouteHandler {...this.props}/>
       </div>
     );
   }

@@ -1,4 +1,5 @@
 'use strict'
 
 require('./style.scss');
-module.exports = require('./Leaderboard.jsx');
+exports.index = require('./Leaderboard.jsx');
+exports.ranking = require('./LeaderboardRanking.jsx');

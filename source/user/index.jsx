@@ -51,7 +51,7 @@ function init() {
      */
     var params = state.params || {},
       name = state.path.split('/')[2];
-    params.name = name;
+    params.name = name || 'dashboard';
     params.state = state;
     params.context = _.extend(context.common, context.user[name]);
     React.render(<Handler params={params} />, document.getElementById('app'));

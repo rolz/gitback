@@ -18,17 +18,18 @@ function setupSchema() {
     email: String,
     tokenId: String,
     anonymous: Boolean,
-    lastLoggedIn: Date,
-    createdAt: Date,
+    lastLoggedIn: Number,
+    createdAt: Number,
     repos: [{
       name: String,
       webhookId: String,
-      createdWebhookAt: Date,
-      lastCommitedAt: Date,
-      commitsCount: Number,
-      commitsLog: [{
-        firstCommitDateOfTheMonth: Date,
-        commits: Number
+      createdWebhookAt: Number,
+      lastPushedAt: Number,
+      totalPushesCount: Number,
+      pushesLog: [{
+        time: String,
+        firstPushDateOfTheMonth: Number,
+        pushesCount: Number
       }]
     }]
   }));
@@ -167,16 +168,6 @@ function remove(userId, cb) {
   }), true);
 }
 
-function test() {
-  findOne('meowyo', ((e) => {
-    log(e.result, 'red');
-    var dat = e.result;
-    auth.remove(dat.tokenId, ((e) => {
-      // log(e, 'green');
-    }));
-  }), true);
-}
-
 function addWebhookId(userId, repoName, webhookId, cb) {
   log(`addWebhookId: ${userId, repoName, webhookId}`, 'blue');
   findOne(userId, ((e) => {
@@ -185,7 +176,7 @@ function addWebhookId(userId, repoName, webhookId, cb) {
     var repo = _.find(dat.repos, (repo) => { return repo.name === repoName; });
     if(repo) {
       repo.webhookId = webhookId;
-      repo.createdWebhookAt = new Date();
+      repo.createdWebhookAt = Date.now();
       updateUser(userId, dat, ((e) => {
         log('updated!' + JSON.stringify(e), 'green');
         if(cb) cb(e);
@@ -193,6 +184,8 @@ function addWebhookId(userId, repoName, webhookId, cb) {
     }
   }));
 }
+
+
 
 function removeWebhookId(userId, repoName, cb) {
   log(`removeWebhookId: ${userId, repoName}`, 'blue');
@@ -203,9 +196,9 @@ function removeWebhookId(userId, repoName, cb) {
     if(repo) {
       repo.webhookId = false;
       repo.createdWebhookAt = null;
-      repo.lastCommitedAt = null;
-      repo.commitsCount = 0;
-      repo.commitsLog = [];
+      repo.lastPushedAt = null;
+      repo.pushesCount = 0;
+      repo.pushesLog = [];
       updateUser(userId, dat, ((e) => {
         log('updated!' + JSON.stringify(e), 'green');
         if(cb) cb(e);
@@ -213,6 +206,57 @@ function removeWebhookId(userId, repoName, cb) {
     }
   }))
 }
+
+function test() {
+  // var dat = require('../../../json/push');
+  // updatePush(dat);
+}
+
+
+function updatePush(dat) {
+  var repository = dat.repository,
+    repoName = repository.name,
+    userId = repository.owner.name,
+    pusherName = dat.pusher.name;
+  if(userId === pusherName) {
+    findOne(userId, ((e) => {
+      var dat = e.result;
+      if(dat) {
+        var repo = _.find(dat.repos, (repo) => { return repo.name === repoName; });
+        if(repo) {
+          var lastPushedAt = Date.now(),
+            date = new Date(lastPushedAt),
+            yyyy = date.getUTCFullYear(),
+            mm = date.getUTCMonth() + 1;
+          repo.lastPushedAt = lastPushedAt;
+          repo.totalPushesCount++;
+          var logItem = _.find(repo.pushesLog, ((item) => {
+            var firstPushDateOfTheMonth = item.firstPushDateOfTheMonth,
+              itemDate = new Date(firstPushDateOfTheMonth),
+              itemyyyy = itemDate.getUTCFullYear(),
+              itemmm = itemDate.getUTCMonth() + 1;
+            return !!(yyyy === itemyyyy && mm === itemmm);
+          }));
+          if(logItem) {
+            logItem.pushesCount++;
+            // logItem.time = `${mm}/${yyyy}`;
+          } else {
+            logItem = {
+              time: `${mm}/${yyyy}`,
+              firstPushDateOfTheMonth: lastPushedAt,
+              pushesCount: 1
+            };
+            repo.pushesLog.push(logItem);
+          }
+          updateUser(userId, dat, ((e) => {
+            log('updated last push data!' + JSON.stringify(e), 'green');
+          }));
+        }
+      }
+    }));
+  }
+}
+
 
 module.exports = ((mongooseDB) => {
   mongoose = mongooseDB;
@@ -228,6 +272,7 @@ module.exports = ((mongooseDB) => {
     removeAll: removeAll,
     remove: remove,
     addWebhookId: addWebhookId,
-    removeWebhookId: removeWebhookId
+    removeWebhookId: removeWebhookId,
+    updatePush: updatePush
   };
 });

@@ -68,8 +68,8 @@ function setRoutes() {
               email: gup.email,
               repos: repos,
               anonymous: false,
-              lastLoggedIn: new Date(),
-              createdAt: new Date(),
+              lastLoggedIn: Date.now(),
+              createdAt: Date.now(),
             }, ((e) => {
               if(e.status === 'success') {
                 log(e.message, 'green');
@@ -133,9 +133,9 @@ function addUser(user, token, callback) {
             name: item.name,
             webhookId: null,
             createdWebhookAt: null,
-            lastCommitedAt: null,
-            commitsCount: 0,
-            commitsLog: []
+            lastPushedAt: null,
+            totalPushesCount: 0,
+            pushesLog: []
           });
         }));
         callback(initialReposData);

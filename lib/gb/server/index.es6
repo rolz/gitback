@@ -77,7 +77,7 @@ function getContext(req) {
   return {
     gitlogin: req.flash('gitlogin'),
     host: req.get('host'),
-    date: new Date()
+    date: Date.now()
   };k
 }
 

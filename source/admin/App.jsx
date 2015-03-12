@@ -6,7 +6,7 @@ var UserActions = require('../actions/UserActions.jsx');
 
 var Repo = React.createClass({
   render() {
-    var {name, commits, webhookId} = this.props.model,
+    var {name, webhookId, totalPushesCount, pushesLog} = this.props.model,
       login = this.props.login,
       buttonClass = (() => {
         switch(webhookId) {
@@ -20,6 +20,11 @@ var Repo = React.createClass({
         <span className="repoInfo">{name}: {webhookId} </span>
         <button className="remove" onClick={UserActions.removeWebhook.bind(null, login, name, webhookId)}>remove webhook</button>
         <button className="add" onClick={UserActions.addWebhook.bind(null, login, name)}>add webhook</button>
+        <span> total: {totalPushesCount}
+        {_.map(pushesLog, ((item, index) => {
+          return <span key={item+index}>&nbsp;[{item.time}: {item.pushesCount}]</span>
+        }))}
+        </span>
       </div>
     );
   }

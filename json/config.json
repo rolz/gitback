@@ -3,7 +3,7 @@
     "port": 5000,
     "livereloadPort": 35729,
     "webpackServerPort": 8090,
-    "staticDir": ["/public", "/dist"]
+    "staticDir": ["/source", "/dist"]
   },
   "github": {
     "oauthUrl": "https://github.com/login/oauth",

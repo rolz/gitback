@@ -6,8 +6,8 @@ var UserActions = require('../actions/UserActions.jsx');
 
 var Repo = React.createClass({
   render() {
-    var {name, webhookId, totalPushesCount, pushesLog} = this.props.model,
-      login = this.props.login,
+    var {name, webhookId, contribLog} = this.props.model,
+      username = this.props.username,
       buttonClass = (() => {
         switch(webhookId) {
           case null: case undefined: return '';
@@ -18,11 +18,12 @@ var Repo = React.createClass({
     return (
       <div className={`repo ${buttonClass}`}>
         <span className="repoInfo">{name}: {webhookId} </span>
-        <button className="remove" onClick={UserActions.removeWebhook.bind(null, login, name, webhookId)}>remove webhook</button>
-        <button className="add" onClick={UserActions.addWebhook.bind(null, login, name)}>add webhook</button>
-        <span> total: {totalPushesCount}
-        {_.map(pushesLog, ((item, index) => {
-          return <span key={item+index}>&nbsp;[{item.time}: {item.pushesCount}]</span>
+        <button className="remove" onClick={UserActions.removeWebhook.bind(null, username, name, webhookId)}>remove webhook</button>
+        <button className="add" onClick={UserActions.addWebhook.bind(null, username, name)}>add webhook</button>
+        <span>
+        {_.map(contribLog.slice(0,3), ((item, index) => {
+          var time = new Date(item.createdAt);
+          return <span key={item+index}>&nbsp;[{time.getMonth()+1}/{time.getDate()}: {item.commits.length}]</span>
         }))}
         </span>
       </div>
@@ -32,20 +33,20 @@ var Repo = React.createClass({
 
 var User = React.createClass({
   render() {
-    var {_id, avatarUrl, email, login, repos} = this.props.model;
+    var {_id, avatarUrl, email, username, repos} = this.props.model;
     return (
-      <section className={'clearfix' + (login === this.props.user.login? ' user' : '')}>
+      <section className={'clearfix' + (username === this.props.user.username? ' user' : '')}>
         <div className="icon">
           <img src={avatarUrl} />
         </div>
         <div className="about">
-          <h2>{login}</h2>
+          <h2>{username}</h2>
           <p>{email}</p>
-          <button onClick={UserActions.removeUser.bind(null, login)}>remove this user</button>
+          <button onClick={UserActions.removeUser.bind(null, username)}>remove this user</button>
         </div>
         <div className="repos">
         {_.map(repos, ((repo, index) => {
-          return <Repo key={`repo${index}`} model={repo} login={login} />
+          return <Repo key={`repo${index}`} model={repo} username={username} />
         }))}
         </div>
       </section>

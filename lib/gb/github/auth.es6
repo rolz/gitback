@@ -57,30 +57,30 @@ function setRoutes() {
         (err, resp, body) => {
           // gup represents Github User Profile
           var gup = JSON.parse(body);
-          var userId = gup.login;
+          var username = gup.login;
 
-          addUser(userId, token, (repos) => {
+          addUser(username, token, (repos) => {
             // console.log(repos);
             db.user.add({
               tokenId: token,
-              login: userId,
+              username: username,
               avatarUrl: gup.avatar_url,
               email: gup.email,
               repos: repos,
-              anonymous: false,
+              hidden: false,
               lastLoggedIn: Date.now(),
               createdAt: Date.now(),
             }, ((e) => {
               if(e.status === 'success') {
                 log(e.message, 'green');
                 /* Add webhooks */
-                addWebhooks(token, userId, _.cloneDeep(repos));
+                addWebhooks(token, username, _.cloneDeep(repos));
               } else {
                 // User already exists.
                 log(e.message, 'red');
               }
               /* Redirect to home */
-              req.flash('gitlogin', userId);
+              req.flash('gitlogin', username);
               res.redirect('/');
             }));
           });
@@ -133,9 +133,9 @@ function addUser(user, token, callback) {
             name: item.name,
             webhookId: null,
             createdWebhookAt: null,
-            lastPushedAt: null,
-            totalPushesCount: 0,
-            pushesLog: []
+            lastContributedAt: null,
+            totalCommitCount: 0,
+            contribLog: []
           });
         }));
         callback(initialReposData);

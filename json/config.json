@@ -10,7 +10,7 @@
     "apiUrl": "https://api.github.com",
     "clientId": "ea2e2c3418455a6b52cf",
     "clientSecret": "6152c9320a9c460846e89c80360c1769116318fd",
-    "webhookUrl": "http://example.com/webhoook"
+    "webhookUrl": "http://example.com"
   },
   "mongodb": {
     "localMongoURL": "mongodb://root:9MDvzZv7UU@ds049661.mongolab.com:49661/gitback"

@@ -10,12 +10,12 @@ var _ = require('lodash-node'),
   options = config.mongodb,
   util = require ('../util'),
   log = util.log('mongodb', 'GB'),
-  app, user;
+  app, user, contrib, commit;
 
 function setRoutes() {
   app.get('/users/:id', function (req, res, next) {
-    var userId = req.params.id;
-    user.findOne(userId, ((e) => {
+    var username = req.params.id;
+    user.findOne(username, ((e) => {
       if(e.status === 'success') {
         if(e.result) {
           res.json({
@@ -33,7 +33,7 @@ function setRoutes() {
   });
 
   app.get('/users', function (req, res, next) {
-    var userId = req.params.id;
+    var username = req.params.id;
     user.findAll(((e) => {
       if(e.status === 'success') {
         if(e.result) {
@@ -70,7 +70,11 @@ exports.connect = ((expressApp, cb) => {
     } else {
       log(`succeeded connected to: ${uristring}`, 'green');
       user = require('./user.es6')(mongoose);
+      contrib = require('./contrib.es6')(mongoose);
+      commit = require('./commit.es6')(mongoose);
       exports.user = user;
+      exports.contrib = contrib;
+      exports.commit = commit;
       setRoutes();
       // user.removeAll();
       if(cb) {

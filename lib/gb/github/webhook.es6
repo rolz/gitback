@@ -10,7 +10,7 @@ var _ = require('lodash-node'),
   db = require ('../mongodb/index.es6'),
   config = require('../../../json/config'),
   options = config.github,
-  webhookUrl = process.env.WEBHOOKURL || options.webhookUrl,
+  webhookUrl = (process.env.LOCAL_URL || options.webhookUrl) + '/webhook',
   apiUrl = options.apiUrl,
   util = require ('../util'),
   log = util.log('github.webhook', 'GB'),
@@ -30,7 +30,7 @@ function setRoutes() {
     var dat = req.body;
     log('data coming from webhook : ' + JSON.stringify(dat), 'yellow');
     if(dat.pusher) {
-      db.user.updatePush(dat);
+      db.contrib.add(dat);
     }
     res.end('.');
   });
@@ -50,6 +50,7 @@ var hook = {
     return json;
   },
   add (token, user, repo, callback) {
+    log(`${apiUrl}/repos/${user}/${repo}/hooks`);
     request.post(`${apiUrl}/repos/${user}/${repo}/hooks`, this.webhookOptions(token), (err, data) => {
       log(`user: ${user}`, 'blue');
       log(`repo: ${repo}`, 'blue');

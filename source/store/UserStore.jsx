@@ -15,31 +15,31 @@ var UserStore = Reflux.createStore({
   },
 
   /* Set */
-  onSetAnonymous(userId, flag) {
-    // logger.debug('setAnonymous', userId, flag);
-    socket.emit('setAnonymous', userId, flag);
+  onSetAnonymous(username, flag) {
+    // logger.debug('setAnonymous', username, flag);
+    socket.emit('setAnonymous', username, flag);
   },
 
   /* Add */
-  onAddWebhook(userId, repoName) {
+  onAddWebhook(username, repoName) {
     // logger.debug('addWebhook');
-    socket.emit('addWebhook', userId, repoName);
+    socket.emit('addWebhook', username, repoName);
   },
 
   /* Remove */
-  onRemoveWebhook(userId, repoName, webhookId) {
-    // logger.debug(userId, repoName, webhookId);
-    socket.emit('removeWebhook', userId, repoName, webhookId);
+  onRemoveWebhook(username, repoName, webhookId) {
+    logger.debug(username, repoName, webhookId);
+    socket.emit('removeWebhook', username, repoName, webhookId);
   },
-  onRemoveUser(userId) {
-    // logger.debug('onRemoveUser', userId);
-    socket.emit('removeUser', userId);
+  onRemoveUser(username) {
+    // logger.debug('onRemoveUser', username);
+    socket.emit('removeUser', username);
   },
 
   /* Common */
-  refreshUser(userId) {
+  refreshUser(username) {
     // logger.debug('refreshUser');
-    socket.emit('findUser', userId);
+    socket.emit('findUser', username);
   },
   updateUser(user){
     // logger.debug('updateUser', user);
@@ -47,7 +47,7 @@ var UserStore = Reflux.createStore({
     this.trigger(user);
   },
   getInitialState() {
-    this.user = GB.user || _.find(GB.users, ((user) => {return user.login === GB.login})) || {};
+    this.user = GB.user || _.find(GB.users, ((user) => {return user.username === GB.username})) || {};
     return this.user;
   }
 });

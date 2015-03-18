@@ -124,7 +124,8 @@ function setRoute() {
     obj = {
       version: require('../../../package').version,
       options: options,
-      development: !!(process.env.NODE_ENV === 'development')
+      development: !!(process.env.NODE_ENV === 'development'),
+      ipaddress: process.env.LOCAL_IPADDRESS || 'http://localhost'
     };
   app.get('/', noLocalhost, ((req, res) => {
     res.render('home', _.extend(obj, getContext(req)));

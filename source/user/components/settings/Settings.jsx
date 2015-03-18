@@ -7,22 +7,22 @@ var util = require('../../../lib/util.jsx'),
 Settings = React.createClass({
   mixins: [Reflux.connect(require('../../../store/UserStore.jsx'), 'user')],
   setAnonymous(flag) {
-    var {login, anonymous} = this.state.user;
-    if(flag === 'private' && anonymous !== true) {
-      UserActions.setAnonymous(login, true);
-    } else if(flag === 'public' && anonymous === true) {
-      UserActions.setAnonymous(login, false);
+    var {username, hidden} = this.state.user;
+    if(flag === 'private' && hidden !== true) {
+      UserActions.setAnonymous(username, true);
+    } else if(flag === 'public' && hidden === true) {
+      UserActions.setAnonymous(username, false);
     }
   },
   render() {
     var self = this,
-      {email, login, anonymous} = this.state.user,
+      {email, username, hidden} = this.state.user,
       {name, state, context} = this.props.params,
       {title, items} = context,
       getItem = ((item) => {
         if(item.id === 'accountType') {
           return (
-            <span className={`types ${anonymous? 'anonymous' : ''}`}>
+            <span className={`types ${hidden? 'hidden' : ''}`}>
             {_.map(item.types, ((type, index) => {
               return (
                 <span
@@ -53,7 +53,7 @@ Settings = React.createClass({
     return (
       <main className={name}>
         <h1>{title}</h1>
-        <h2>{login}</h2>
+        <h2>{username}</h2>
         {_.map(items, ((item, index) => {
           return (
             <section className={item.id} key={`settingItem${index}`}>

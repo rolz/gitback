@@ -1,6 +1,6 @@
 'use strict';
 
-/*
+/**
  * We might switch web framework from express to koa.
  * http://koajs.com/
  */

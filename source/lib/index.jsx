@@ -43,7 +43,7 @@ logger.info('gitlogin:', GB.gitlogin);
 if(pathname === ADMIN_PATH) {
   // Ignore auth in admin page
   logger.info('admin app');
-  GB.login = coockieValue;
+  GB.username = coockieValue;
   init('admin');
 } else {
   // If user info is updated, go through.

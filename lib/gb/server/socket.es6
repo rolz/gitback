@@ -33,39 +33,39 @@ function parse_cookies(_cookies) {
 function setSocket() {
   io.on('connection', ((socket) => {
     log(`a user connected: ${socket.id}`, 'blue');
-    socket.on('setAnonymous', ((userId, flag) => {
-      log(`setAnonymous: ${userId, flag}`, 'yellow');
-      db.user.update(userId, {anonymous: flag}, ((e) => {
+    socket.on('setAnonymous', ((username, flag) => {
+      log(`setAnonymous: ${username, flag}`, 'yellow');
+      db.user.update(username, {hidden: flag}, ((e) => {
         log(e.result);
         io.emit('onSetAnonymous', e.result);
       }));
     }));
-    socket.on('addWebhook', ((userId, repoName) => {
-      log(`addWebhook: ${userId, repoName}`, 'yellow');
-      db.user.findToken(userId, ((e) => {
+    socket.on('addWebhook', ((username, repoName) => {
+      log(`addWebhook: ${username, repoName}`, 'yellow');
+      db.user.findToken(username, ((e) => {
         var token = e.result;
-        webhook.hook.add(token, userId, repoName, ((e) => {
-          db.user.findOne(userId, ((e) => {
+        webhook.hook.add(token, username, repoName, ((e) => {
+          db.user.findOne(username, ((e) => {
             io.emit('onAddWebhook', e.result);
           }));
         }));
       }));
     }));
-    socket.on('removeWebhook', ((userId, repoName, webhookId) => {
-      log(`removeWebhook: ${userId, repoName, webhookId}`, 'yellow');
-      db.user.findToken(userId, ((e) => {
+    socket.on('removeWebhook', ((username, repoName, webhookId) => {
+      log(`removeWebhook: ${username, repoName, webhookId}`, 'yellow');
+      db.user.findToken(username, ((e) => {
         var token = e.result;
-        webhook.hook.remove(token, userId, repoName, webhookId, ((e) => {
-          db.user.findOne(userId, ((e) => {
+        webhook.hook.remove(token, username, repoName, webhookId, ((e) => {
+          db.user.findOne(username, ((e) => {
             io.emit('onRemoveWebhook', e.result);
           }));
         }));
       }));
     }));
-    socket.on('removeUser', ((userId) => {
-      log(`removeUser: ${userId}`);
-      db.user.remove(userId, ((e) => {
-        io.emit('onRemoveUser', userId);
+    socket.on('removeUser', ((username) => {
+      log(`removeUser: ${username}`);
+      db.user.remove(username, ((e) => {
+        io.emit('onRemoveUser', username);
       }));
     }));
     socket.on('removeAllUsers', (() => {

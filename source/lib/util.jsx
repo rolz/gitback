@@ -23,8 +23,8 @@ module.exports = {
     // }
     Logger.setLevel(Logger.DEBUG);
   },
-  getUserData(userId, cb) {
-    request.get(`/users/${userId}`, ((err, res) => {
+  getUserData(username, cb) {
+    request.get(`/users/${username}`, ((err, res) => {
       if (err) throw err;
       if (cb) cb(JSON.parse(res.text));
     }));

@@ -21,8 +21,8 @@
     <script type="text/javascript">var st = "{{date}}";</script>
     {{#if gitlogin}}<script type="text/javascript">var GB = {gitlogin: "{{gitlogin}}"};</script>{{/if}}
     {{#if development}}
-    <script src="http://localhost:{{options.webpackServerPort}}/webpack-dev-server.js"></script>
-    <script src="http://localhost:{{options.webpackServerPort}}/dist/lib.js"></script>
+    <script src="{{ipaddress}}:{{options.webpackServerPort}}/webpack-dev-server.js"></script>
+    <script src="{{ipaddress}}:{{options.webpackServerPort}}/dist/lib.js"></script>
     {{else}}
     <script src="/lib.js"></script>
     {{/if}}

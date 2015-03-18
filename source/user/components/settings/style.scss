@@ -4,7 +4,7 @@ main.settings {
   }
   .accountType {
     .types {
-      &.anonymous {
+      &.hidden {
         .public {
           cursor: pointer;
           background: gray;
@@ -12,7 +12,7 @@ main.settings {
         .private {
         }
       }
-      &:not(.anonymous) {
+      &:not(.hidden) {
         .public {
         }
         .private {

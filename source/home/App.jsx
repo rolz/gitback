@@ -1,5 +1,41 @@
 'use strict'
 
+var USERS = [
+  {
+    id: 672890,
+    name: "Abid Din",
+    user: "craftedpixelz",
+    repo: {
+      name: "craftedpixelz/shibui",
+      url: "http://github.com/craftedpixelz/shibui"
+    },
+    donation: 0.06,
+    lastCommit: '9s'
+  },
+  {
+    id: 1561533,
+    name: "Zac Rolland",
+    user: "rolz",
+    repo: {
+      name: "rolz/BattleHackLA",
+      url: "http://github.com/rolz/BattleHackLA"
+    },
+    donation: 0.03,
+    lastCommit: '30s'
+  },
+  {
+    id: 588874,
+    name: "Mayo Tobita",
+    user: "mayognaise",
+    repo: {
+      name: "mayognaise/whats-svg",
+      url: "http://github.com/mayognaise/whats-svg"
+    },
+    donation: 0.22,
+    lastCommit: '53s'
+  }
+];
+
 var Intro = React.createClass({
   render() {
     return (
@@ -13,38 +49,44 @@ var Intro = React.createClass({
   }
 });
 
-var Feed = React.createClass({
+var LiveFeed = React.createClass({
   render() {
+    var rows = [];
+
+    this.props.users.forEach(function(user) {
+      rows.push(<LiveFeedItem
+        user={user}
+        id={user.id}
+        name={user.name}
+        repoName={user.repo.name}
+        repoUrl={user.repo.url}
+        donation={user.donation}
+        commiTime={user.lastCommit} />);
+    }.bind(this));
+
     return (
       <section className="feed">
         <ul>
-          <li className="user">
-            <img className="user-img" src="https://avatars2.githubusercontent.com/u/1561533?v=3&s=460" />
-            <div className="user-info">
-              <span className="user-contribution">Zac gave $0.4</span>
-              <span className="user-repo"><a href="#">rolz/gitback</a></span>
-            </div>
-            <span className="time-elapsed">6s ago</span>
-          </li>
-          <li className="user">
-            <img className="user-img" src="https://avatars3.githubusercontent.com/u/672890?v=3&s=460" />
-            <div className="user-info">
-              <span className="user-contribution">craftedpixelz gave $0.6</span>
-              <span className="user-repo"><a href="#">craftedpixelz/website</a></span>
-            </div>
-            <span className="time-elapsed">20s ago</span>
-          </li>
-          <li className="user">
-            <img className="user-img" src="https://avatars3.githubusercontent.com/u/588874?v=3&s=460" />
-            <div className="user-info">
-              <span className="user-contribution">mayognaise gave $0.10</span>
-              <span className="user-repo"><a href="#">mayognaise/ES6</a></span>
-            </div>
-            <span className="time-elapsed">52s ago</span>
-          </li>
+          {rows}
         </ul>
       </section>
     );
+  }
+});
+
+var LiveFeedItem = React.createClass({
+  render() {
+    var avatarUrl = "https://avatars2.githubusercontent.com/u/" + this.props.user.id;
+    return (
+      <li className="user">
+        <img className="user-img" src={avatarUrl} />
+        <div className="user-info">
+          <p className="user-contribution">{this.props.user.name} gave ${this.props.user.donation}</p>
+          <p className="user-repo"><a href={this.props.user.repo.url}>{this.props.user.repo.name}</a></p>
+        </div>
+        <p className="time-elapsed">{this.props.user.lastCommit} ago</p>
+      </li>
+    )
   }
 });
 
@@ -71,7 +113,7 @@ var App = React.createClass({
         <div className="overlay">
           <div className="content">
             <Intro/>
-            <Feed/>
+            <LiveFeed users={USERS} />
             <Login/>
             <Footer/>
           </div>

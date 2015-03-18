@@ -126,15 +126,16 @@
       float: left;
       width: 65%;
 
-       span {
+       p {
          display: block;
          font-size: 14px;
          width: 100%;
          height: 50%;
          text-align: left;
-         padding-left: 6%;
+         padding: 0 0 0 6%;
          white-space: nowrap;
          text-overflow: ellipsis;
+         color: #fff;
          overflow: hidden;
        }
 
@@ -148,6 +149,7 @@
     .time-elapsed {
       float: left;
       width: 20%;
+      color: #fff;
       font-size: 11px;
       padding-top: 15px;
     }

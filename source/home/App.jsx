@@ -40,15 +40,15 @@ var LiveFeed = React.createClass({
 
 var LiveFeedItem = React.createClass({
   render() {
-    var avatarUrl = this.props.user.avatarUrl;
+    var {username, repo, avatarUrl, createdAt, commits} = this.props.user;
     return (
       <li className="user">
         <img className="user-img" src={avatarUrl} />
         <div className="user-info">
-          <p className="user-contribution">{this.props.user.username} gave ${this.props.user.donation}</p>
-          <p className="user-repo"><a href={this.props.user.repo.url}>{this.props.user.repo.name}</a></p>
+          <p className="user-contribution">{username} gave ${commits.length * .01}</p>
+          <p className="user-repo"><a href={`http://github.com/${username}/${repo}`}>{`${username}/${repo}`}</a></p>
         </div>
-        <p className="time-elapsed">{this.props.user.lastCommit} ago</p>
+        <p className="time-elapsed">{(new Date(createdAt).toString())}</p>
       </li>
     )
   }

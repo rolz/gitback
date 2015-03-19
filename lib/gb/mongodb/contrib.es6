@@ -21,6 +21,7 @@ var _ = require('lodash-node'),
 function setupSchema() {
   PContrib = mongoose.model('PowerContribs', new mongoose.Schema({
     username: String,
+    avatarUrl: String,
     repo: String,
     commits: Array,
     raw: mongoose.Schema.Types.Mixed,
@@ -66,24 +67,24 @@ function add(dat, cb) {
         if(e.status === 'success' && e.logs.length > 0) {
           /* Add contrib model */
           var modelData = {
-              username: repo.owner.name,
-              repo: repo.name,
-              commits: e.logs,
-              raw: dat,
-              createdAt: Date.now()
-            },
-            model = new PContrib (modelData);
-          model.save((err) => {
-            if(cb) {cb({
-              status: (err? 'error': 'success'),
-              message: `contrib added successfully.`
-            });}
-            db.user.updateContrib(modelData, ((e) => {
-              log(e.status, 'blue');
-              modelData.avatarUrl = e.result.avatarUrl;
+            username: repo.owner.name,
+            repo: repo.name,
+            commits: e.logs,
+            raw: dat,
+            createdAt: Date.now()
+          };
+          db.user.updateContrib(modelData, ((e) => {
+            log(e.status, 'blue');
+            modelData.avatarUrl = e.result.avatarUrl;
+            var model = new PContrib(modelData);
+            model.save((err) => {
+              if(cb) {cb({
+                status: (err? 'error': 'success'),
+                message: `contrib added successfully.`
+              });}
               socket.emit('onContributed', modelData);
-            }));
-          });
+            });
+          }));
         } else {
           if(cb) {cb({
             status: 'error',
@@ -116,6 +117,16 @@ function find(dat, cb) {
   });
 }
 
+function findRecentContributions(cb) {
+  return PContrib.find({}, {raw: false}).sort('-created').exec(function(err, results){
+    if(cb) {cb({
+      status: (err? 'error': 'success'),
+      message: err || '',
+      results: results.slice(0,3)
+    });}
+  });
+}
+
 function removeAll(cb) {
   PContrib.remove({}, (err) => {
     if(cb) {cb({
@@ -133,19 +144,19 @@ function test() {
   // } else {
   //   setTimeout(test, 1000);
   // }
-  find({username: 'mayognaise', repo: 'hello'}, ((e) => {
-    log(e.results);
-    socket.emit('hello', 'a');
+  find({}, ((e) => {
+    log(e.results.slice(0,3));
   }));
 }
 
 module.exports = ((mongooseDB) => {
   mongoose = mongooseDB;
   setupSchema();
-  // test();
+  test();
   // removeAll((e) => {log('removed')});
   return {
     add: add,
-    find: find
+    find: find,
+    findRecentContributions: findRecentContributions
   };
 });

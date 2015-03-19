@@ -51,8 +51,13 @@ socket.on('onFindAllUsers', ((e) => {
 
 /* LiveFeedActions */
 socket.on('onContributed', ((e) => {
-  logger.debug('onContributed', e);
-  LiveFeedActions.update(e);
+  // logger.debug('onContributed', e);
+  LiveFeedActions.updateUser(e);
+}));
+
+socket.on('onFindRecentContributions', ((e) => {
+  // logger.debug('onFindRecentContributions', e);
+  LiveFeedActions.updateUsers(e.results);
 }));
 
 

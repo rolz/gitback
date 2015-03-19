@@ -79,6 +79,11 @@ function setSocket() {
         io.emit('onFindAllUsers', e);
       });
     }));
+    socket.on('findRecentContributions', (() => {
+      db.contrib.findRecentContributions((e) => {
+        io.emit('onFindRecentContributions', e);
+      });
+    }));
     socket.on('disconnect', (() => {
       log(`user disconnected: ${socket.id}`, 'red');
     }));

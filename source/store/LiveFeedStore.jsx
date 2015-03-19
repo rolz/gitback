@@ -1,13 +1,28 @@
 'use strict';
 
+/**
+ * Data from websocket
+ *
+  [{
+      "_id": "5508d0df17b28fa5424ee6c4",
+      "avatarUrl": "http://www.google.com",
+      "username": "mayognaise",
+      "repo": "hello",
+      "createdAt": 1426641119390,
+      "commits": ["cf3cda596bdf532f55b2c6191f", "5b2c6191f9fcc39a69babbb"],
+      "__v": 0
+  }]
+ */
+
 var util = require('../lib/util.jsx'),
-  logger = Logger.get('LiveFeedStore');
+  logger = Logger.get('LiveFeedStore'),
+  socket;
 
 var USERS = [
   {
-    id: 672890,
+    username: "craftedpixelz",
     name: "Abid Din",
-    user: "craftedpixelz",
+    avatarUrl: "https://avatars2.githubusercontent.com/u/672890",
     repo: {
       name: "craftedpixelz/shibui",
       url: "http://github.com/craftedpixelz/shibui"
@@ -16,9 +31,9 @@ var USERS = [
     lastCommit: '9s'
   },
   {
-    id: 1561533,
+    username: "rolz",
     name: "Zac Rolland",
-    user: "rolz",
+    avatarUrl: "https://avatars2.githubusercontent.com/u/1561533",
     repo: {
       name: "rolz/BattleHackLA",
       url: "http://github.com/rolz/BattleHackLA"
@@ -27,9 +42,9 @@ var USERS = [
     lastCommit: '30s'
   },
   {
-    id: 588874,
+    username: "mayognaise",
     name: "Mayo Tobita",
-    user: "mayognaise",
+    avatarUrl: "https://avatars2.githubusercontent.com/u/588874",
     repo: {
       name: "mayognaise/whats-svg",
       url: "http://github.com/mayognaise/whats-svg"
@@ -42,11 +57,25 @@ var USERS = [
 var LiveFeedStore = Reflux.createStore({
   listenables: [require('../actions/LiveFeedActions.jsx')],
 
+  init() {
+    setTimeout(() => {
+      socket = require('../lib/socket.jsx')();
+    });
+  },
+
   /* Common */
   update(user) {
     logger.debug('update', user);
-    this.users.unshift(user);
-    // logger.debug(this.users);
+    this.users.unshift({
+      username: user.username,
+      avatarUrl: user.avatarUrl,
+      repo: {
+        name: `${user.username}/${user.repo}`,
+        url: `http://github.com/${user.username}/${user.repo}`
+      },
+      donation: 0.01 * user.commits.length,
+      lastCommit: (new Date(1426641119390)).toString()
+    });
     this.trigger(this.users);
   },
   getInitialState() {

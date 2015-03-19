@@ -40,12 +40,12 @@ var LiveFeed = React.createClass({
 
 var LiveFeedItem = React.createClass({
   render() {
-    var avatarUrl = "https://avatars2.githubusercontent.com/u/" + this.props.user.id;
+    var avatarUrl = this.props.user.avatarUrl;
     return (
       <li className="user">
         <img className="user-img" src={avatarUrl} />
         <div className="user-info">
-          <p className="user-contribution">{this.props.user.name} gave ${this.props.user.donation}</p>
+          <p className="user-contribution">{this.props.user.username} gave ${this.props.user.donation}</p>
           <p className="user-repo"><a href={this.props.user.repo.url}>{this.props.user.repo.name}</a></p>
         </div>
         <p className="time-elapsed">{this.props.user.lastCommit} ago</p>

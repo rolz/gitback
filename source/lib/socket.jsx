@@ -52,7 +52,7 @@ socket.on('onFindAllUsers', ((e) => {
 /* LiveFeedActions */
 socket.on('onContributed', ((e) => {
   logger.debug('onContributed', e);
-  LiveFeedActions.update(e.result);
+  LiveFeedActions.update(e);
 }));
 
 

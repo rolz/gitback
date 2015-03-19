@@ -80,7 +80,8 @@ function add(dat, cb) {
             });}
             db.user.updateContrib(modelData, ((e) => {
               log(e.status, 'blue');
-              socket.emit('onContributed', e);
+              modelData.avatarUrl = e.result.avatarUrl;
+              socket.emit('onContributed', modelData);
             }));
           });
         } else {

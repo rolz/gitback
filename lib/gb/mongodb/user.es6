@@ -276,7 +276,8 @@ function updateContrib(model, cb) {
       updateUser(username, dat, ((e) => {
         // log('updated last push data!' + JSON.stringify(e), 'green');
         if(cb) cb({
-          status: e.error? 'error': 'success'
+          status: e.error? 'error': 'success',
+          result: dat
         });
       }));
     }

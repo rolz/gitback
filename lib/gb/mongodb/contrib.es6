@@ -15,6 +15,7 @@ var _ = require('lodash-node'),
   util = require ('../util'),
   log = util.log('mongodb.contrib', 'GB'),
   db = require ('./index.es6'),
+  socket = require ('../server/socket.es6'),
   PContrib, mongoose;
 
 function setupSchema() {
@@ -79,6 +80,7 @@ function add(dat, cb) {
             });}
             db.user.updateContrib(modelData, ((e) => {
               log(e.status, 'blue');
+              socket.emit('onContributed', e);
             }));
           });
         } else {
@@ -132,6 +134,7 @@ function test() {
   // }
   find({username: 'mayognaise', repo: 'hello'}, ((e) => {
     log(e.results);
+    socket.emit('hello', 'a');
   }));
 }
 

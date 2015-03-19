@@ -85,7 +85,9 @@ function setSocket() {
   }));
 }
 
-
+exports.emit = ((message, val) => {
+  io.emit(message, val);
+});
 
 
 exports.setup = ((http, app) => {

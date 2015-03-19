@@ -47,6 +47,13 @@ socket.on('onFindAllUsers', ((e) => {
   UsersActions.updateUsers(e.result);
 }));
 
+
+/* LivefeedActions */
+socket.on('onContributed', ((e) => {
+  logger.debug('onContributed', e);
+  // LivefeedActions.update(e.result);
+}));
+
+
+
 module.exports = (() => { return socket; });
-
-

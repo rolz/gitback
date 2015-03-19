@@ -4,6 +4,7 @@ var util = require('./util.jsx');
 var logger = Logger.get('Socket');
 var UserActions = require('../actions/UserActions.jsx');
 var UsersActions = require('../actions/UsersActions.jsx');
+var LiveFeedActions = require('../actions/LiveFeedActions.jsx');
 
 /*
  * SOCKET.IO
@@ -48,10 +49,10 @@ socket.on('onFindAllUsers', ((e) => {
 }));
 
 
-/* LivefeedActions */
+/* LiveFeedActions */
 socket.on('onContributed', ((e) => {
   logger.debug('onContributed', e);
-  // LivefeedActions.update(e.result);
+  LiveFeedActions.update(e.result);
 }));
 
 

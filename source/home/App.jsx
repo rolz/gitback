@@ -1,46 +1,10 @@
 'use strict'
 
-var USERS = [
-  {
-    id: 672890,
-    name: "Abid Din",
-    user: "craftedpixelz",
-    repo: {
-      name: "craftedpixelz/shibui",
-      url: "http://github.com/craftedpixelz/shibui"
-    },
-    donation: 0.06,
-    lastCommit: '9s'
-  },
-  {
-    id: 1561533,
-    name: "Zac Rolland",
-    user: "rolz",
-    repo: {
-      name: "rolz/BattleHackLA",
-      url: "http://github.com/rolz/BattleHackLA"
-    },
-    donation: 0.03,
-    lastCommit: '30s'
-  },
-  {
-    id: 588874,
-    name: "Mayo Tobita",
-    user: "mayognaise",
-    repo: {
-      name: "mayognaise/whats-svg",
-      url: "http://github.com/mayognaise/whats-svg"
-    },
-    donation: 0.22,
-    lastCommit: '53s'
-  }
-];
-
 var Intro = React.createClass({
   render() {
     return (
       <section className="intro">
-        <a href="/" className="logo">GitBack</a>
+        <a href="/" className="logo">Gitback</a>
         <section className="tagline">
           <p>Empowering <em>female developers</em> to code with every commit.</p>
         </section>
@@ -107,13 +71,16 @@ var Footer = React.createClass({
 });
 
 var App = React.createClass({
+  mixins: [
+    Reflux.connect(require('../store/LiveFeedStore.jsx'), 'users')
+  ],
   render() {
     return (
       <div className="container home">
         <div className="overlay">
           <div className="content">
             <Intro/>
-            <LiveFeed users={USERS} />
+            <LiveFeed users={this.state.users} />
             <Login/>
             <Footer/>
           </div>

@@ -81,7 +81,29 @@ function setSocket() {
     }));
     socket.on('findRecentContributions', (() => {
       db.contrib.findRecentContributions((e) => {
-        io.emit('onFindRecentContributions', e);
+        var arr = [],
+          check = ((list) => {
+            var user = list.shift();
+            db.user.findOne(user.username, ((e) => {
+              var result = e.result;
+              if(result.hidden !== true) {
+                user.avatarUrl = result.avatarUrl;
+                arr.push(user);
+                if(arr.length >= 3 || list.length === 0) {
+                  io.emit('onFindRecentContributions', {results: arr});
+                } else {
+                  check(list);
+                }
+              } else {
+                if(arr.length >= 3 || list.length === 0) {
+                  io.emit('onFindRecentContributions', {results: arr});
+                } else {
+                  check(list);
+                }
+              }
+            }));
+          });
+          check(e.results);
       });
     }));
     socket.on('disconnect', (() => {

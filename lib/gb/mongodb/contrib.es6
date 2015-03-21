@@ -21,7 +21,6 @@ var _ = require('lodash-node'),
 function setupSchema() {
   PContrib = mongoose.model('PowerContribs', new mongoose.Schema({
     username: String,
-    avatarUrl: String,
     repo: String,
     commits: Array,
     raw: mongoose.Schema.Types.Mixed,
@@ -74,15 +73,18 @@ function add(dat, cb) {
             createdAt: Date.now()
           };
           db.user.updateContrib(modelData, ((e) => {
-            log(e.status, 'blue');
-            modelData.avatarUrl = e.result.avatarUrl;
-            var model = new PContrib(modelData);
+            var userData = e.result,
+              model = new PContrib(modelData);
+            log(userData, 'yellow');
             model.save((err) => {
               if(cb) {cb({
                 status: (err? 'error': 'success'),
                 message: `contrib added successfully.`
               });}
-              socket.emit('onContributed', modelData);
+              if(userData.hidden !== 'true') {
+                modelData.avatarUrl = userData.avatarUrl;
+                socket.emit('onContributed', modelData);
+              }
             });
           }));
         } else {

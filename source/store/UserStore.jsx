@@ -14,23 +14,30 @@ var UserStore = Reflux.createStore({
     });
   },
 
-  /* Set */
+  /* Anonymous */
   onSetAnonymous(username, flag) {
     // logger.debug('setAnonymous', username, flag);
     socket.emit('setAnonymous', username, flag);
   },
 
-  /* Add */
+  /* Payments */
+  onAddPaymentMethod(username) {
+    logger.debug('addPayments');
+    socket.emit('addPaymentMethod', username);
+  },
+
+  /* Webhook */
   onAddWebhook(username, repoName) {
     // logger.debug('addWebhook');
     socket.emit('addWebhook', username, repoName);
   },
 
-  /* Remove */
   onRemoveWebhook(username, repoName, webhookId) {
     logger.debug(username, repoName, webhookId);
     socket.emit('removeWebhook', username, repoName, webhookId);
   },
+
+  /* User */
   onRemoveUser(username) {
     // logger.debug('onRemoveUser', username);
     socket.emit('removeUser', username);
@@ -50,6 +57,7 @@ var UserStore = Reflux.createStore({
     this.user = GB.user || _.find(GB.users, ((user) => {return user.username === GB.username})) || {};
     return this.user;
   }
+
 });
 
 module.exports = UserStore;

@@ -3,6 +3,7 @@
 var logger = Logger.get('App');
 
 var UserActions = require('../actions/UserActions.jsx');
+var PaymentsActions = require('../actions/PaymentsActions.jsx');
 
 var Repo = React.createClass({
   render() {
@@ -43,6 +44,8 @@ var User = React.createClass({
           <h2>{username}</h2>
           <p>{email}</p>
           <button onClick={UserActions.removeUser.bind(null, username)}>remove this user</button>
+          <br/>
+          <button onClick={PaymentsActions.updatePaymentMethod.bind(null, username)}>update payment method</button>
         </div>
         <div className="repos">
         {_.map(repos, ((repo, index) => {
@@ -54,8 +57,11 @@ var User = React.createClass({
   }
 });
 
+var PaymentMethod = require('../user/components/payments');
+
 var App = React.createClass({
   mixins: [
+    Reflux.connect(require('../store/PaymentsStore.jsx'), 'payments'),
     Reflux.connect(require('../store/UsersStore.jsx'), 'users'),
     Reflux.connect(require('../store/UserStore.jsx'), 'user')
   ],
@@ -71,6 +77,7 @@ var App = React.createClass({
           return <User key={`user${index}`} model={user} user={self.state.user} />
         }))}
         </main>
+        <PaymentMethod />
       </div>
     );
   }

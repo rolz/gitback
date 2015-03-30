@@ -18,13 +18,6 @@ var _ = require('lodash-node'),
 
 function setRoutes() {
 
-  app.get('/remove-webhook/:repo/:id', ((req, res) => {
-    // https://api.github.com/repos/rolz/board/hooks/4295073
-    hook.remove('6d2bc17d3256f5f9de8f164e16b2a09add6b7267', 'rolz', req.params.repo, req.params.id, (data) => {
-      log('webhook has been removed: ' + JSON.stringify(dat), 'yellow');
-    });
-  }));
-
   // receive user push messages
   app.post('/webhook', (req,res) => {
     var dat = req.body;

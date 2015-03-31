@@ -67,21 +67,91 @@ function setRoutes() {
           // e.g f28wm
 
           // ADD CUSTOMER PAYMENT DETAILS TO USER PROFILE
-          // save customer id/token
+            // save customer id/token
+            // day of billing cycle
           res.json(result);
+
+          //Add payment subscription to customer profile in braintree
+          addPaymentSubscription(result.customer.creditCards[0].token);
+
         }
       }
     });
   });
 
 
-  // CREATE A SUBSCRIPTON SERVICE THAT BILLS THE CUSTOMER EVERY MONTH
-    // update the subcription price monthly based on the user's current contib amount.
-    // send invoice to user.
-
-  // UPDATE PAYEMENT METHODS
+  // Todo: UPDATE USER PAYMENT METHOD
 
 }
+
+// CREATE A SUBSCRIPTON SERVICE THAT BILLS THE CUSTOMER EVERY MONTH
+function addPaymentSubscription(userCardToken) {
+
+  // set subscription cycle to in one month.
+  var today = new Date().getDate;
+  // Billing Day of Month must be between 1 and 28, or 31.
+  var dd;
+  switch(today) {
+    case 29:
+      dd = 28
+      break;
+    case 30:
+      dd = 28
+      break;
+    case 31:
+      dd = 28
+      break;
+    default:
+      dd = today - 1
+  }
+
+  // one time create subscription for user at 1 cent
+  gateway.subscription.create({
+    paymentMethodToken: userCardToken,
+    planId: "standardplan",
+    billingDayOfMonth: dd
+  }, function (err, result) {
+      if(err) {
+        log(err, 'red');
+        res.json({
+          status: 'error'
+        });
+      } else {
+        if(result.success) {
+          log('subscription plan has been created' + JSON.stringify(result), 'green');
+
+          // add this user is subscribed to user model
+          // add user payment date cycle to user model
+
+        } else {
+          log('not error but not success: ' + JSON.stringify(result), 'red');
+        }
+      }
+  });
+
+
+};
+
+// Todo : UPDATE THE SUBSCRIPTON PRICE MONTHLY BASED ON USER'S CURRENT CONTRIB AMOUNT
+// PAYMENT DATE CYCLE
+// RUN THIS FUNCTION AS A JOB ON THE SERVER (HOW?)
+// NOT IMPLEMENTED YET
+function updateDonationAmountForPaymentSubscription(user) {
+
+  gateway.subscription.update({
+    paymentMethodToken: userCardToken,
+    planId: "standardplan",
+    billingDayOfMonth: dd
+  }, function (err, result) {
+    if(result.success) {
+      log('subscription plan has been created', 'green')
+    }
+  });
+
+
+};
+
+// Todo: send invoice to user.
 
 exports.setup = ((expressApp) => {
   app = expressApp;

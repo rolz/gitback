@@ -68,7 +68,6 @@ function setRoutes() {
 
           // ADD CUSTOMER PAYMENT DETAILS TO USER PROFILE
             // save customer id/token
-            // day of billing cycle
           res.json(result);
 
           //Add payment subscription to customer profile in braintree
@@ -93,13 +92,9 @@ function addPaymentSubscription(userCardToken) {
   var dd;
   switch(today) {
     case 29:
-      dd = 28
-      break;
     case 30:
-      dd = 28
-      break;
     case 31:
-      dd = 28
+      dd = 28;
       break;
     default:
       dd = today - 1
@@ -120,7 +115,8 @@ function addPaymentSubscription(userCardToken) {
         if(result.success) {
           log('subscription plan has been created' + JSON.stringify(result), 'green');
 
-          // add this user is subscribed to user model
+          // add this user isSubscribed to user model
+          // add SubscriptionId to user model
           // add user payment date cycle to user model
 
         } else {
@@ -138,6 +134,9 @@ function addPaymentSubscription(userCardToken) {
 // NOT IMPLEMENTED YET
 function updateDonationAmountForPaymentSubscription(user) {
 
+
+  // if user contrib amount = 0, update price to $0.00. 
+
   gateway.subscription.update({
     paymentMethodToken: userCardToken,
     planId: "standardplan",
@@ -145,6 +144,8 @@ function updateDonationAmountForPaymentSubscription(user) {
   }, function (err, result) {
     if(result.success) {
       log('subscription plan has been created', 'green')
+
+      // update user SubscriptionId
     }
   });
 

@@ -33,10 +33,13 @@ var Repo = React.createClass({
 });
 
 var User = React.createClass({
+  mixins: [
+    Reflux.connect(require('../store/UserStore.jsx'), 'user')
+  ],
   render() {
     var {_id, avatarUrl, email, username, repos} = this.props.model;
     return (
-      <section className={'clearfix' + (username === this.props.user.username? ' user' : '')}>
+      <section className={'clearfix' + (username === this.state.user.username? ' user' : '')}>
         <div className="icon">
           <img src={avatarUrl} />
         </div>
@@ -62,8 +65,7 @@ var PaymentMethod = require('../user/components/payments');
 var App = React.createClass({
   mixins: [
     Reflux.connect(require('../store/PaymentsStore.jsx'), 'payments'),
-    Reflux.connect(require('../store/UsersStore.jsx'), 'users'),
-    Reflux.connect(require('../store/UserStore.jsx'), 'user')
+    Reflux.connect(require('../store/UsersStore.jsx'), 'users')
   ],
   render() {
     var self = this;
@@ -74,7 +76,7 @@ var App = React.createClass({
         </header>
         <main>
         {_.map(this.state.users, ((user, index) => {
-          return <User key={`user${index}`} model={user} user={self.state.user} />
+          return <User key={`user${index}`} model={user} />
         }))}
         </main>
         <PaymentMethod />

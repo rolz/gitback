@@ -53,7 +53,7 @@ function init() {
       name = state.path.split('/')[2];
     params.name = name || 'dashboard';
     params.state = state;
-    params.context = _.extend(context.common, context.user[name]);
+    params.context = _.extend(context.common, context.user[params.name]);
     React.render(<Handler params={params} />, document.getElementById('app'));
   });
   delete GB.init;

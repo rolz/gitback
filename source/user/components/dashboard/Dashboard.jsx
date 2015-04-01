@@ -6,13 +6,18 @@ var Dashboard = React.createClass({
     var self = this,
       {username, avatarUrl} = this.state.user,
       {name, state, context} = this.props.params,
-      {title} = context;
+      {title, greetings, subGreetings, introTitle, introSteps, addPaymentsButton} = context;
+    console.log(context);
+    console.log(title, greetings, subGreetings, introTitle, introSteps, addPaymentsButton);
     return (
       <main className={name}>
         <h1>{title}</h1>
         <h2>{username}</h2>
         <img src={avatarUrl} />
-        <p>Now we just need to connect your donation method. Than you can adjust your repos, see your ranking, and start changing the world.</p>
+
+        <div>{greetings[1]}</div>
+        <div>{subGreetings[1]}</div>
+
       </main>
     );
   }

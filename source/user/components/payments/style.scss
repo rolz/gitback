@@ -1,0 +1,10 @@
+div.paymentMethod {
+  background: yellow;
+  display: none;
+  input {
+    /* display: block; */
+  }
+  &.show {
+    display: block;
+  }
+}

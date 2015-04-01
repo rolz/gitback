@@ -32,5 +32,8 @@ gb.mongodb.connect(app, (function(e) {
 
     /* Setup Gitub */
     gb.github.setup(app);
+
+    /* Setup payments */
+    gb.payments.setup(app);
   }
 }));

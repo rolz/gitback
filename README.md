@@ -27,7 +27,7 @@ npm i gulp -g
 ```
 ./ngrok 5000
 ```
-* copy the ngrok url from the terminal i.e. http://3da9c26d.ngrok.com/
+* copy the ngrok url from the terminal i.e. http://3da9c26d.ngrok.com/ (use your created ngrok url)
 * [register new application in your github account](https://github.com/settings/applications)
 * add any app name
 * insert your homepage url: http://3da9c26d.ngrok.com/  
@@ -43,6 +43,17 @@ WEBHOOKURL=http://3da9c26d.ngrok.com/webhook
 
 * Your Done! Access at: your ngrok url i.e. http://3da9c26d.ngrok.com/
 * To check if working go to /login and check terminal for user logs.
+
+## Braintree Test Sandbox
+
+https://sandbox.braintreegateway.com/login
+username: gitback
+password: sheherher01
+
+## gitback.org/admin
+
+username: gitback
+password: sherherher01
 
 ## Deployment
 

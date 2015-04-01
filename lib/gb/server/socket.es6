@@ -6,6 +6,7 @@ var _ = require('lodash-node'),
   options = config.server,
   db = require ('../mongodb/index.es6'),
   webhook = require('../github/webhook.es6'),
+  payments = require('../payments/index.es6'),
   util = require ('../util'),
   log = util.log('socket', 'GB'),
   io;
@@ -31,6 +32,8 @@ function parse_cookies(_cookies) {
 }
 
 function setSocket() {
+
+  /* Disconnnect */
   io.on('connection', ((socket) => {
     log(`a user connected: ${socket.id}`, 'blue');
     socket.on('setAnonymous', ((username, flag) => {
@@ -40,6 +43,8 @@ function setSocket() {
         io.emit('onSetAnonymous', e.result);
       }));
     }));
+
+    /* Webhooks */
     socket.on('addWebhook', ((username, repoName) => {
       log(`addWebhook: ${username, repoName}`, 'yellow');
       db.user.findToken(username, ((e) => {
@@ -62,6 +67,8 @@ function setSocket() {
         }));
       }));
     }));
+
+    /* User */
     socket.on('removeUser', ((username) => {
       log(`removeUser: ${username}`);
       db.user.remove(username, ((e) => {
@@ -104,6 +111,8 @@ function setSocket() {
           check(e.results);
       });
     }));
+
+    /* Disconnnect */
     socket.on('disconnect', (() => {
       log(`user disconnected: ${socket.id}`, 'red');
     }));
@@ -123,4 +132,3 @@ exports.setup = ((http, app) => {
   // setConfigure();
   setSocket();
 });
-

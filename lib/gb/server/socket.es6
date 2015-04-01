@@ -83,23 +83,21 @@ function setSocket() {
       db.contrib.findRecentContributions((e) => {
         var arr = [],
           check = ((list) => {
+            var cb = (() => {
+              if(arr.length >= 3 || list.length === 0) {
+                io.emit('onFindRecentContributions', {results: arr});
+              } else {
+                check(list);
+              }
+            });
             var user = list.shift();
             db.user.findOne(user.username, ((e) => {
               var result = e.result;
-              if(result.hidden !== true) {
-                user.avatarUrl = result.avatarUrl;
-                arr.push(user);
-                if(arr.length >= 3 || list.length === 0) {
-                  io.emit('onFindRecentContributions', {results: arr});
-                } else {
-                  check(list);
-                }
+              if(result && result.hidden !== true) {
+                arr.push(_.extend(result, user));
+                cb();
               } else {
-                if(arr.length >= 3 || list.length === 0) {
-                  io.emit('onFindRecentContributions', {results: arr});
-                } else {
-                  check(list);
-                }
+                cb();
               }
             }));
           });

@@ -154,7 +154,7 @@ function test() {
 module.exports = ((mongooseDB) => {
   mongoose = mongooseDB;
   setupSchema();
-  test();
+  // test();
   // removeAll((e) => {log('removed')});
   return {
     add: add,

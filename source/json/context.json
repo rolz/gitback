@@ -11,8 +11,8 @@
       "title": "Dashboard",
       "greetings": ["Hey!", "Oh Hi Oh!"],
       "subGreetings": ["Let's get started.", "You have raised:"],
-      "introTitle": "Welcome to Gitback",
-      "introSteps": ["1.","2.","3."],
+      "onboardingTitle": "Welcome to Gitback",
+      "onboardingSteps": ["1.","2.","3."],
       "addPaymentsButton": "Add Payment Details"
     },
     "leaderboard": {

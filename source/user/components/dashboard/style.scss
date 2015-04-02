@@ -1,5 +1,62 @@
 main.dashboard {
-  img {
-    width: 100px;
+
+  button {
+    display: none;
   }
+
+  .user-profile {
+
+    .header {
+
+      .avatar-wrapper {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        overflow: hidden;
+        border-radius: 50%;
+        img {
+          position: absolute;
+          width: 50px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%,-50%);
+        }
+      }
+      .username {
+
+      }
+      .greetings {
+
+      }
+      .sub-greetings {
+
+      }
+      .total-contrib {
+
+      }
+
+    }
+
+    .repos {
+      .repo {
+        &.remove {
+          button.remove {
+            display: inline-block;
+          }
+        }
+        &.add {
+          button.add {
+            display: inline-block;
+          }
+        }
+      }
+    }
+
+  }
+
+
+
+
+
+
 }

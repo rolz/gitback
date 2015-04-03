@@ -3,7 +3,30 @@
 */
 
 // TYPOGRAPHY
-$bodyFont: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+@font-face {
+  font-family: Thirsty;
+  src: url('/assets/fonts/ThirstySoftRegular.otf') format("opentype");
+}
+
+@font-face {
+  font-family: Gotham Thin;
+  src: url('/assets/fonts/GothamThin.otf') format("opentype");
+}
+
+@font-face {
+  font-family: Gotham Light;
+  src: url('/assets/fonts/GothamLight.otf') format("opentype");
+}
+
+@font-face {
+  font-family: Source Code Pro Bold;
+  src: url('/assets/fonts/SourceCodePro-Bold.otf') format("opentype");
+}
+
+$GBFont: 'Thirsty', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$heroFont: 'Gotham Thin','Helvetica Neue', Helvetica, Arial, sans-serif;
+$bodyFont: 'Gotham Light','Helvetica Neue', Helvetica, Arial, sans-serif;
+$codeFont: 'Source Code Pro Bold','Helvetica Neue', Helvetica, Arial, sans-serif;
 
 // COLOURS
 $bgColor: rgba(255,255,255,1);

@@ -1,14 +1,10 @@
 main.dashboard {
 
-  button {
-    display: none;
-  }
-
-  .user-profile {
+  .userProfile {
 
     .header {
 
-      .avatar-wrapper {
+      .avatarWrapper {
         position: relative;
         width: 50px;
         height: 50px;
@@ -28,16 +24,19 @@ main.dashboard {
       .greetings {
 
       }
-      .sub-greetings {
+      .subGreetings {
 
       }
-      .total-contrib {
+      .totalContrib {
 
       }
 
     }
 
     .repos {
+      button {
+        display: none;
+      }
       .repo {
         &.remove {
           button.remove {

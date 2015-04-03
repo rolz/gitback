@@ -1,157 +1,43 @@
 @import "../style/variables";
 
-.home {
+main.home {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  text-align: center;
-  background: url(/img/bg-mobile.jpg) left center no-repeat;
-  background-size: cover;
 
-  .overlay {
-    float: left;
+  .hero {
     width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,.7);
-  }
+    height: 512px;
+    background: #8fe286; /* Old browsers */
+    /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjOGZlMjg2IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzhlZWFlOSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+    background: -moz-linear-gradient(-45deg, #8fe286 0%, #8eeae9 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,#8fe286), color-stop(100%,#8eeae9)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(-45deg, #8fe286 0%,#8eeae9 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(-45deg, #8fe286 0%,#8eeae9 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(-45deg, #8fe286 0%,#8eeae9 100%); /* IE10+ */
+    background: linear-gradient(135deg, #8fe286 0%,#8eeae9 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8fe286', endColorstr='#8eeae9',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
 
-  .content {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 100%;
-  }
-
-  .logo {
-    display: block;
-    font-size: 60px;
-    text-decoration: none;
-    color: #fff;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-
-  .tagline {
-    max-width: 300px;
-    margin: 0 auto;
-    text-align: center;
-    font-size: 30px;
-
-    p {
+    a {
       color: #fff;
-      padding: 0;
-    }
-
-    em {
-      font-style: normal;
-      color: $primaryAccent;
-    }
-  }
-
-  .login-btn {
-    display: block;
-    position: relative;
-    padding: 3% 10% 3% 23%;
-    margin: 0 auto;
-    font-size: 18px;
-    font-weight: normal;
-    line-height: 1.5;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;
-    border-radius: 4px;
-    background: #444;
-    color: #fff;
-    text-decoration: none;
-    max-width: 260px;
-    border: 2px solid rgba(255,255,255,0.3);
-
-    &:hover {
-      background: #333;
-    }
-
-    .icon {
-      position: absolute;
-      top: 0;
-      left: 0;
-      float: left;
-      width: 50px;
-      height: 100%;
-      border-right: 2px solid rgba(255,255,255,0.3);
-
-      &:before {
-        content: "";
-        display: block;
-        position: absolute;
-        top: 50%;
-        width: 100%;
-        height: 30px;
-        transform: translateY(-50%);
-        background: url(/img/github-logo.svg) no-repeat;
-        background-size: 100% 100%;
+      text-decoration: none;
+      &.logo {
+        margin-top: 20px;
+        padding-left: 20px;
+        font: 100% $GBFont;
+        font-size: 28px;
+      }
+      &.nav {
+        margin: 20px;
+      }
+      &.login {
+        float: right;
       }
     }
   }
 
-  .feed {
-    padding: 15px 0;
-    border-top: 2px solid #fff;
-    border-bottom: 2px solid #fff;
-    max-width: 80%;
-    margin: 20px auto 30px;
-    overflow: hidden;
-    color: #fff;
-
-    ul {
-      margin: 0;
-      padding: 0;
-    }
-
-    .user {
-      list-style: none;
-      overflow: hidden;
-      margin-bottom: 10px;
-
-      &:last-child {
-        margin-bottom: 0;
-      }
-    }
-
-    .user-img {
-      float: left;
-      width: 15%;
-    }
-
-    .user-info {
-      float: left;
-      width: 65%;
-
-       p {
-         display: block;
-         font-size: 14px;
-         width: 100%;
-         height: 50%;
-         text-align: left;
-         padding: 0 0 0 6%;
-         white-space: nowrap;
-         text-overflow: ellipsis;
-         color: #fff;
-         overflow: hidden;
-       }
-
-       a {
-         color: $primaryAccent;
-         text-decoration: none;
-         border-bottom: 1px solid $primaryAccent;
-       }
-    }
-
-    .time-elapsed {
-      float: left;
-      width: 20%;
-      color: #fff;
-      font-size: 11px;
-      padding-top: 15px;
-    }
+  .gradient {
+    filter: none;
   }
 }

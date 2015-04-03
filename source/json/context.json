@@ -5,6 +5,18 @@
   "admin": {
   },
   "home": {
+    "heroSection": {
+      "nav": ["Get Involved", "Our Mission"],
+      "login": "Login",
+      "tagline": "Empower girls every time you code.",
+      "signUp": "Sign up with",
+      "orLogin": "or Login"
+    },
+    "sectionTwo": {
+      "title": "Get Involved",
+      "textOne": "As developers we have some of the best jobs in the world, but less than 20% of us are women. Together we can narrow the gap between men and women in the tech industry. Gitback allows developers to donate while doing what they love.",
+      "textTwo": "Every time you push code to Github, you donate a small amount to teach computer science to girls from underserved communities. Together that's a lot of change."  
+    }
   },
   "user": {
     "dashboard": {
@@ -12,7 +24,13 @@
       "greetings": ["Hey!", "Oh Hi Oh!"],
       "subGreetings": ["Let's get started.", "You have raised:"],
       "onboardingTitle": "Welcome to Gitback",
-      "onboardingSteps": ["1.","2.","3."],
+      "onboardingSteps": [
+        "Everytime you contribute code to one of your public Github repos, you can donate 1 cent to help girls get into coding.",
+        "You made 311 contributions last year, that means you would have donated $3.11 over the same period.",
+        "We’ve went along and added all your public repos. You can easily add or remove them.",
+        "You can also set the amount you wold like to give per contribution, as well as a limit per month, in your settings.",
+        "Know your making a difference! Let’s do this!"
+      ],
       "addPaymentsButton": "Add Payment Details"
     },
     "leaderboard": {

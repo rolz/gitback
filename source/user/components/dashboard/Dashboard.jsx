@@ -4,21 +4,26 @@ var logger = Logger.get('App');
 
 // actions
 var UserActions = require('../../../actions/UserActions.jsx');
+var PaymentsActions = require('../../../actions/PaymentsActions.jsx');
 
 var UserOnboarding = React.createClass({
   render() {
 
-    var {onboardingTitle, onboardingSteps} = this.props.context;
+    var self =this,
+      {onboardingTitle, onboardingSteps, addPaymentsButton} = this.props.context,
+      username = this.props.username;
 
-    console.log(onboardingSteps);
+    console.log(addPaymentsButton);
     return (
-      <div className="onboarding-container">
-        <div className="onboarding-title">{onboardingTitle}</div>
-        <div className="onboarding-steps">
+      <div className="onboardingContainer">
+        <div className="onboardingTitle">{onboardingTitle}</div>
+        <div className="onboardingSteps">
         {_.map(onboardingSteps, ((step, index) => {
-          console.log(step);
+          var bullet =  (index + 1)+". ";
+          return <div key={`step${index}`}><span>{bullet}</span><span>{step}</span></div>
         }))}
         </div>
+        <button className="onboardingAddPayment" onClick={PaymentsActions.updatePaymentMethod.bind(null, username)}>{addPaymentsButton}</button>
       </div>
     )
   }
@@ -26,7 +31,8 @@ var UserOnboarding = React.createClass({
 
 var Repo = React.createClass({
   render() {
-    var {name, webhookId, contribLog} = this.props.model,
+    var self = this,
+      {name, webhookId, contribLog} = this.props.model,
       username = this.props.username,
       donated = "$"+contribLog.length/100,
       buttonClass = (() => {
@@ -51,22 +57,22 @@ var User = React.createClass({
   render() {
     var self = this,
       {username, avatarUrl, repos} = this.props.model,
-      hasPaymentMethod = true, //pull in data when new user model is done
+      hasAddedPaymentMethod = false, //pull in data when new user model is done
       {greetings, subGreetings} = this.props.context;
 
-      var onboardingContainer = hasPaymentMethod ? <UserOnboarding context={this.props.context} /> : null;
+      var onboardingContainer = hasAddedPaymentMethod ? null : <UserOnboarding username={username} context={this.props.context} />;
 
     return (
-      <section className="user-profile">
+      <section className="userProfile">
 
         <div className="header">
-          <div className="avatar-wrapper">
+          <div className="avatarWrapper">
             <img src={avatarUrl} />
           </div>
           <span className="username">{username}</span>
           <div className="greetings">{greetings[1]}</div>
-          <div className="sub-greetings">{subGreetings[1]}</div>
-          <div className="total-contrib">$0.00</div>
+          <div className="subGreetings">{subGreetings[1]}</div>
+          <div className="totalContrib">$0.00</div>
         </div>
 
         {onboardingContainer}

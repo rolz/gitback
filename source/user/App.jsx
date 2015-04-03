@@ -1,5 +1,6 @@
 'use strict'
 
+var PaymentMethod = require('../user/components/payments');
 var {RouteHandler, Link} = Router,
 
 App = React.createClass({
@@ -14,6 +15,7 @@ App = React.createClass({
           </ul>
         </header>
         <RouteHandler {...this.props}/>
+        <PaymentMethod />
       </div>
     );
   }

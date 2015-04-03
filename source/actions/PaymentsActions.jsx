@@ -10,5 +10,7 @@
  */
 
 module.exports = Reflux.createActions([
-  'updatePaymentMethod'
+  'updatePaymentMethod',
+  'hidePaymentMethod',
+  'showPaymentMethod'
 ]);

@@ -9,7 +9,6 @@ body {
   background: $bgColor;
   color: $textColor;
   font-family: $bodyFont;
-  font-weight: 200;
   margin: 0;
   padding: 0;
   width: 100%;
@@ -22,7 +21,6 @@ body {
 }
 
 h1, h2, h3, h4, h5 {
-  font-weight: 100;
 }
 
 h1, h2, h3, h4, h5, p {

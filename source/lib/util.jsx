@@ -34,5 +34,10 @@ module.exports = {
       if (err) throw err;
       if (cb) cb(JSON.parse(res.text));
     }));
+  },
+  logout() {
+    var HOME_PATH = '/', GB_COOCKIE_KEY = 'gitback';
+    Cookies.expire(GB_COOCKIE_KEY);
+    window.location.replace(HOME_PATH);
   }
 }

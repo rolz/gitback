@@ -1,8 +1,45 @@
+@import "../../../style/variables";
+
 div.paymentMethod {
-  background: yellow;
   display: none;
-  input {
-    /* display: block; */
+  background: rgba(0,255,255,.5);
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  .helloPaymentWrapper {
+    @include centering;
+    height: 100%;
+  }
+  .closeButton {
+    position: absolute;
+    right: 0;
+    padding: 20px;
+    cursor: pointer;
+    &:before {
+      content: "X";
+      font-size: 1.4em;
+    }
+  }
+  form {
+    input {
+      margin-bottom: 10px;
+      font-family: $bodyFont;
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+    }
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+  }
+  button {
+    text-align: left;
   }
   &.show {
     display: block;

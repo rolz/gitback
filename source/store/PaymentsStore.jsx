@@ -13,10 +13,20 @@ var PaymentsStore = Reflux.createStore({
     });
   },
 
-  onUpdatePaymentMethod(username) {
+  onShowPaymentMethod(username) {
     this.payments.username = username;
     this.payments.paymentMethod.status = 'show';
     this.trigger(this.payments);
+  },
+
+  onHidePaymentMethod() {
+    this.payments.username = null;
+    this.payments.paymentMethod.status = 'hide';
+    this.trigger(this.payments);
+  },
+
+  onUpdatePaymentMethod() {
+    // this.trigger(this.payments);
   },
 
   getInitialState() {

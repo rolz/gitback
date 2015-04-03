@@ -23,7 +23,7 @@ var UserOnboarding = React.createClass({
           return <div key={`step${index}`}><span>{bullet}</span><span>{step}</span></div>
         }))}
         </div>
-        <button className="onboardingAddPayment" onClick={PaymentsActions.updatePaymentMethod.bind(null, username)}>{addPaymentsButton}</button>
+        <button className="onboardingAddPayment" onClick={PaymentsActions.showPaymentMethod.bind(null, username)}>{addPaymentsButton}</button>
       </div>
     )
   }

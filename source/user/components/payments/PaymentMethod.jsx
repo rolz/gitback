@@ -6,9 +6,11 @@
  */
 var request = require('superagent');
 
+var PaymentsActions = require('../../../actions/PaymentsActions.jsx');
+
 var PaymentMethod = React.createClass({
   mixins: [Reflux.connect(require('../../../store/PaymentsStore.jsx'), 'payments')],
-  getInitialState: function() {
+  getInitialState() {
     return {
       clientTokenFromServer: null
     };
@@ -54,7 +56,7 @@ var PaymentMethod = React.createClass({
       }
     };
 
-    console.log(obj);
+    // console.log(obj);
 
 
     var client = new braintree.api.Client({clientToken: this.state.clientTokenFromServer});
@@ -78,9 +80,6 @@ var PaymentMethod = React.createClass({
     }));
 
 
-
-
-
   },
 
   render() {
@@ -91,19 +90,20 @@ var PaymentMethod = React.createClass({
     //   {title} = context;
     return (
       <div className={'paymentMethod' + (paymentMethod.status === 'show'? ' show' : '')}>
-        <form ref="helloPayment">
-          <input name="cardholderName" value="John Smith" />
-
-          <input name="number" value="4111111111111111" />
-
-          <input name="expirationMonth" value="10" />
-          <input name="expirationYear" value="2020" />
-
-          <input name="cvv" value="100" />
-          <input name="postalCode" value="94107" />
-
-          <button onClick={this.add}>Add Payment Method</button>
-        </form>
+        <div className="helloPaymentWrapper">
+          <div className="closeButton" onClick={PaymentsActions.hidePaymentMethod} />
+          <form ref="helloPayment">
+            <ul>
+              <li><input name="cardholderName" defaultValue="John Smith" />&nbsp;cardholderName</li>
+              <li><input name="number" defaultValue="4111111111111111" />&nbsp;number</li>
+              <li><input name="expirationMonth" defaultValue="10" />&nbsp;expirationMonth</li>
+              <li><input name="expirationYear" defaultValue="2020" />&nbsp;expirationYear</li>
+              <li><input name="cvv" defaultValue="100" />&nbsp;cvv</li>
+              <li><input name="postalCode" defaultValue="94107" />&nbsp;postalCode</li>
+            </ul>
+            <button onClick={this.add}>Add Payment Method</button>
+          </form>
+        </div>
       </div>
     );
   }

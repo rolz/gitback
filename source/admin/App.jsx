@@ -48,7 +48,7 @@ var User = React.createClass({
           <p>{email}</p>
           <button onClick={UserActions.removeUser.bind(null, username)}>remove this user</button>
           <br/>
-          <button onClick={PaymentsActions.updatePaymentMethod.bind(null, username)}>update payment method</button>
+          <button onClick={PaymentsActions.showPaymentMethod.bind(null, username)}>update payment method</button>
         </div>
         <div className="repos">
         {_.map(repos, ((repo, index) => {

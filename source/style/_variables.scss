@@ -36,3 +36,19 @@ $primaryAccent: #64B5F6;
 
 // DIMENSIONS
 $headerTabHeight: 50px;
+
+
+// CENTERING IN THE UNKNOWN
+@mixin centering {
+  text-align: center;
+  &:before {
+    content: "";
+    display: inline-block;
+    height: 100%;
+    vertical-align: middle;
+  }
+  > * {
+    display: inline-block;
+    vertical-align: middle;
+  }
+}

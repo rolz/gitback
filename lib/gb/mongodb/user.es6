@@ -17,14 +17,14 @@ function setupSchema() {
     avatarUrl: String,
     email: String,
     tokenId: String,
-    hidden: Boolean,
-    lastLoggedIn: Number,
-    createdAt: Number,
+    hidden: { type: Boolean, default: false },
+    lastLoggedIn: { type: Date, default: Date.now },
+    createdAt: { type: Date, default: Date.now },
     repos: [{
       name: String,
       webhookId: String,
-      createdWebhookAt: Number,
-      lastContributedAt: Number,
+      createdWebhookAt: Date,
+      lastContributedAt: Date,
       totalCommitCount: Number,
       contribLog: Array
     }]
@@ -172,7 +172,7 @@ function addWebhookId(username, repoName, webhookId, cb) {
     var repo = _.find(dat.repos, (repo) => { return repo.name === repoName; });
     if(repo) {
       repo.webhookId = webhookId;
-      repo.createdWebhookAt = Date.now();
+      repo.createdWebhookAt = Date.now;
       updateUser(username, dat, ((e) => {
         log('updated!' + JSON.stringify(e), 'green');
         if(cb) cb(e);
@@ -209,67 +209,15 @@ function test() {
 }
 
 
-// function updatePush(dat) {
-//   var repository = dat.repository,
-//     repoName = repository.name,
-//     username = repository.owner.name,
-//     pusherName = dat.pusher.name;
-//   if(username === pusherName) {
-//     findOne(username, ((e) => {
-//       var dat = e.result;
-//       if(dat) {
-//         var repo = _.find(dat.repos, (repo) => { return repo.name === repoName; });
-//         if(repo) {
-//           var lastContributedAt = Date.now(),
-//             date = new Date(lastContributedAt),
-//             yyyy = date.getUTCFullYear(),
-//             mm = date.getUTCMonth() + 1;
-//           repo.lastContributedAt = lastContributedAt;
-//           var logItem = _.find(repo.pushesLog, ((item) => {
-//             var firstPushDateOfTheMonth = item.firstPushDateOfTheMonth,
-//               itemDate = new Date(firstPushDateOfTheMonth),
-//               itemyyyy = itemDate.getUTCFullYear(),
-//               itemmm = itemDate.getUTCMonth() + 1;
-//             return !!(yyyy === itemyyyy && mm === itemmm);
-//           }));
-//           if(logItem) {
-//             logItem.totalCommitCount++;
-//             // logItem.time = `${mm}/${yyyy}`;
-//           } else {
-//             logItem = {
-//               time: `${mm}/${yyyy}`,
-//               firstPushDateOfTheMonth: lastContributedAt,
-//               totalCommitCount: 1
-//             };
-//             repo.pushesLog.push(logItem);
-//           }
-//           updateUser(username, dat, ((e) => {
-//             log('updated last push data!' + JSON.stringify(e), 'green');
-//           }));
-//         }
-//       }
-//     }));
-//   }
-// }
 
 function updateContrib(model, cb) {
-  /*
-    {
-      name: String,
-      webhookId: String,
-      createdWebhookAt: Number,
-      lastContributedAt: Number,
-      totalCommitCount: Number,
-      contribLog: Array
-    }
-   */
   var username = model.username;
   findOne(username, ((e) => {
     var dat = e.result;
     if(dat) {
       var repo = _.find(dat.repos, (repo) => { return repo.name === model.repo; });
       if(repo) {
-        repo.lastContributedAt = Date.now();
+        repo.lastContributedAt = Date.now;
         repo.totalCommitCount += model.commits.length;
         repo.contribLog.unshift(model);
       }
@@ -301,6 +249,5 @@ module.exports = ((mongooseDB) => {
     addWebhookId: addWebhookId,
     removeWebhookId: removeWebhookId,
     updateContrib: updateContrib
-    // updatePush: updatePush
   };
 });

@@ -122,6 +122,7 @@ function setRoute() {
   var auth = checkAuth(),
     noLocalhost = checkLocalhost(),
     obj = {
+      timestamp: Date.now(),
       version: require('../../../package').version,
       options: options,
       development: !!(process.env.NODE_ENV === 'development'),

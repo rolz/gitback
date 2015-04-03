@@ -52,7 +52,7 @@ if(pathname === ADMIN_PATH) {
     util.getUserData(coockieValue, ((e) => {
       if(e.status === 'success') {
         var lastLoggedIn = +new Date(e.result.lastLoggedIn),
-          currentServerTime = +new Date(st),
+          currentServerTime = +new Date(timestamp),
           timeDifference = currentServerTime - lastLoggedIn;
         logger.info('timeDifference:', Math.floor(timeDifference /1000/60), 'min');
         // Check if user info is updated no longer than 1 day

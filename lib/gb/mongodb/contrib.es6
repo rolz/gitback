@@ -5,7 +5,7 @@
       "_id": "5508d0df17b28fa5424ee6c4",
       "username": "mayognaise",
       "repo": "hello",
-      "createdAt": 1426641119390,
+      "createdAt": Date,
       "commits": ["cf3cda596bdf532f55b2c6191f", "5b2c6191f9fcc39a69babbb"],
       "__v": 0
   }]
@@ -24,7 +24,7 @@ function setupSchema() {
     repo: String,
     commits: Array,
     raw: mongoose.Schema.Types.Mixed,
-    createdAt: Number
+    createdAt: { type: Date, default: Date.now }
   }));
 }
 
@@ -70,7 +70,6 @@ function add(dat, cb) {
             repo: repo.name,
             commits: e.logs,
             raw: dat,
-            createdAt: Date.now()
           };
           db.user.updateContrib(modelData, ((e) => {
             var userData = e.result,

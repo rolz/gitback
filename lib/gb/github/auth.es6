@@ -66,10 +66,7 @@ function setRoutes() {
               username: username,
               avatarUrl: gup.avatar_url,
               email: gup.email,
-              repos: repos,
-              hidden: false,
-              lastLoggedIn: Date.now(),
-              createdAt: Date.now(),
+              repos: repos
             }, ((e) => {
               if(e.status === 'success') {
                 log(e.message, 'green');

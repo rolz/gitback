@@ -6,8 +6,10 @@ main.home {
   margin: 0 auto;
 
   .hero {
+    position: relative;
     width: 100%;
     height: 512px;
+    overflow: hidden;
     background: #8fe286; /* Old browsers */
     /* IE9 SVG, needs conditional override of 'filter' to 'none' */
     background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjOGZlMjg2IiBzdG9wLW9wYWNpdHk9IjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzhlZWFlOSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
@@ -19,20 +21,141 @@ main.home {
     background: linear-gradient(135deg, #8fe286 0%,#8eeae9 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8fe286', endColorstr='#8eeae9',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
 
-    a {
-      color: #fff;
-      text-decoration: none;
-      &.logo {
-        margin-top: 20px;
-        padding-left: 20px;
-        font: 100% $GBFont;
-        font-size: 28px;
+    .header {
+      a {
+        float: left;
+        font: 100% $bodyFont;
+        font-size: 16px;
+        font-weight: 700;
+        color: $heroTextColor;
+        text-decoration: none;
+        &.logo {
+          margin-top: 20px;
+          padding-left: 20px;
+          font: 100% $GBFont;
+          font-size: 28px;
+        }
+        &.login {
+          float: right;
+          margin: 35px 20px 0 0;
+        }
       }
-      &.nav {
-        margin: 20px;
+      ul {
+        float: left;
+        width: 240px;
+        margin: 35px 0px 0px 40px;
+        padding: 0;
+        li {
+          float: left;
+          margin: 0 10px;
+          list-style: none;
+          &:first-child{
+            margin-left: 0;
+          }
+        }
       }
-      &.login {
-        float: right;
+    }
+
+    .jumbotron {
+      float: left;
+      margin: 110px 0 0 148px;
+      color: $heroTextColor;
+      .tagline {
+        font: 100% $heroFont;
+        font-size: 48px;
+      }
+      .userActions {
+        margin-top: 50px;
+        font: 100% $bodyFont;
+        font-size: 24px;
+        a {
+          color: $heroTextColor;
+          text-decoration: none;
+        }
+        .signUp {
+          padding: 15px;
+          border: 1px white solid;
+          img{
+            position: relative;
+            width: 35px;
+            top: 8px;
+            margin-left: 6px;
+          }
+        }
+      }
+    }
+
+    .contribs {
+      float: right;
+      top: 76px;
+      margin-right: 154px;
+      width: 460px;
+      .header {
+        text-align: center;
+        color: $heroTextColor;
+        .title {
+          font-size: 24px;
+        }
+        .total{
+          font-size: 54px;
+        }
+      }
+      .terminal {
+        position: absolute;
+        width: inherit;
+        bottom: 0px;
+        height: 322px;
+        background-color: #2C3E50;
+        .header {
+          width: inherit;
+          height: 24px;
+          background-color: #D7D7D7;
+          text-align: left;
+          padding: 3px;
+          .ui-btn {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background-color: #000;
+            border-radius: 100%;
+            margin-left: 4px;
+            &.green {
+              background-color: #1AAF5D;
+            }
+            &.yellow {
+              background-color: #F1C600;
+            }
+            &.red {
+              background-color: #C23824;
+            }
+          }
+        }
+        .feed {
+          li {
+            font: 100% $codeFont;
+            font-size: 16px;
+            list-style-type: none;
+            .tbAvatar {
+
+            }
+            .username {
+              color: #3498DB;
+            }
+            .gave {
+              color: #7F8C8D;
+            }
+            .amount {
+              color: #2ECC71;
+            }
+            .repo a{
+              color: #E67E22;
+              text-decoration: none;
+            }
+            .timeElapsed {
+              color: #C573ED;
+            }
+          }
+        }
       }
     }
   }

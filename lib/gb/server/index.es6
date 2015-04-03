@@ -111,7 +111,7 @@ function checkLocalhost() {
   var url = process.env.LOCAL_URL;
   return ((req, res, next) => {
     if(url && /localhost/.test(req.get('host'))) {
-      res.redirect(url);
+      res.redirect(`${url}:${config.server.port}`);
     } else {
       next();
     }
@@ -125,7 +125,7 @@ function setRoute() {
       version: require('../../../package').version,
       options: options,
       development: !!(process.env.NODE_ENV === 'development'),
-      ipaddress: process.env.LOCAL_IPADDRESS || 'http://localhost'
+      ipaddress: process.env.LOCAL_URL || 'http://localhost'
     };
   app.get('/', noLocalhost, ((req, res) => {
     res.render('home', _.extend(obj, getContext(req)));

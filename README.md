@@ -30,14 +30,14 @@ npm i gulp -g
 * copy the ngrok url from the terminal i.e. http://3da9c26d.ngrok.com/ (use your created ngrok url)
 * [register new application in your github account](https://github.com/settings/applications)
 * add any app name
-* insert your homepage url: http://3da9c26d.ngrok.com/  
+* insert your homepage url: http://3da9c26d.ngrok.com/
 * insert callback url is i.e. http://3da9c26d.ngrok.com/callback
 * Take note of your Client ID & Client Secret for later
 * Go to the app directory root and `echo "# Github" >> .env`
 * Then in editor add following to .env file:
 ```
-CLIENTID=XXX
-CLIENTSECRET=XXX
+CLIENT_ID=XXX
+CLIENT_SECRET=XXX
 WEBHOOKURL=http://3da9c26d.ngrok.com/webhook
 ```
 

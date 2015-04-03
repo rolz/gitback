@@ -69,7 +69,7 @@ var LiveFeedItem = React.createClass({
     console.log(this.props.user);
     return (
       <li className="userContrib">
-        <span className="tbAvatar"><img src={avatarUrl} /></span>
+        <span className="tbAvatar" style={{backgroundImage: `url(${avatarUrl})`}} />
         <span className="username">{username}</span>
         <span className="gave">gave</span>
         <span className="amount">${contribAmountPerPush}</span>

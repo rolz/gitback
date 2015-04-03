@@ -62,8 +62,8 @@ gulp.task('build', shell.task([
   'git checkout heroku',
   'webpack',
   'git add .',
-  'git commit -a -m dist',
-  'git push heroku heroku:master',
+  'git commit -m dist',
+  'git push -f heroku heroku:master',
   'git checkout dev',
   'git branch -D heroku',
 ]));

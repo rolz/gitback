@@ -73,7 +73,7 @@ var LiveFeedItem = React.createClass({
         <span className="username">{username}</span>
         <span className="gave">gave</span>
         <span className="amount">${contribAmountPerPush}</span>
-        <span className="repo"><a href={`http://github.com/${username}/${repo}`}>{`${username}/${repo}`}</a></span>
+        <span className="repo"><a href={`http://github.com/${username}/${repo}`} traget="_blank">{`${username}/${repo}`}</a></span>
         <span className="timeElapsed">{(new Date(createdAt).toString())}</span>
       </li>
     )

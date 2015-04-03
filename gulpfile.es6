@@ -56,3 +56,14 @@ gulp.task('watch', () => {
 
 gulp.task('default', ['dev-webpack', 'server']);
 // gulp.task('default', ['dev-webpack', 'server', 'livereload', 'watch']);
+
+gulp.task('build', shell.task([
+  'git branch heroku',
+  'git checkout heroku',
+  'webpack',
+  'git add .',
+  'git commit -a -m dist',
+  'git push heroku heroku:master',
+  'git checkout dev',
+  'git branch -D heroku',
+]));

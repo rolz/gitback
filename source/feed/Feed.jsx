@@ -3,14 +3,14 @@
 var LiveFeedItem = React.createClass({
   render() {
     var {username, repo, avatarUrl, createdAt, commits} = this.props.user,
-    contribAmountPerPush = 0.01;
+    contribAmountPerPush = "$"+0.01;
     // console.log(this.props.user);
     return (
       <li className="userContrib">
         <span className="tbAvatar" style={{backgroundImage: `url(${avatarUrl})`}} />
         <span className="username">{username}</span>
         <span className="gave">gave</span>
-        <span className="amount">${contribAmountPerPush}</span>
+        <span className="amount">{contribAmountPerPush}</span>
         <span className="repo"><a href={`http://github.com/${username}/${repo}`} traget="_blank">{`${username}/${repo}`}</a></span>
         <span className="timeElapsed">{createdAt}</span>
       </li>

@@ -3,6 +3,7 @@
 
 .feed {
   width: $feedWidth;
+  text-align: left;
 
   .terminal {
     position: absolute;
@@ -21,7 +22,6 @@
       width: inherit;
       height: 24px;
       background-color: #D7D7D7;
-      text-align: left;
       padding: 3px;
 
       .ui-btn {

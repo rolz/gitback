@@ -42,6 +42,7 @@ var Repo = React.createClass({
           default: return 'remove';
         }
       })();
+      console.log(contribLog);
     return(
       <div className={`repo ${buttonClass}`}>
         <span className="info">{name}</span>

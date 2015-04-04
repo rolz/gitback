@@ -1,92 +1,77 @@
 'use strict'
 
+var Feed = require('../feed');
+
+/*
+* Hero Section
+*/
+
 var Hero = React.createClass({
   render() {
-
-    var self = this,
-      {projectTitle, heroSection, sectionTwo} = this.props.context;
-      console.log(this.props.users);
+    var self = this;
     return (
       <section className="hero">
-        <section className="header clearfix">
-          <a className="logo" href="/">{projectTitle}</a>
-          <ul>
-            <li><a href="#getInvolved">{heroSection.nav[0]}</a></li>
-            <li><a href="#ourMission">{heroSection.nav[1]}</a></li>
-          </ul>
-          <a href="/login" className="login">{heroSection.login}</a>
-        </section>
-        <section className="jumbotron">
-          <div className="tagline" dangerouslySetInnerHTML={{__html:heroSection.tagline}}></div>
-          <div className="userActions">
-            <a href="/login"><span className="signUp">{heroSection.signUp}<img src="/assets/images/github-logo.svg"/></span></a>
-          </div>
-        </section>
-        <section className="contribs">
-          <div className="header">
-            <div className="title">{heroSection.contribFeedTitle}</div>
-            <div className="total">$0.87</div>
-          </div>
-          <div className="terminal">
-            <div className="header">
-              <span className="ui-btn red"></span>
-              <span className="ui-btn yellow"></span>
-              <span className="ui-btn green"></span>
-            </div>
-
-            <Feed users={this.props.users} />
-
-          </div>
-        </section>
+        <Header context={this.props.context}/>
+        <Jumbotron context={this.props.context}/>
+        <UsersContribs context={this.props.context} users={this.props.users}/>
       </section>
     );
   }
 });
 
-var Feed = React.createClass({
+var Header = React.createClass({
   render() {
-    var rows = [];
-
-    this.props.users.forEach(function(user) {
-      rows.push(<LiveFeedItem user={user} />);
-    }.bind(this));
-
-    return (
-      <section className="feed">
+    var self = this,
+      {projectTitle, heroSection} = this.props.context;
+    return(
+      <section className="header clearfix">
+        <a className="logo" href="/">{projectTitle}</a>
         <ul>
-          {rows}
+          <li><a href="#getInvolved">{heroSection.nav[0]}</a></li>
+          <li><a href="#ourMission">{heroSection.nav[1]}</a></li>
         </ul>
+        <a href="/login" className="login">{heroSection.login}</a>
       </section>
-    );
-  }
-});
-
-var LiveFeedItem = React.createClass({
-  render() {
-    var {username, repo, avatarUrl, createdAt, commits} = this.props.user,
-    contribAmountPerPush = 0.01;
-
-    console.log(this.props.user);
-    return (
-      <li className="userContrib">
-        <span className="tbAvatar" style={{backgroundImage: `url(${avatarUrl})`}} />
-        <span className="username">{username}</span>
-        <span className="gave">gave</span>
-        <span className="amount">${contribAmountPerPush}</span>
-        <span className="repo"><a href={`http://github.com/${username}/${repo}`}>{`${username}/${repo}`}</a></span>
-        <span className="timeElapsed">{(new Date(createdAt).toString())}</span>
-      </li>
     )
   }
 });
 
-var Login = React.createClass({
+var Jumbotron = React.createClass({
   render() {
-    return (
-      <a href="/login" className="login-btn"><i className="icon"></i>Sign in with GitHub</a>
-    );
+    var self = this,
+      {heroSection} = this.props.context;
+    return(
+      <section className="jumbotron">
+        <div className="tagline" dangerouslySetInnerHTML={{__html:heroSection.tagline}}></div>
+        <div className="userActions">
+          <a href="/login"><span className="signUp">{heroSection.signUp}<img src="/assets/images/github-logo.svg"/></span></a>
+        </div>
+      </section>
+    )
   }
 });
+
+var UsersContribs = React.createClass({
+    render() {
+      var self = this,
+        {heroSection} = this.props.context;
+      return(
+        <section className="usersContribs">
+          <div className="header">
+            <div className="title">{heroSection.contribFeedTitle}</div>
+            <div className="total">$0.87</div>
+          </div>
+
+          <Feed users={this.props.users} />
+
+        </section>
+      )
+    }
+});
+
+/*
+* Footer Section
+*/
 
 var Footer = React.createClass({
   render() {
@@ -95,6 +80,10 @@ var Footer = React.createClass({
     );
   }
 });
+
+/*
+* Homepage App Component
+*/
 
 var App = React.createClass({
   mixins: [

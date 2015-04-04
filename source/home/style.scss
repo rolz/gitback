@@ -5,6 +5,10 @@ main.home {
   height: 100%;
   margin: 0 auto;
 
+/*
+* Hero Section
+*/
+
   .hero {
     position: relative;
     width: 100%;
@@ -56,12 +60,18 @@ main.home {
       }
     }
 
+    .content {
+      margin: 0 auto;
+      max-width: 1280px;
+    }
+
     .jumbotron {
       float: left;
-      margin: 110px 0 0 148px;
+      margin-top: 110px;
+      margin-left: 40px;
       color: $heroTextColor;
       .tagline {
-        font: 100% $heroFont;
+        font: 100% $bodyFont;
         font-size: 48px;
       }
       .userActions {
@@ -86,10 +96,10 @@ main.home {
     }
 
     .usersContribs {
+      width: $feedWidth;
       float: right;
       top: 76px;
-      margin-right: 154px;
-      width: $feedWidth;
+      margin-right: 40px;
       text-align: center;
       .header {
         color: $heroTextColor;
@@ -107,4 +117,90 @@ main.home {
   .gradient {
     filter: none;
   }
+
+/*
+* Content Sections
+*/
+
+  .contentContainer {
+
+    .contentSection {
+      position: relative;
+      margin: 0 auto;
+      text-align: center;
+      margin-bottom: 40px;
+
+      .title {
+        padding-top: 40px;
+        font: 100% $bodyH1Font;
+        font-size: 20px;
+        color: $textColor;
+      }
+
+      .line {
+        padding: 8px 0 30px 0;
+      }
+
+      .text {
+        margin: 0 auto;
+        font-size: 18px;
+        line-height: 140%;
+        text-align: justify;
+      }
+
+
+      &.one {
+        max-width: $homeMaxWidth;
+      }
+      &.two {
+        background-color: #F7F7F7;
+        .text {
+          padding: 0 200px;
+          max-width: $homeMaxWidth;
+          font-size: 20px;
+        }
+      }
+
+
+      .contentSteps {
+
+        .step {
+          float: left;
+          width: 33.33%;
+
+          .steptitle {
+            margin-bottom: 10px;
+            font: 100% $bodyFont;
+            font-size: 20px;
+          }
+
+          .text {
+            padding: 0 40px;
+            font-size: 14px;
+          }
+
+        }
+      }
+
+    }
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }

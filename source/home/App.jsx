@@ -12,8 +12,10 @@ var Hero = React.createClass({
     return (
       <section className="hero">
         <Header context={this.props.context}/>
-        <Jumbotron context={this.props.context}/>
-        <UsersContribs context={this.props.context} users={this.props.users}/>
+        <div className="content">
+          <Jumbotron context={this.props.context}/>
+          <UsersContribs context={this.props.context} users={this.props.users}/>
+        </div>
       </section>
     );
   }
@@ -75,12 +77,55 @@ var UsersContribs = React.createClass({
 var Content = React.createClass({
   render() {
     var self = this,
-      {heroSection} = this.props.context;
+      context = this.props.context;
     return (
-      <div></div>
+      <section className="contentContainer">
+        <C1 context={context}/>
+        <C2 context={context}/>
+      </section>
     );
   }
 });
+
+
+var C1 = React.createClass({
+  render() {
+    var self = this,
+      {content} = this.props.context;
+    return(
+      <section className="contentSection one clearfix">
+        <div className="title">{content.one.title}</div>
+        <img className="line" src="/assets/images/line.png" />
+        <div className="contentSteps">
+          {_.map(content.one.steps, ((step, index) => {
+            return <div key={`step${index}`} className="step">
+              <div className="steptitle">{step.title}</div>
+              <img src={step.image}/>
+              <div className="text">{step.text}</div>
+            </div>
+          }))}
+        </div>
+      </section>
+    )
+  }
+});
+
+var C2 = React.createClass({
+  render() {
+    var self = this,
+      {content} = this.props.context;
+    return(
+      <section className="contentSection two">
+        <div className="title">{content.two.title}</div>
+        <img className="line" src="/assets/images/line.png" />
+        {_.map(content.two.text, ((text, index) => {
+          return <div key={`text${index}`} className="text">{text}</div>
+        }))}
+      </section>
+    )
+  }
+});
+
 
 /*
 * Footer Section
@@ -110,6 +155,7 @@ var App = React.createClass({
       <main className="home">
 
         <Hero context={context} users={this.state.users} />
+        <Content context={context}/>
         <Footer/>
 
       </main>

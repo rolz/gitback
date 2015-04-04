@@ -19,24 +19,31 @@
 }
 
 @font-face {
+  font-family: Gotham Bold;
+  src: url('/assets/fonts/GothamBold.otf') format("opentype");
+}
+
+@font-face {
   font-family: Source Code Pro Bold;
   src: url('/assets/fonts/SourceCodePro-Bold.otf') format("opentype");
 }
 
 $GBFont: 'Thirsty', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $heroFont: 'Gotham Thin','Helvetica Neue', Helvetica, Arial, sans-serif;
+$bodyH1Font: 'Gotham Bold','Helvetica Neue', Helvetica, Arial, sans-serif;
 $bodyFont: 'Gotham Light','Helvetica Neue', Helvetica, Arial, sans-serif;
 $codeFont: 'Source Code Pro Bold','Helvetica Neue', Helvetica, Arial, sans-serif;
 
 // COLOURS
 $bgColor: rgba(255,255,255,1);
 $heroTextColor: rgba(255,255,255,1);
-$textColor: rgba(0,0,0,1);
+$textColor: #34495E;
 $lineColor: rgba(0,0,0,1);
 $primaryAccent: #64B5F6;
 
 // DIMENSIONS
 $headerTabHeight: 50px;
+$homeMaxWidth: 1280px;
 $feedWidth: 460px;
 
 

@@ -15,8 +15,25 @@
     "content": {
       "one": {
         "title": "Get Involved",
-        "textOne": "As developers we have some of the best jobs in the world, but less than 20% of us are women. Together we can narrow the gap between men and women in the tech industry. Gitback allows developers to donate while doing what they love.",
-        "textTwo": "Every time you push code to Github, you donate a small amount to teach computer science to girls from underserved communities. Together that's a lot of change."
+        "steps": [{
+            "title": "Connect",
+            "image": "/assets/images/connect.png",
+            "text": "Sign up and add repos with one click. Select a donation amount from $0.01 per push."
+          },{
+            "title": "Code",
+            "image": "/assets/images/code.png",
+            "text": "Each time you push code to one of your own repos, you’re donating. It’s that simple."
+          },{
+            "title": "Contribute",
+            "image": "/assets/images/contribute.png",
+            "text": "All the donations go to CodeEd, which teaches computer science to girls from underserved communities, starting in middle-school."
+        }]
+      },
+      "two": {
+        "title": "Our Mission",
+        "text": [
+          "As developers we have some of the best jobs in the world, but less than 20% of us are women. Together we can narrow the gap between men and women in the tech industry. Gitback allows developers to donate while doing what they love. Every time you push code to Github, you donate a small amount to teach computer science to girls from underserved communities. Together that's a lot of change."
+        ]
       }
     }
   },

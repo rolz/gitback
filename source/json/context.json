@@ -12,10 +12,12 @@
       "signUp": "Sign in with Github",
       "contribFeedTitle": "Total Raised"
     },
-    "sectionTwo": {
-      "title": "Get Involved",
-      "textOne": "As developers we have some of the best jobs in the world, but less than 20% of us are women. Together we can narrow the gap between men and women in the tech industry. Gitback allows developers to donate while doing what they love.",
-      "textTwo": "Every time you push code to Github, you donate a small amount to teach computer science to girls from underserved communities. Together that's a lot of change."
+    "content": {
+      "one": {
+        "title": "Get Involved",
+        "textOne": "As developers we have some of the best jobs in the world, but less than 20% of us are women. Together we can narrow the gap between men and women in the tech industry. Gitback allows developers to donate while doing what they love.",
+        "textTwo": "Every time you push code to Github, you donate a small amount to teach computer science to girls from underserved communities. Together that's a lot of change."
+      }
     }
   },
   "user": {

@@ -70,6 +70,19 @@ var UsersContribs = React.createClass({
 });
 
 /*
+* Content Section
+*/
+var Content = React.createClass({
+  render() {
+    var self = this,
+      {heroSection} = this.props.context;
+    return (
+      <div></div>
+    );
+  }
+});
+
+/*
 * Footer Section
 */
 

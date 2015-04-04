@@ -138,7 +138,6 @@ function remove(username, cb) {
         var repo = repos.shift(),
           repoName = repo.name,
           webhookId = repo.webhookId;
-        console.log(repo);
         if(webhookId && webhookId !== 'false') {
           log(`webhookId: ${webhookId}`, 'blue');
           webhook.hook.remove(token, username, repoName, webhookId, ((e) => {

@@ -23,7 +23,7 @@ var Repo = React.createClass({
         <button className="add" onClick={UserActions.addWebhook.bind(null, username, name)}>add webhook</button>
         <span>
         {_.map(contribLog.slice(0,3), ((item, index) => {
-          console.log(item);
+          // console.log(item);
           var time = new Date(item.createdAt);
           return <span key={item+index}>&nbsp;[{time.getMonth()+1}/{time.getDate()}: {item.commits.length}]</span>
         }))}
@@ -61,7 +61,7 @@ var User = React.createClass({
   }
 });
 
-var PaymentMethod = require('../user/components/payments');
+var PaymentMethod = require('../components/payments');
 
 var App = React.createClass({
   mixins: [

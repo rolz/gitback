@@ -6,10 +6,10 @@
  */
 var request = require('superagent');
 
-var PaymentsActions = require('../../../actions/PaymentsActions.jsx');
+var PaymentsActions = require('../../actions/PaymentsActions.jsx');
 
 var PaymentMethod = React.createClass({
-  mixins: [Reflux.connect(require('../../../store/PaymentsStore.jsx'), 'payments')],
+  mixins: [Reflux.connect(require('../../store/PaymentsStore.jsx'), 'payments')],
   getInitialState() {
     return {
       clientTokenFromServer: null

@@ -13,7 +13,6 @@ var UserOnboarding = React.createClass({
       {onboardingTitle, onboardingSteps, addPaymentsButton} = this.props.context,
       username = this.props.username;
 
-    console.log(addPaymentsButton);
     return (
       <div className="onboardingContainer">
         <div className="onboardingTitle">{onboardingTitle}</div>
@@ -42,7 +41,6 @@ var Repo = React.createClass({
           default: return 'remove';
         }
       })();
-      console.log(contribLog);
     return(
       <div className={`repo ${buttonClass}`}>
         <span className="info">{name}</span>

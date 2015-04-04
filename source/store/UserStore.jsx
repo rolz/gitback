@@ -16,7 +16,7 @@ var UserStore = Reflux.createStore({
 
   /* Anonymous */
   onSetAnonymous(username, flag) {
-    // logger.debug('setAnonymous', username, flag);
+    logger.debug('setAnonymous', username, flag);
     socket.emit('setAnonymous', username, flag);
   },
 

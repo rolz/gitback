@@ -42,6 +42,7 @@ function setSocket() {
         log(e.result);
         io.emit('onSetAnonymous', e.result);
       }));
+      db.contrib.setHidden(username, flag);
     }));
 
     /* Webhooks */
@@ -88,33 +89,7 @@ function setSocket() {
     }));
     socket.on('findRecentContributions', (() => {
       db.contrib.findRecentContributions((e) => {
-        var totalItemAmount = 10,
-          arr = [],
-          check = ((list) => {
-            var cb = (() => {
-              if(!list || arr.length >= totalItemAmount || _.isArray(list) && list.length === 0) {
-                arr = _.sortBy(arr, ((item) => { return (+new Date(item.createdAt)) * -1; }));
-                io.emit('onFindRecentContributions', {results: arr});
-              } else {
-                check(list);
-              }
-            });
-            var user = list.shift();
-            if(user) {
-              db.user.findOne(user.username, ((e) => {
-                var result = e.result;
-                if(result && result.hidden !== true) {
-                  arr.push(_.extend(result, user));
-                  cb();
-                } else {
-                  cb();
-                }
-              }));
-            } else {
-              cb();
-            }
-          });
-          check(e.results);
+        io.emit('onFindRecentContributions', e);
       });
     }));
 

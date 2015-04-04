@@ -1,6 +1,6 @@
 'use strict'
 
-var Feed = require('../feed');
+var Feed = require('../components/feed');
 
 /*
 * Hero Section

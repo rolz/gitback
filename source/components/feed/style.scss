@@ -1,4 +1,4 @@
-@import "../style/variables";
+@import "../../style/variables";
 
 
 .feed {
@@ -84,9 +84,9 @@
         .amount {
           color: #2ECC71;
         }
-        .repo a{
+        .repo {
           color: #E67E22;
-          text-decoration: none;
+          cursor: pointer;
         }
         .timeElapsed {
           color: #C573ED;

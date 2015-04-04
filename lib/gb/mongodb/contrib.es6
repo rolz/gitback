@@ -23,6 +23,8 @@ function setupSchema() {
     username: String,
     repo: String,
     commits: Array,
+    avatarUrl: String,
+    hidden: Boolean,
     raw: mongoose.Schema.Types.Mixed,
     createdAt: Date
   }));
@@ -73,8 +75,10 @@ function add(dat, cb) {
             createdAt: new Date
           };
           db.user.updateContrib(modelData, ((e) => {
-            var userData = e.result,
-              model = new PContrib(modelData);
+            var userData = e.result;
+            modelData.hidden = userData.hidden;
+            modelData.avatarUrl = userData.avatarUrl;
+            var model = new PContrib(modelData);
             log(userData, 'yellow');
             model.save((err) => {
               if(cb) {cb({
@@ -82,7 +86,6 @@ function add(dat, cb) {
                 message: `contrib added successfully.`
               });}
               if(userData.hidden !== 'true') {
-                modelData.avatarUrl = userData.avatarUrl;
                 socket.emit('onContributed', modelData);
               }
             });
@@ -110,7 +113,7 @@ function add(dat, cb) {
 
 function find(dat, cb) {
   dat = dat || {};
-  return PContrib.find(dat, {raw: false}).sort('-created').exec(function(err, results){
+  return PContrib.find(dat, {raw: false}).sort({createdAt: -1}).exec(function(err, results){
     if(cb) {cb({
       status: (err? 'error': 'success'),
       message: err || '',
@@ -120,7 +123,7 @@ function find(dat, cb) {
 }
 
 function findRecentContributions(cb) {
-  return PContrib.find({}, {raw: false}).sort('-created').exec(function(err, results){
+  return PContrib.find({hidden: false}, {raw: false}).sort({createdAt: -1}).exec(function(err, results){
     if(cb) {cb({
       status: (err? 'error': 'success'),
       message: err || '',
@@ -145,6 +148,14 @@ function removeAll(cb) {
   });
 }
 
+function setHidden(username, boo) {
+  find({username: username}, ((e) => {
+    _.each(e.results, ((result) => {
+      PContrib.findByIdAndUpdate(result.id, {hidden: boo}, ((err, item) => { /*log(item.hidden);*/ }));
+    }));
+  }));
+}
+
 function test() {
   // if(db.commit) {
   //   var dat = require('../../../json/push');
@@ -154,21 +165,20 @@ function test() {
   // } else {
   //   setTimeout(test, 1000);
   // }
-  find({}, ((e) => {
-    log(e.results.slice(0,3));
-  }));
 }
 
 module.exports = ((mongooseDB) => {
   mongoose = mongooseDB;
   setupSchema();
   // test();
+  // setHidden('meowyo', false);
   // removeAll((e) => {log('removed')});
   return {
     add: add,
     find: find,
     findRecentContributions: findRecentContributions,
     remove: remove,
-    removeAll: removeAll
+    removeAll: removeAll,
+    setHidden: setHidden
   };
 });

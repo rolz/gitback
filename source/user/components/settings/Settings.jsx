@@ -31,7 +31,7 @@ Partners = React.createClass({
 
 AccountType = React.createClass({
   setAnonymous(flag) {
-    var {username, hidden} = this.state.user;
+    var {username, hidden} = this.props.user;
     if(flag === 'private' && hidden !== true) {
       UserActions.setAnonymous(username, true);
     } else if(flag === 'public' && hidden === true) {
@@ -61,11 +61,11 @@ Settings = React.createClass({
   render() {
     user = this.state.user;
     var self = this,
-      {username} = this.state.user,
+      {username} = user,
       {name, state, context} = this.props.params,
       {title, items} = context,
       getItem = ((item) => {
-        if(item.id === 'accountType') return <AccountType item={item} />;
+        if(item.id === 'accountType') return <AccountType item={item} user={user} />;
         else if(item.id === 'email') return <Email item={item} />;
         else if(item.id === 'payment') return <Payment item={item} />;
         else if(item.id === 'partners') return <Partners item={item} />;

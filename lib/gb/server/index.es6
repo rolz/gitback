@@ -78,7 +78,7 @@ function getContext(req) {
     gitlogin: req.flash('gitlogin'),
     host: req.get('host'),
     date: Date.now()
-  };k
+  };
 }
 
 /*
@@ -87,20 +87,26 @@ function getContext(req) {
  */
 function checkAuth() {
   var basicAuth = require('basic-auth');
+  var url = process.env.WEBHOOK_URL;
+  function unauthorized(res) {
+    res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
+    return res.send(401);
+  }
   return ((req, res, next) => {
-    function unauthorized(res) {
-      res.set('WWW-Authenticate', 'Basic realm=Authorization Required');
-      return res.send(401);
-    };
-    var user = basicAuth(req);
-    if (!user || !user.name || !user.pass) {
-      return unauthorized(res);
-    };
-    if (user.name === config.admin.id && user.pass === config.admin.pw) {
-      return next();
+    if(url && /localhost/.test(req.get('host'))) {
+      // res.redirect(`${url}:${config.server.port}`);
+      res.redirect(url + '/admin');
     } else {
-      return unauthorized(res);
-    };
+      var user = basicAuth(req);
+      if (!user || !user.name || !user.pass) {
+        return unauthorized(res);
+      };
+      if (user.name === config.admin.id && user.pass === config.admin.pw) {
+        return next();
+      } else {
+        return unauthorized(res);
+      };
+    }
   });
 }
 
@@ -108,10 +114,12 @@ function checkAuth() {
  * Redirect to ngrok URL if the host is localhost
  */
 function checkLocalhost() {
-  var url = process.env.LOCAL_URL;
+  // var url = process.env.LOCAL_URL;
+  var url = process.env.WEBHOOK_URL;
   return ((req, res, next) => {
     if(url && /localhost/.test(req.get('host'))) {
-      res.redirect(`${url}:${config.server.port}`);
+      // res.redirect(`${url}:${config.server.port}`);
+      res.redirect(url);
     } else {
       next();
     }
@@ -140,6 +148,7 @@ function setRoute() {
   app.get('/user/:section/:section2', noLocalhost, ((req, res) => {
     res.render('user', _.extend(obj, getContext(req)));
   }));
+  // app.get('/admin', auth, ((req, res) => {
   app.get('/admin', auth, ((req, res) => {
     db.user.findAll((e) => {
       res.render('admin', _.extend(obj, getContext(req), {usr: e.result}));

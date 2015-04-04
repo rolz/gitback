@@ -66,4 +66,6 @@ gulp.task('build', shell.task([
   'git push -f heroku heroku:master',
   'git checkout dev',
   'git branch -D heroku',
+  'heroku open',
+  'heroku logs --tail'
 ]));

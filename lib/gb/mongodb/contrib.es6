@@ -129,8 +129,16 @@ function findRecentContributions(cb) {
   });
 }
 
+function remove(username, cb) {
+  return PContrib.remove({username: username}, (err) => {
+    if(cb) {cb({
+      status: (err? 'error': 'success')
+    });}
+  });
+}
+
 function removeAll(cb) {
-  PContrib.remove({}, (err) => {
+  return PContrib.remove({}, (err) => {
     if(cb) {cb({
       status: (err? 'error': 'success')
     });}
@@ -160,6 +168,7 @@ module.exports = ((mongooseDB) => {
     add: add,
     find: find,
     findRecentContributions: findRecentContributions,
+    remove: remove,
     removeAll: removeAll
   };
 });

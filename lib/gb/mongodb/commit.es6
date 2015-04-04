@@ -78,8 +78,16 @@ function add(commit, repo, cb) {
   }));
 }
 
+function remove(username, cb) {
+  return PCommit.remove({username: username}, (err) => {
+    if(cb) {cb({
+      status: (err? 'error': 'success')
+    });}
+  });
+}
+
 function removeAll(cb) {
-  PCommit.remove({}, (err) => {
+  return PCommit.remove({}, (err) => {
     if(cb) {cb({
       status: (err? 'error': 'success')
     });}
@@ -96,6 +104,7 @@ module.exports = ((mongooseDB) => {
   return {
     add: add,
     find: find,
+    remove: remove,
     removeAll: removeAll
   };
 });

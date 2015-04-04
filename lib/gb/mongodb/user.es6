@@ -9,6 +9,7 @@ var _ = require('lodash-node'),
   auth = require('../github/auth.es6'),
   webhook = require('../github/webhook.es6'),
   log = util.log('mongodb.user', 'GB'),
+  db = require ('./index.es6'),
   PUser, mongoose;
 
 function setupSchema() {
@@ -152,10 +153,16 @@ function remove(username, cb) {
         auth.remove(token, ((e) => {
           log('Removed auth so remove user info from DB', 'green');
           PUser.findOneAndRemove({'username': username}, (err, user) => {
-            if(cb) {cb({
-              status: (err? 'error': 'success'),
-              user: user
-            });}
+            // remove all contribs
+            db.contrib.remove(username, ((e) => {
+              // remove all commits
+              db.commit.remove(username, ((e) => {
+                if(cb) {cb({
+                  status: (err? 'error': 'success'),
+                  user: user
+                });}
+              }));
+            }));
           });
         }));
       }

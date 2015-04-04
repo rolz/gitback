@@ -91,22 +91,26 @@ function setSocket() {
         var arr = [],
           check = ((list) => {
             var cb = (() => {
-              if(arr.length >= 3 || list.length === 0) {
+              if(!list || arr.length >= 3 || _.isArray(list) && list.length === 0) {
                 io.emit('onFindRecentContributions', {results: arr});
               } else {
                 check(list);
               }
             });
             var user = list.shift();
-            db.user.findOne(user.username, ((e) => {
-              var result = e.result;
-              if(result && result.hidden !== true) {
-                arr.push(_.extend(result, user));
-                cb();
-              } else {
-                cb();
-              }
-            }));
+            if(user) {
+              db.user.findOne(user.username, ((e) => {
+                var result = e.result;
+                if(result && result.hidden !== true) {
+                  arr.push(_.extend(result, user));
+                  cb();
+                } else {
+                  cb();
+                }
+              }));
+            } else {
+              cb();
+            }
           });
           check(e.results);
       });

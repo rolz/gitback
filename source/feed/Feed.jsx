@@ -4,7 +4,6 @@ var LiveFeedItem = React.createClass({
   render() {
     var {username, repo, avatarUrl, createdAt, commits} = this.props.user,
     contribAmountPerPush = 0.01;
-
     console.log(this.props.user);
     return (
       <li className="userContrib">
@@ -13,7 +12,7 @@ var LiveFeedItem = React.createClass({
         <span className="gave">gave</span>
         <span className="amount">${contribAmountPerPush}</span>
         <span className="repo"><a href={`http://github.com/${username}/${repo}`} traget="_blank">{`${username}/${repo}`}</a></span>
-        <span className="timeElapsed">{(new Date(createdAt).toString())}</span>
+        <span className="timeElapsed">{createdAt}</span>
       </li>
     )
   }
@@ -28,12 +27,8 @@ var Feed = React.createClass({
   },
 
   render() {
-    var rows = [];
-
-    this.props.users.forEach(function(user) {
-      rows.push(<LiveFeedItem user={user} />);
-    }.bind(this));
-
+    var users = this.props.users || [];
+    console.log(users);
     return (
       <section className="feed">
         <div className="terminal" ref="terminal">
@@ -43,7 +38,9 @@ var Feed = React.createClass({
             <span className="ui-btn green"></span>
           </div>
           <ul>
-            {rows}
+            {_.map(users, ((user, index) => {
+              return <LiveFeedItem key={`LiveFeedItem${index}`} user={user} />
+            }))}
           </ul>
         </div>
       </section>

@@ -237,7 +237,7 @@ module.exports = ((mongooseDB) => {
   mongoose = mongooseDB;
   setupSchema();
   // test();
-  // removeAll();
+  // removeAll((e) => {log('removeAll', 'green')});
   return {
     add: add,
     findOne: findOne,

@@ -85,88 +85,20 @@ main.home {
       }
     }
 
-    .contribs {
+    .usersContribs {
       float: right;
       top: 76px;
       margin-right: 154px;
-      width: 460px;
+      width: $feedWidth;
       .header {
         text-align: center;
         color: $heroTextColor;
         .title {
+          margin-top: 20px;
           font-size: 24px;
         }
         .total{
           font-size: 54px;
-        }
-      }
-      .terminal {
-        position: absolute;
-        width: inherit;
-        bottom: 0px;
-        height: 322px;
-        background-color: #2C3E50;
-        .header {
-          width: inherit;
-          height: 24px;
-          background-color: #D7D7D7;
-          text-align: left;
-          padding: 3px;
-          .ui-btn {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background-color: #000;
-            border-radius: 100%;
-            margin-left: 4px;
-            &.green {
-              background-color: #1AAF5D;
-            }
-            &.yellow {
-              background-color: #F1C600;
-            }
-            &.red {
-              background-color: #C23824;
-            }
-          }
-        }
-        .feed {
-          ul {
-            margin: 0;
-            padding: 10px 0 0;
-          }
-          li {
-            font: 100% $codeFont;
-            font-size: 16px;
-            list-style-type: none;
-            span {
-              display: inline-block;
-              margin-left: 10px;
-            }
-            .tbAvatar {
-              background: white no-repeat 50% 50%;
-              background-size: cover;
-              width: 30px;
-              height: 30px;
-              border-radius: 100%;
-            }
-            .username {
-              color: #3498DB;
-            }
-            .gave {
-              color: #7F8C8D;
-            }
-            .amount {
-              color: #2ECC71;
-            }
-            .repo a{
-              color: #E67E22;
-              text-decoration: none;
-            }
-            .timeElapsed {
-              color: #C573ED;
-            }
-          }
         }
       }
     }

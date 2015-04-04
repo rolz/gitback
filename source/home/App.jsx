@@ -8,9 +8,7 @@ var Feed = require('../feed');
 
 var Hero = React.createClass({
   render() {
-
-    var self = this,
-      {projectTitle, heroSection, sectionTwo} = this.props.context;
+    var self = this;
     return (
       <section className="hero">
         <Header context={this.props.context}/>

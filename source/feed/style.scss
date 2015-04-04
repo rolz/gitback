@@ -3,18 +3,27 @@
 
 .feed {
   width: $feedWidth;
+
   .terminal {
     position: absolute;
     width: inherit;
     bottom: 0px;
     height: 322px;
     background-color: #2C3E50;
+    transform: translateY(100%);
+    transition: transform .3s ease;
+
+    &.visible {
+      transform: translateY(0);
+    }
+
     .header {
       width: inherit;
       height: 24px;
       background-color: #D7D7D7;
       text-align: left;
       padding: 3px;
+
       .ui-btn {
         display: inline-block;
         width: 10px;
@@ -22,17 +31,21 @@
         background-color: #000;
         border-radius: 100%;
         margin-left: 4px;
+
         &.green {
           background-color: #1AAF5D;
         }
+
         &.yellow {
           background-color: #F1C600;
         }
+
         &.red {
           background-color: #C23824;
         }
       }
     }
+
     ul {
       margin: 0;
       padding: 10px 0 0;

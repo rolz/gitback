@@ -20,6 +20,13 @@ var LiveFeedItem = React.createClass({
 });
 
 var Feed = React.createClass({
+  componentDidMount: function() {
+    var self = this;
+    setTimeout(function(){
+      self.refs.terminal.getDOMNode().className += ' visible';
+    }, 500);
+  },
+
   render() {
     var rows = [];
 
@@ -29,7 +36,7 @@ var Feed = React.createClass({
 
     return (
       <section className="feed">
-        <div className="terminal">
+        <div className="terminal" ref="terminal">
           <div className="header">
             <span className="ui-btn red"></span>
             <span className="ui-btn yellow"></span>

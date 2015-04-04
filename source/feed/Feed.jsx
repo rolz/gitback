@@ -4,7 +4,7 @@ var LiveFeedItem = React.createClass({
   render() {
     var {username, repo, avatarUrl, createdAt, commits} = this.props.user,
     contribAmountPerPush = 0.01;
-    console.log(this.props.user);
+    // console.log(this.props.user);
     return (
       <li className="userContrib">
         <span className="tbAvatar" style={{backgroundImage: `url(${avatarUrl})`}} />
@@ -28,7 +28,6 @@ var Feed = React.createClass({
 
   render() {
     var users = this.props.users || [];
-    console.log(users);
     return (
       <section className="feed">
         <div className="terminal" ref="terminal">

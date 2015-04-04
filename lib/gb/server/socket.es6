@@ -88,10 +88,12 @@ function setSocket() {
     }));
     socket.on('findRecentContributions', (() => {
       db.contrib.findRecentContributions((e) => {
-        var arr = [],
+        var totalItemAmount = 10,
+          arr = [],
           check = ((list) => {
             var cb = (() => {
-              if(!list || arr.length >= 3 || _.isArray(list) && list.length === 0) {
+              if(!list || arr.length >= totalItemAmount || _.isArray(list) && list.length === 0) {
+                arr = _.sortBy(arr, ((item) => { return (+new Date(item.createdAt)) * -1; }));
                 io.emit('onFindRecentContributions', {results: arr});
               } else {
                 check(list);

@@ -24,7 +24,7 @@ function setupSchema() {
     repo: String,
     commits: Array,
     raw: mongoose.Schema.Types.Mixed,
-    createdAt: { type: Date, default: Date.now }
+    createdAt: Date
   }));
 }
 
@@ -70,6 +70,7 @@ function add(dat, cb) {
             repo: repo.name,
             commits: e.logs,
             raw: dat,
+            createdAt: new Date
           };
           db.user.updateContrib(modelData, ((e) => {
             var userData = e.result,
@@ -123,7 +124,7 @@ function findRecentContributions(cb) {
     if(cb) {cb({
       status: (err? 'error': 'success'),
       message: err || '',
-      results: results.slice(0,3)
+      results: results
     });}
   });
 }
@@ -154,10 +155,11 @@ module.exports = ((mongooseDB) => {
   mongoose = mongooseDB;
   setupSchema();
   // test();
-  removeAll((e) => {log('removed')});
+  // removeAll((e) => {log('removed')});
   return {
     add: add,
     find: find,
-    findRecentContributions: findRecentContributions
+    findRecentContributions: findRecentContributions,
+    removeAll: removeAll
   };
 });

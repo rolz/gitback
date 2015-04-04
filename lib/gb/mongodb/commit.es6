@@ -95,6 +95,7 @@ module.exports = ((mongooseDB) => {
   // removeAll((e) => {log('removed')});
   return {
     add: add,
-    find: find
+    find: find,
+    removeAll: removeAll
   };
 });

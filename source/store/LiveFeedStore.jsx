@@ -33,7 +33,7 @@ var LiveFeedStore = Reflux.createStore({
   updateUser(user) {
     // logger.debug('updateUser', user);
     this.users.unshift(user);
-    this.users = this.users.slice(0,3);
+    this.users = this.users;
     this.trigger(this.users);
   },
   updateUsers(users) {

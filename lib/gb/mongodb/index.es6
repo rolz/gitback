@@ -52,7 +52,15 @@ function setRoutes() {
   });
 }
 
-
+function removeAll() {
+  user.removeAll(((e) => {
+    contrib.removeAll(((e) => {
+      commit.removeAll(((e) => {
+        log('removed all!', 'green');
+      }));
+    }));
+  }));
+}
 
 exports.connect = ((expressApp, cb) => {
   app = expressApp;
@@ -76,7 +84,7 @@ exports.connect = ((expressApp, cb) => {
       exports.contrib = contrib;
       exports.commit = commit;
       setRoutes();
-      // user.removeAll();
+      // removeAll();
       if(cb) {
         cb({
           status: 'success',

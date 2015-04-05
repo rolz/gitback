@@ -1,7 +1,6 @@
 'use strict'
 
 var Header = require('../components/header');
-var Menu = require('../components/menu');
 var PaymentMethod = require('../components/payments');
 var {RouteHandler, Link} = Router,
 

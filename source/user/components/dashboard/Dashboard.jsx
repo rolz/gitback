@@ -44,7 +44,8 @@ var Repo = React.createClass({
     var self = this,
       {name, webhookId, contribLog} = this.props.model,
       username = this.props.username,
-      raised = "$"+contribLog.length/100,
+      amount = "$"+contribLog.length/100,
+      raised = contribLog.length ? "raised yes" : "raised",
       buttonClass = (() => {
         switch(webhookId) {
           case null: case undefined: return '';
@@ -55,10 +56,10 @@ var Repo = React.createClass({
     return(
         <tr className={`repo ${buttonClass}`}>
           <td className="name">{name}</td>
-          <td className="raised">{raised}</td>
+          <td className={raised}>{amount}</td>
           <td className="repoAction">
-            <button className="remove" onClick={UserActions.removeWebhook.bind(null, username, name, webhookId)}>remove webhook</button>
-            <button className="add" onClick={UserActions.addWebhook.bind(null, username, name)}>add webhook</button>
+            <div className="button" id="remove" onClick={UserActions.removeWebhook.bind(null, username, name, webhookId)}></div>
+            <div className="button" id="add" onClick={UserActions.addWebhook.bind(null, username, name)}></div>
           </td>
         </tr>
     )

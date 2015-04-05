@@ -28,11 +28,17 @@
   src: url('/assets/fonts/SourceCodePro-Bold.otf') format("opentype");
 }
 
+@font-face {
+  font-family: Source Code Pro Regular;
+  src: url('/assets/fonts/SourceCodePro-Regular.otf') format("opentype");
+}
+
 $GBFont: 'Thirsty', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $heroFont: 'Gotham Thin','Helvetica Neue', Helvetica, Arial, sans-serif;
-$bodyH1Font: 'Gotham Bold','Helvetica Neue', Helvetica, Arial, sans-serif;
+$boldFont: 'Gotham Bold','Helvetica Neue', Helvetica, Arial, sans-serif;
 $bodyFont: 'Gotham Light','Helvetica Neue', Helvetica, Arial, sans-serif;
-$codeFont: 'Source Code Pro Bold','Helvetica Neue', Helvetica, Arial, sans-serif;
+$codeFontBold: 'Source Code Pro Bold','Helvetica Neue', Helvetica, Arial, sans-serif;
+$codeFontRegular: 'Source Code Pro Regular','Helvetica Neue', Helvetica, Arial, sans-serif;
 
 // COLOURS
 $bgColor: rgba(255,255,255,1);

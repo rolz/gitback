@@ -93,10 +93,10 @@ main.dashboard {
       text-align: left;
       width: inherit;
       .one {
-        width: 360px;
+        width: 400px;
       }
       .two {
-        width: 100px;
+        width: 120px;
       }
       .three {
 
@@ -107,27 +107,48 @@ main.dashboard {
       width: inherit;
       @extend .greenBorderContainer;
 
-      button {
-        display: none;
-      }
       .repo {
 
+        tr {
+          padding: 10px auto;
+        }
+
         .name {
-          width: 360px;
+          width: 400px;
+          font: 100% $codeFontRegular;
+          font-size: 20px;
         }
 
         .raised {
-          width: 100px;
+          width: 120px;
+          font: 100% $boldFont;
+          font-size: 24px;
+          color: #BDC3C7;
+        }
+
+        .yes {
+          color: #2DB069;
+        }
+
+        .repoAction {
+          .button {
+            display: none;
+            width: 22px;
+            height: 22px;
+            cursor: pointer;
+          }
         }
 
         &.remove {
-          button.remove {
+          .button#remove {
             display: inline-block;
+            background: url(/assets/images/remove.png) no-repeat;
           }
         }
         &.add {
-          button.add {
+          .button#add {
             display: inline-block;
+            background: url(/assets/images/add.png) no-repeat;
           }
         }
       }

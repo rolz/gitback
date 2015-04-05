@@ -7,7 +7,6 @@ var Header = React.createClass({
     });
   },
   toggleMenu() {
-    console.log("menu clicked");
     var self = this,
       el = this.refs.menu.getDOMNode();
 

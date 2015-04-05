@@ -28,12 +28,23 @@ var UserOnboarding = React.createClass({
   }
 });
 
+var RecentActivity = React.createClass({
+  render() {
+    var self= this;
+    return(
+      <div className="activityContainer">
+        <div>Recent Activity</div>
+      </div>
+    )
+  }
+});
+
 var Repo = React.createClass({
   render() {
     var self = this,
       {name, webhookId, contribLog} = this.props.model,
       username = this.props.username,
-      donated = "$"+contribLog.length/100,
+      raised = "$"+contribLog.length/100,
       buttonClass = (() => {
         switch(webhookId) {
           case null: case undefined: return '';
@@ -42,12 +53,14 @@ var Repo = React.createClass({
         }
       })();
     return(
-      <div className={`repo ${buttonClass}`}>
-        <span className="info">{name}</span>
-        <span className="donated">{donated}</span>
-        <button className="remove" onClick={UserActions.removeWebhook.bind(null, username, name, webhookId)}>remove webhook</button>
-        <button className="add" onClick={UserActions.addWebhook.bind(null, username, name)}>add webhook</button>
-      </div>
+        <tr className={`repo ${buttonClass}`}>
+          <td className="name">{name}</td>
+          <td className="raised">{raised}</td>
+          <td className="repoAction">
+            <button className="remove" onClick={UserActions.removeWebhook.bind(null, username, name, webhookId)}>remove webhook</button>
+            <button className="add" onClick={UserActions.addWebhook.bind(null, username, name)}>add webhook</button>
+          </td>
+        </tr>
     )
   }
 });
@@ -56,30 +69,45 @@ var User = React.createClass({
   render() {
     var self = this,
       {username, avatarUrl, repos} = this.props.model,
-      hasAddedPaymentMethod = false, //pull in data when new user model is done
-      {greetings, subGreetings} = this.props.context;
+      hasAddedPaymentMethod = true, //pull in data when new user model is done
+      {totalText, greetings, reposSection} = this.props.context;
 
       var onboardingContainer = hasAddedPaymentMethod ? null : <UserOnboarding username={username} context={this.props.context} />;
 
     return (
-      <section className="userProfile">
+      <section className="container">
 
-        <div className="header">
-          <div className="avatarWrapper">
-            <img src={avatarUrl} />
+        <div className="userProfile">
+
+          <div className="wings clearfix">
+            <div className="text username">{username}</div>
+            <div className="avatarWrapper">
+              <img src={avatarUrl} />
+            </div>
+            <div className="text total">{totalText}</div>
+            <hr />
+            <div className="text amount">$0.00</div>
           </div>
-          <span className="username">{username}</span>
-          <div className="greetings">{greetings[1]}</div>
-          <div className="subGreetings">{subGreetings[1]}</div>
-          <div className="totalContrib">$0.00</div>
-        </div>
 
-        {onboardingContainer}
+          <div className="greetings">
+            <h1>{greetings[0]}</h1>
+          </div>
+          <RecentActivity />
 
-        <div className="repos">
-        {_.map(repos, ((repo, index) => {
-          return <Repo key={`repo${index}`} model={repo} username={username} />
-        }))}
+          {onboardingContainer}
+
+          <table className="reposHeader">
+            <tr>
+              <th className="one">{reposSection[0]}</th>
+              <th className="two">{reposSection[1]}</th>
+              <th className="three">{reposSection[2]}</th>
+            </tr>
+          </table>
+          <table className="repos">
+            {_.map(repos, ((repo, index) => {
+              return <Repo key={`repo${index}`} model={repo} username={username} />
+            }))}
+          </table>
         </div>
 
       </section>

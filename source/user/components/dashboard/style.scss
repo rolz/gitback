@@ -1,43 +1,125 @@
+@import "../../../style/variables";
+
+/*
+* mixins
+*/
+.greenBorderContainer {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #2DB069;
+}
+
 main.dashboard {
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
 
-  .userProfile {
+  .container {
+    position: relative;
+    margin: 0 auto;
+    max-width: 1280px;
 
-    .header {
+    .userProfile {
+      width: 600px;
+      margin: 0 auto;
+    }
+
+    .wings {
+      position: relative;
+      width: inherit;
+
+      .text {
+        position: absolute;
+        &.username {
+          float: right;
+          top: 50px;
+        }
+        &.total {
+          float: right;
+          top: 50px;
+          right: 0;
+        }
+        &.amount {
+          float: right;
+          top: 90px;
+          right: 0;
+        }
+      }
+
+      hr {
+        display: block;
+        position: absolute;
+        top: 76px;
+        width: inherit;
+        height: 1px;
+        border: 0;
+        border-top: 1px solid #2DB069;
+        margin: 0;
+        padding: 0;
+        z-index: 1;
+      }
 
       .avatarWrapper {
         position: relative;
-        width: 50px;
-        height: 50px;
+        margin: 0 auto;
+        width: 140px;
+        height: 140px;
         overflow: hidden;
         border-radius: 50%;
+        z-index: 2;
         img {
           position: absolute;
-          width: 50px;
+          width: 140px;
           top: 50%;
           left: 50%;
           transform: translate(-50%,-50%);
         }
       }
-      .username {
+    }
+
+    .greetings {
+      position: relative;
+      margin: 0 auto;
+      width: 300px;
+      text-align: center;
+    }
+
+    .activityContainer {
+      @extend .greenBorderContainer;
+      text-align: center;
+    }
+
+    .reposHeader {
+      text-align: left;
+      width: inherit;
+      .one {
+        width: 360px;
+      }
+      .two {
+        width: 100px;
+      }
+      .three {
 
       }
-      .greetings {
-
-      }
-      .subGreetings {
-
-      }
-      .totalContrib {
-
-      }
-
     }
 
     .repos {
+      width: inherit;
+      @extend .greenBorderContainer;
+
       button {
         display: none;
       }
       .repo {
+
+        .name {
+          width: 360px;
+        }
+
+        .raised {
+          width: 100px;
+        }
+
         &.remove {
           button.remove {
             display: inline-block;
@@ -52,10 +134,4 @@ main.dashboard {
     }
 
   }
-
-
-
-
-
-
 }

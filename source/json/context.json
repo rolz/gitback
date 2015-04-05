@@ -40,8 +40,8 @@
   "user": {
     "dashboard": {
       "title": "Dashboard",
-      "greetings": ["Hey!", "Oh Hi Oh!"],
-      "subGreetings": ["Let's get started.", "You have raised:"],
+      "totalText": "Total Raised",
+      "greetings": ["Hey, you're a volunteer!"],
       "onboardingTitle": "Welcome to Gitback",
       "onboardingSteps": [
         "Everytime you contribute code to one of your public Github repos, you can donate 1 cent to help girls get into coding.",
@@ -50,7 +50,8 @@
         "You can also set the amount you wold like to give per contribution, as well as a limit per month, in your settings.",
         "Know your making a difference! Let’s do this!"
       ],
-      "addPaymentsButton": "Add Payment Details"
+      "addPaymentsButton": "Add Payment Details",
+      "reposSection":["Your Repo Name", "Raised", "Status"]
     },
     "leaderboard": {
       "title": "Leaderboard",

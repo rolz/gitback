@@ -31,7 +31,7 @@ var Header = React.createClass({
         <section className="header clearfix">
           <div className="bgShader">
             <a className="logo" href="/">Gitback</a>
-            <span className="menuButton" onClick={this.toggleMenu}>Menu</span>
+            <span className="menuButton" onClick={this.toggleMenu}>Menu<img className="hmbr" src="assets/images/menuButton.png"/></span>
           </div>
         </section>
         <div className="menu" ref="menu">

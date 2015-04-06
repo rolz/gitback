@@ -32,7 +32,8 @@
     }
 
     .menuButton {
-      margin: 35px 20px 0 0;
+      float: right;
+      margin: 35px 100px 0 0;
       font: 100% $bodyFont;
       font-size: 16px;
       font-weight: 700;
@@ -41,20 +42,21 @@
   }
 }
 
-.menuButton {
-  float: right;
-}
-
 .menu {
   float: right;
+  margin-right: 20px;
   width: 200px;
   height: 100%;
-  background-color: #2C3E50;
-  transform: translateY(-200%);
-  transition: transform .3s ease;
+  background: #34495E;
+  border: 5px solid #8EEAE9;
+  box-shadow: 0px 1px 3px 0px rgba(0,0,0,0.50);
+  transform: translateY(-25%);
+  opacity: 0;
+  transition: all 0.2s ease;
 
   &.visible {
-    transform: translateY(10%);
+    opacity: 1;
+    transform: translateY(-15%);
   }
 
   li {

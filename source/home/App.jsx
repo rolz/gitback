@@ -11,6 +11,7 @@ var Hero = React.createClass({
     var self = this;
     return (
       <section className="hero">
+        <div className="bgShader"></div>
         <Header context={this.props.context}/>
         <div className="content">
           <Jumbotron context={this.props.context}/>

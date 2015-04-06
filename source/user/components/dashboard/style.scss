@@ -6,7 +6,7 @@
 .greenBorderContainer {
   margin: 10px 0;
   padding: 10px;
-  border: 1px solid #2DB069;
+  border: 1px solid $homePageTextAccentColor;
 }
 
 main.dashboard {
@@ -53,7 +53,7 @@ main.dashboard {
         width: inherit;
         height: 1px;
         border: 0;
-        border-top: 1px solid #2DB069;
+        border-top: 1px solid $homePageTextAccentColor;
         margin: 0;
         padding: 0;
         z-index: 1;
@@ -127,7 +127,7 @@ main.dashboard {
         }
 
         .yes {
-          color: #2DB069;
+          color: $homePageTextAccentColor;
         }
 
         .repoAction {

@@ -6,13 +6,15 @@
   text-align: left;
 
   .terminal {
-    position: absolute;
+    position: relative;
+    margin-top: 25px;
     width: inherit;
     bottom: 0px;
     height: 322px;
     background-color: #2C3E50;
     transform: translateY(100%);
     transition: transform .3s ease;
+    z-index: 2;
 
     &.visible {
       transform: translateY(0);

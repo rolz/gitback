@@ -27,9 +27,12 @@ var Header = React.createClass({
       Link = this.props.link;
     return (
       <div className="userNav">
+
         <section className="header clearfix">
-          <a className="logo" href="/">Gitback</a>
-          <span className="menuButton" onClick={this.toggleMenu}>Menu</span>
+          <div className="bgShader">
+            <a className="logo" href="/">Gitback</a>
+            <span className="menuButton" onClick={this.toggleMenu}>Menu</span>
+          </div>
         </section>
         <div className="menu" ref="menu">
           <ul>

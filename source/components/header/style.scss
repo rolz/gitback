@@ -16,6 +16,12 @@
     background: linear-gradient(135deg,  rgba(143,226,134,1) 0%,rgba(142,234,233,1) 100%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8fe286', endColorstr='#8eeae9',GradientType=1 ); /* IE6-8 fallback on horizontal gradient */
 
+    .bgShader {
+      width: inherit;
+      height: inherit;
+      background: url(/assets/images/bgshader.png);
+    }
+
     .logo {
       position: absolute;
       margin-top: 20px;

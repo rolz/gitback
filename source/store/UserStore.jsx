@@ -16,13 +16,13 @@ var UserStore = Reflux.createStore({
 
   /* Anonymous */
   onSetAnonymous(username, flag) {
-    logger.debug('setAnonymous', username, flag);
+    // logger.debug('setAnonymous', username, flag);
     socket.emit('setAnonymous', username, flag);
   },
 
   /* Payments */
   onAddPaymentMethod(username) {
-    logger.debug('addPayments');
+    // logger.debug('addPayments');
     socket.emit('addPaymentMethod', username);
   },
 
@@ -33,7 +33,7 @@ var UserStore = Reflux.createStore({
   },
 
   onRemoveWebhook(username, repoName, webhookId) {
-    logger.debug(username, repoName, webhookId);
+    // logger.debug(username, repoName, webhookId);
     socket.emit('removeWebhook', username, repoName, webhookId);
   },
 
@@ -50,8 +50,10 @@ var UserStore = Reflux.createStore({
   },
   updateUser(user){
     // logger.debug('updateUser', user);
-    this.user = user;
-    this.trigger(user);
+    if(!this.user.username || this.user.username === user.username) {
+      this.user = user;
+      this.trigger(user);
+    }
   },
   getInitialState() {
     this.user = GB.user || _.find(GB.users, ((user) => {return user.username === GB.username})) || {};

@@ -156,6 +156,18 @@ main.dashboard {
             height: 22px;
             cursor: pointer;
           }
+          .loading {
+            position: absolute;
+            z-index: 1;
+            background: white;
+            img {
+              width: 24px;
+            }
+            display: none;
+            &[show="true"] {
+              display: block;
+            }
+          }
         }
 
         &.remove {

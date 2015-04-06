@@ -11,8 +11,7 @@ var Repo = React.createClass({
       username = this.props.username,
       buttonClass = (() => {
         switch(webhookId) {
-          case null: case undefined: return '';
-          case 'false': return 'add';
+          case null: case undefined: case 'false': return 'add';
           default: return 'remove';
         }
       })();

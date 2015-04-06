@@ -71,7 +71,7 @@ function setRoutes() {
               if(e.status === 'success') {
                 log(e.message, 'green');
                 /* Add webhooks */
-                addWebhooks(token, username, _.cloneDeep(repos));
+                // addWebhooks(token, username, _.cloneDeep(repos));
               } else {
                 // User already exists.
                 log(e.message, 'red');

@@ -40,26 +40,57 @@ var RecentActivity = React.createClass({
 });
 
 var Repo = React.createClass({
+  addLoadingIcon() {
+    this.refs.loading.getDOMNode().setAttribute('show', 'true');
+  },
+  removeLoadingIcon() {
+    this.refs.loading.getDOMNode().setAttribute('show', 'false');
+  },
+  isLoadingIconShown() {
+    return !! (this.refs.loading.getDOMNode().getAttribute('show') === 'true');
+  },
+  removeWebhook() {
+    if(!this.isLoadingIconShown()) {
+      this.addLoadingIcon();
+      var {name, webhookId} = this.props.repo,
+        username = this.props.username;
+      UserActions.removeWebhook(username, name, webhookId);
+    }
+  },
+  addWebhook() {
+    if(!this.isLoadingIconShown()) {
+      this.addLoadingIcon();
+      var {name, webhookId} = this.props.repo,
+        username = this.props.username;
+      UserActions.addWebhook(username, name);
+    }
+  },
+  componentDidUpdate() {
+    this.removeLoadingIcon();
+  },
   render() {
     var self = this,
-      {name, webhookId, contribLog} = this.props.model,
+      {contribAmountPerPush} = this.props.model,
+      {name, webhookId, contribLog} = this.props.repo,
       username = this.props.username,
-      amount = "$"+contribLog.length/100,
-      raised = contribLog.length ? "raised yes" : "raised",
+      amount = contribLog.length * contribAmountPerPush,
       buttonClass = (() => {
         switch(webhookId) {
-          case null: case undefined: return '';
-          case 'false': return 'add';
+          case null: case undefined: case 'false': return 'add';
           default: return 'remove';
         }
-      })();
+      })(),
+      raised = buttonClass === 'remove' ? 'raised yes' : 'raised';
     return(
         <tr className={`repo ${buttonClass}`}>
           <td className="name">{name}</td>
-          <td className={raised}>{amount}</td>
+          <td className={raised}>{`$${amount}`}</td>
           <td className="repoAction">
-            <div className="button" id="remove" onClick={UserActions.removeWebhook.bind(null, username, name, webhookId)}></div>
-            <div className="button" id="add" onClick={UserActions.addWebhook.bind(null, username, name)}></div>
+            <div className="loading" ref="loading">
+              <img src="/assets/images/loading-spin.svg" />
+            </div>
+            <div className="button" id="remove" onClick={this.removeWebhook}></div>
+            <div className="button" id="add" onClick={this.addWebhook}></div>
           </td>
         </tr>
     )
@@ -69,12 +100,15 @@ var Repo = React.createClass({
 var User = React.createClass({
   render() {
     var self = this,
-      {username, avatarUrl, repos} = this.props.model,
+      model = this.props.model,
+      {username, avatarUrl, repos, contribAmountPerPush} = model,
       hasAddedPaymentMethod = true, //pull in data when new user model is done
       {totalText, greetings, reposSection} = this.props.context;
 
-      var onboardingContainer = hasAddedPaymentMethod ? null : <UserOnboarding username={username} context={this.props.context} />;
+    var onboardingContainer = hasAddedPaymentMethod ? null : <UserOnboarding username={username} context={this.props.context} />;
 
+    var totalAmount = 0;
+    _.each(repos, (repo) => {totalAmount += (repo.contribLog.length * contribAmountPerPush)});
     return (
       <section className="container">
 
@@ -87,7 +121,7 @@ var User = React.createClass({
             </div>
             <div className="text total">{totalText}</div>
             <hr />
-            <div className="text amount">$0.00</div>
+            <div className="text amount">{`$${totalAmount}`}</div>
           </div>
 
           <div className="greetings">{greetings[0]}</div>
@@ -104,7 +138,7 @@ var User = React.createClass({
           </table>
           <table className="repos">
             {_.map(repos, ((repo, index) => {
-              return <Repo key={`repo${index}`} model={repo} username={username} />
+              return <Repo key={`repo${index}`} model={model} repo={repo} username={username} />
             }))}
           </table>
         </div>

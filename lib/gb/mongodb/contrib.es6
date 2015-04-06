@@ -67,18 +67,18 @@ function add(dat, cb) {
       addCommits(commits, repo, ((e) => {
         if(e.status === 'success' && e.logs.length > 0) {
           /* Add contrib model */
-          var modelData = {
+          var contribData = {
             username: repo.owner.name,
             repo: repo.name,
             commits: e.logs,
             raw: dat,
             createdAt: new Date
           };
-          db.user.updateContrib(modelData, ((e) => {
+          db.user.updateContrib(contribData, ((e) => {
             var userData = e.result;
-            modelData.hidden = userData.hidden;
-            modelData.avatarUrl = userData.avatarUrl;
-            var model = new PContrib(modelData);
+            contribData.hidden = userData.hidden;
+            contribData.avatarUrl = userData.avatarUrl;
+            var model = new PContrib(contribData);
             log(userData, 'yellow');
             model.save((err) => {
               if(cb) {cb({
@@ -86,7 +86,10 @@ function add(dat, cb) {
                 message: `contrib added successfully.`
               });}
               if(userData.hidden !== 'true') {
-                socket.emit('onContributed', modelData);
+                socket.emit('onContributed', {
+                  contribData: contribData,
+                  userData: userData
+                });
               }
             });
           }));

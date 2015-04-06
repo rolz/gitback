@@ -21,6 +21,7 @@ function setupSchema() {
     hidden: { type: Boolean, default: false },
     lastLoggedIn: { type: Date, default: Date.now },
     createdAt: { type: Date, default: Date.now },
+    contribAmountPerPush: { type: Number, default: .01 },
     repos: [{
       name: String,
       webhookId: String,
@@ -198,9 +199,9 @@ function removeWebhookId(username, repoName, cb) {
     if(repo) {
       repo.webhookId = false;
       repo.createdWebhookAt = null;
-      repo.lastContributedAt = null;
-      repo.totalCommitCount = 0;
-      repo.contribLog = [];
+      // repo.lastContributedAt = null;
+      // repo.totalCommitCount = 0;
+      // repo.contribLog = [];
       updateUser(username, dat, ((e) => {
         log('updated!' + JSON.stringify(e), 'green');
         if(cb) cb(e);

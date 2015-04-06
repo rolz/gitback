@@ -6,14 +6,14 @@
 .greenBorderContainer {
   margin: 10px 0;
   padding: 10px;
-  border: 1px solid $homePageTextAccentColor;
+  border: 1px solid $primaryAccent;
 }
 
 main.dashboard {
   width: 100%;
   height: 100%;
   margin: 0 auto;
-  margin-top: -40px;
+  margin-top: -60px;
 
   .container {
     position: relative;
@@ -31,19 +31,25 @@ main.dashboard {
 
       .text {
         position: absolute;
+        font: 100% $bodyFont;
+        font-size: 24px;
         &.username {
           float: right;
-          top: 50px;
+          top: 40px;
         }
         &.total {
           float: right;
-          top: 50px;
+          top: 40px;
           right: 0;
+          color: $primaryAccent;
         }
         &.amount {
+          font: 100% $boldFont;
+          font-size: 36px;
           float: right;
-          top: 90px;
+          top: 80px;
           right: 0;
+          color: $primaryAccent;
         }
       }
 
@@ -54,7 +60,7 @@ main.dashboard {
         width: inherit;
         height: 1px;
         border: 0;
-        border-top: 1px solid $homePageTextAccentColor;
+        border-top: 1px solid $primaryAccent;
         margin: 0;
         padding: 0;
         z-index: 1;
@@ -80,14 +86,21 @@ main.dashboard {
 
     .greetings {
       position: relative;
-      margin: 0 auto;
-      width: 300px;
+      margin: 30px auto;
+      width: inherit;
       text-align: center;
+      font: 100% $bodyFont;
+      font-size: 36px;
     }
 
     .activityContainer {
       @extend .greenBorderContainer;
-      text-align: center;
+      margin-bottom: 30px;
+      .title {
+        font: 100% $bodyFont;
+        font-size: 12px;
+        text-align: center;
+      }
     }
 
     .reposHeader {
@@ -95,12 +108,17 @@ main.dashboard {
       width: inherit;
       .one {
         width: 400px;
+        font: 100% $bodyFont;
+        font-size: 18px;
       }
       .two {
         width: 120px;
+        font: 100% $bodyFont;
+        font-size: 18px;
       }
       .three {
-
+        font: 100% $bodyFont;
+        font-size: 18px;
       }
     }
 
@@ -128,7 +146,7 @@ main.dashboard {
         }
 
         .yes {
-          color: $homePageTextAccentColor;
+          color: $primaryAccent;
         }
 
         .repoAction {

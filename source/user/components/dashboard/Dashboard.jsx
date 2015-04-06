@@ -33,7 +33,7 @@ var RecentActivity = React.createClass({
     var self= this;
     return(
       <div className="activityContainer">
-        <div>Recent Activity</div>
+        <div className="title">Recent Activity</div>
       </div>
     )
   }
@@ -90,9 +90,7 @@ var User = React.createClass({
             <div className="text amount">$0.00</div>
           </div>
 
-          <div className="greetings">
-            <h1>{greetings[0]}</h1>
-          </div>
+          <div className="greetings">{greetings[0]}</div>
           <RecentActivity />
 
           {onboardingContainer}

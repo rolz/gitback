@@ -41,7 +41,7 @@
     "dashboard": {
       "title": "Dashboard",
       "totalText": "Total Raised",
-      "greetings": ["Hey, you're a volunteer!"],
+      "greetings": ["Welcome, let's get started!","Hey, you're a volunteer!"],
       "onboardingTitle": "Welcome to Gitback",
       "onboardingSteps": [
         "Everytime you contribute code to one of your public Github repos, you can donate 1 cent to help girls get into coding.",

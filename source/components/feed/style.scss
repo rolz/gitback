@@ -49,20 +49,20 @@
 
     ul {
       margin: 0;
-      padding: 10px 0 0;
+      padding: 20px 0 0;
+      overflow: hidden;
       li {
         font: 100% $codeFontBold;
         font-size: 16px;
         list-style-type: none;
         margin-bottom: 10px;
-        // display: none;
-        // &.visible {
-        //   display: inherit;
-        // }
+        padding: 2px 0;
         .userContribItem {
           display: inline-block;
+          white-space: nowrap;
           &:last-child {
             width: 400px;
+            vertical-align: 10px;
           }
           > span {
             display: inline-block;

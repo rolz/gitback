@@ -59,6 +59,8 @@
   transform: translateY(-25%);
   opacity: 0;
   transition: all 0.2s ease;
+  z-index: 10;
+  position: relative;
 
   &.visible {
     opacity: 1;

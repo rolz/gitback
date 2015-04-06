@@ -16,8 +16,8 @@ var ContribItem = React.createClass({
     this.didMount();
   },
   didMount() {
-    var {name, label, didMount, index} = this.props;
-    if(index === 0) {
+    var {name, label, didMount, isLast} = this.props;
+    if(isLast) {
       var el = this.getDOMNode();
       el.innerHTML = '';
       didMount({
@@ -28,15 +28,21 @@ var ContribItem = React.createClass({
     }
   },
   render() {
-    var {name, label, index} = this.props;
+    var {name, label, isLast} = this.props;
     return (
-      <span className={name} onClick={this.clickItem}>{index === 0? '' : label}</span>
+      <span className={name} onClick={this.clickItem}>{isLast? '' : label}</span>
     );
   }
 });
 
 var LiveFeedItem = React.createClass({
+  componentWillUnmount() {
+    this.resetTyping();
+  },
   componentWillUpdate() {
+    this.resetTyping();
+  },
+  resetTyping() {
     if(this.timeoutId) {
       clearTimeout(this.timeoutId);
       this.timeoutId = null;
@@ -45,7 +51,7 @@ var LiveFeedItem = React.createClass({
   },
   startTyping(items) {
     var self = this;
-    if(this.props.index === 0 && items.length > 0) {
+    if(this.props.isLast && items.length > 0) {
       var {el, name, label} = items.shift(),
         labels = label.split(''),
         type = (() => {
@@ -60,7 +66,7 @@ var LiveFeedItem = React.createClass({
     }
   },
   didMountContribItem(items) {
-    if(this.props.index === 0) {
+    if(this.props.isLast) {
       var contribItems = this.contribItems = this.contribItems || [];
       contribItems.push(items);
       if(contribItems.length === 5) {
@@ -70,7 +76,7 @@ var LiveFeedItem = React.createClass({
     }
   },
   render() {
-    var {index, user} = this.props,
+    var {isLast, user} = this.props,
       {username, repo, avatarUrl, createdAt, commits} = user,
       contribAmountPerPush = 0.01;
     return (
@@ -79,12 +85,11 @@ var LiveFeedItem = React.createClass({
           <span className="tbAvatar" style={avatarUrl? {backgroundImage: `url(${avatarUrl})`} : {}} />
         </div>
         <div className="userContribItem">
-          <ContribItem didMount={this.didMountContribItem} index={index} name="username" label={username} />
-          <ContribItem didMount={this.didMountContribItem} index={index} name="gave" label={'gave'} />
-          <ContribItem didMount={this.didMountContribItem} index={index} name="amount" label={`$${contribAmountPerPush}`} />
-          <br/>
-          <ContribItem didMount={this.didMountContribItem} index={index} name="repo" label={`~/${username}/${repo}`} />
-          <ContribItem didMount={this.didMountContribItem} index={index} name="timeElapsed" label={util.timeago(createdAt)} />
+          <ContribItem didMount={this.didMountContribItem} isLast={isLast} name="timeElapsed" label={util.timeago(createdAt)} />
+          <ContribItem didMount={this.didMountContribItem} isLast={isLast} name="username" label={username} />
+          <ContribItem didMount={this.didMountContribItem} isLast={isLast} name="gave" label={'gave'} />
+          <ContribItem didMount={this.didMountContribItem} isLast={isLast} name="amount" label={`$${contribAmountPerPush}`} />
+          <ContribItem didMount={this.didMountContribItem} isLast={isLast} name="repo" label={`~/${username}/${repo}`} />
         </div>
       </li>
     );
@@ -92,15 +97,19 @@ var LiveFeedItem = React.createClass({
 });
 
 var Feed = React.createClass({
+  componentWillUnmount() {
+    clearTimeout(this.timeoutId);
+  },
   componentDidMount() {
     var el = this.refs.terminal.getDOMNode();
-    setTimeout(() => {
+    this.timeoutId = setTimeout(() => {
       el.className += ' visible';
     }, 500);
   },
 
   render() {
     var users = this.props.users || [];
+    users = _(users.slice(0, 5)).reverse().value();
     return (
       <section className="feed">
         <div className="terminal" ref="terminal">
@@ -111,7 +120,7 @@ var Feed = React.createClass({
           </div>
           <ul>
             {_.map(users, ((user, index) => {
-              return <LiveFeedItem key={`LiveFeedItem${index}`} user={user} index={index} />
+              return <LiveFeedItem key={`LiveFeedItem${index}`} user={user} isLast={users.length - 1 === index} />
             }))}
           </ul>
         </div>

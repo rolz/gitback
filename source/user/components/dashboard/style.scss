@@ -168,7 +168,7 @@ main.dashboard {
         }
 
         .raised {
-          width: 110px;
+          width: 115px;
           font: 100% $boldFont;
           font-size: 24px;
           color: #BDC3C7;
@@ -191,7 +191,7 @@ main.dashboard {
             z-index: 1;
             background: white;
             display: none;
-            margin-left: 12px;
+            margin-left: 22px;
             img {
               width: $repoActionIconSize;
             }

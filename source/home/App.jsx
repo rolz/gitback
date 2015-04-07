@@ -29,7 +29,7 @@ var Header = React.createClass({
       {projectTitle, heroSection} = this.props.context;
     return(
       <section className="header clearfix">
-        <a className="logo" href="/">{projectTitle}</a>
+        <a className="logo">{projectTitle}</a>
         <ul>
           <li><a href="#getInvolved">{heroSection.nav[0]}</a></li>
           <li><a href="#ourMission">{heroSection.nav[1]}</a></li>

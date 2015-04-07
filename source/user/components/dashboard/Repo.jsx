@@ -1,6 +1,7 @@
 'use strict'
 
-var logger = Logger.get('Dashboard.Repo');
+var util = require('../../../lib/util.jsx'),
+  logger = Logger.get('Dashboard.Repo');
 
 // actions
 var UserActions = require('../../../actions/UserActions.jsx');
@@ -37,9 +38,8 @@ var Repo = React.createClass({
   render() {
     var self = this,
       {contribAmountPerPush} = this.props.model,
-      {name, webhookId, contribLog} = this.props.repo,
+      {name, webhookId, contribLog, totalContribAmount} = this.props.repo,
       username = this.props.username,
-      amount = contribLog.length * contribAmountPerPush,
       buttonClass = (() => {
         switch(webhookId) {
           case null: case undefined: case 'false': return 'add';
@@ -50,7 +50,7 @@ var Repo = React.createClass({
     return(
         <tr className={`repo ${buttonClass}`}>
           <td className="name">{name}</td>
-          <td className={raised}>{`$${amount}`}</td>
+          <td className={raised}>{util.convertCurrency(totalContribAmount)}</td>
           <td className="repoAction">
             <div className="loading" ref="loading">
               <img src="/assets/images/loading-spin.svg" />

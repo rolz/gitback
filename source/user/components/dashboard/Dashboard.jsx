@@ -1,7 +1,7 @@
 'use strict'
 
 var util = require('../../../lib/util.jsx'),
-  logger = Logger.get('Settings'),
+  logger = Logger.get('Dashboard'),
   UserActions = require('../../../actions/UserActions.jsx'),
   PaymentsActions = require('../../../actions/PaymentsActions.jsx');
 
@@ -25,7 +25,7 @@ var UserOnboarding = React.createClass({
           <p>{selectDonationAmount}</p>
           <span className="contribAmountPerPush">
           {_.map(donationAmounts, ((amount, index) => {
-            return <span key={`contrib${index}`} onClick={self.setContribAmountPerPush.bind(null, amount)} className={contribAmountPerPush === amount? 'active' : ''} dangerouslySetInnerHTML={{__html:util.convertCurrency(amount)}} />;
+            return <span key={`contrib${index}`} onClick={self.setContribAmountPerPush.bind(null, amount)} className={contribAmountPerPush === amount? 'active' : ''}>{util.convertCurrency(amount)}</span>;
           }))}
           </span>
         </div>
@@ -53,12 +53,10 @@ var User = React.createClass({
   render() {
     var self = this,
       model = this.props.model,
-      {username, avatarUrl, repos, contribAmountPerPush} = model,
+      {username, avatarUrl, repos, contribAmountPerPush, totalContribAmount} = model,
       hasAddedPaymentMethod = false, //pull in data when new user model is done
       {totalText, greetings, reposSection} = this.props.context;
 
-    var totalAmount = 0;
-    _.each(repos, (repo) => {totalAmount += (repo.contribLog.length * contribAmountPerPush)});
     return (
       <section className="container">
 
@@ -71,7 +69,7 @@ var User = React.createClass({
             </div>
             <div className="text total">{totalText}</div>
             <hr />
-            <div className="text amount">{`$${totalAmount}`}</div>
+            <div className="text amount">{util.convertCurrency(totalContribAmount)}</div>
           </div>
 
           <div className="greetings">{greetings[Math.floor(Math.random() * greetings.length)]}</div>

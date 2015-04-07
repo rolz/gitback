@@ -32,9 +32,10 @@ function setupSchema() {
     repos: [{
       name: String,
       webhookId: String,
-      createdWebhookAt: Date,
-      lastContributedAt: Date,
-      totalCommitCount: Number,
+      createdWebhookAt: { type: Date, default: Date.now },
+      lastContributedAt: { type: Date, default: Date.now },
+      totalCommitCount: { type: Number, default: 0 },
+      totalContribAmount: { type: Number, default: 0 },
       contribLog: Array
     }]
   }));
@@ -216,8 +217,18 @@ function removeWebhookId(username, repoName, cb) {
 }
 
 function test() {
-  // var dat = require('../../../json/push');
-  // updatePush(dat);
+  findAll((e) => {
+    _.each(e.result, (item) => {
+      var username = item.username;
+      log(username);
+      _.each(item.repos, ((repo) => {
+        repo.totalContribAmount = 0;
+      }));
+      updateUser(username, {repos: item.repos}, ((e) => {
+        log(`updated!: ${username}`, 'green');
+      }));
+    });
+  });
 }
 
 function updateContrib(model, cb) {
@@ -227,11 +238,13 @@ function updateContrib(model, cb) {
     if(dat) {
       var repo = _.find(dat.repos, (repo) => { return repo.name === model.repo; });
       if(repo) {
+        var contribAmount = dat.contribAmountPerPush;
         repo.lastContributedAt = Date.now;
         repo.totalCommitCount += model.commits.length;
-        dat.totalContribAmount += dat.contribAmountPerPush;
-        dat.currentMonthContribAmount += dat.contribAmountPerPush;
-        model.contribAmount = dat.contribAmountPerPush;
+        repo.totalContribAmount += contribAmount;
+        dat.totalContribAmount += contribAmount;
+        dat.currentMonthContribAmount += contribAmount;
+        model.contribAmount = contribAmount;
         repo.contribLog.unshift(model);
       }
       updateUser(username, dat, ((e) => {

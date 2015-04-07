@@ -65,7 +65,7 @@ function setSocket() {
     socket.on('setContribAmountPerPush', ((username, amount) => {
       log(`setContribAmountPerPush: ${username, amount}`, 'yellow');
       db.user.update(username, {contribAmountPerPush: amount}, ((e) => {
-        log(e.result);
+        // log(e.result);
         io.emit('onSetContribAmountPerPush', e.result);
       }));
     }));

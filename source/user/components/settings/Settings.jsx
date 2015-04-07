@@ -42,7 +42,7 @@ ContribAmountPerPush = React.createClass({
     return (
       <span className="contribAmountPerPush">
       {_.map(this.props.donationAmounts, ((amount, index) => {
-        return <span key={`contrib${index}`} onClick={self.setContribAmountPerPush.bind(null, amount)} className={contribAmountPerPush === amount? 'active' : ''} dangerouslySetInnerHTML={{__html:util.convertCurrency(amount)}} />;
+        return <span key={`contrib${index}`} onClick={self.setContribAmountPerPush.bind(null, amount)} className={contribAmountPerPush === amount? 'active' : ''}>{util.convertCurrency(amount)}</span>;
       }))}
       </span>
     );

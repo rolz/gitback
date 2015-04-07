@@ -65,12 +65,15 @@ module.exports = {
     return timeago(+new Date(timestamp));
   },
   convertCurrency(val) {
-    if(val < 1) {
+    if(!val) {
+      return `$0`;
+    }
+    else if(val < 1) {
       // cent
-      return `${Math.floor(val*100)}&#162;`;
+      return `${Math.floor(val*100)}¢`;
     } else {
       // dollar
-      return `&#36;${Math.floor(val*100)/100}`;
+      return `$${Math.floor(val*100)/100}`;
     }
   }
 }

@@ -58,15 +58,19 @@
         margin-bottom: 10px;
         padding: 2px 0;
         .userContribItem {
-          display: inline-block;
+          float: left;
           white-space: nowrap;
           &:last-child {
             width: 400px;
             vertical-align: 10px;
+            margin-top: 3px;
           }
           > span {
             display: inline-block;
             margin-left: 10px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 160px;
           }
         }
         .tbAvatar {

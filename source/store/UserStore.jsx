@@ -56,7 +56,7 @@ var UserStore = Reflux.createStore({
   },
   updateUser(user){
     // logger.debug('updateUser', user);
-    if(!this.user.username || this.user.username === user.username) {
+    if(!this.user || !this.user.username || this.user.username === user.username) {
       this.user = user;
       this.trigger(user);
     }

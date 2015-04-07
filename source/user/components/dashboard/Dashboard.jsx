@@ -17,6 +17,7 @@ var UserOnboarding = React.createClass({
       {username, contribAmountPerPush} = this.props.model,
       {donationAmounts} = this.props.context,
       {addPaymentsButton, pushAmountExampleText, pushAmountExampleValue, selectDonationAmount} = this.props.context.onboardingSteps;
+    pushAmountExampleValue = pushAmountExampleValue.replace('#{amount}', `<span>${util.convertCurrency(contribAmountPerPush * 100)}</span>`);
     return (
       <div className="onboardingContainer">
         <div className="onboardingSteps">
@@ -28,6 +29,7 @@ var UserOnboarding = React.createClass({
           }))}
           </span>
         </div>
+        <h3 className="pushAmountExampleValue" dangerouslySetInnerHTML={{__html: pushAmountExampleValue}} />
         <button className="onboardingAddPayment" onClick={PaymentsActions.showPaymentMethod.bind(null, username)}>{addPaymentsButton}</button>
       </div>
     )

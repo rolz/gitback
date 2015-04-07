@@ -1,24 +1,34 @@
 'use strict'
 
-var logger = Logger.get('App');
-
-// actions
-var UserActions = require('../../../actions/UserActions.jsx');
-var PaymentsActions = require('../../../actions/PaymentsActions.jsx');
+var util = require('../../../lib/util.jsx'),
+  logger = Logger.get('Settings'),
+  UserActions = require('../../../actions/UserActions.jsx'),
+  PaymentsActions = require('../../../actions/PaymentsActions.jsx');
 
 var UserOnboarding = React.createClass({
+  setContribAmountPerPush(val) {
+    var {username, contribAmountPerPush} = this.props.model;
+    if(val !== contribAmountPerPush) {
+      UserActions.setContribAmountPerPush(username, val);
+    }
+  },
   render() {
-
-    var self =this,
-      {onboardingTitle, onboardingSteps} = this.props.context,
-      username = this.props.username;
-
+    var self = this,
+      {username, contribAmountPerPush} = this.props.model,
+      {donationAmounts} = this.props.context,
+      {addPaymentsButton, pushAmountExampleText, pushAmountExampleValue, selectDonationAmount} = this.props.context.onboardingSteps;
     return (
       <div className="onboardingContainer">
-        <div className="onboardingTitle">{onboardingTitle}</div>
         <div className="onboardingSteps">
+          <h3 dangerouslySetInnerHTML={{__html:pushAmountExampleText}} />
+          <p>{selectDonationAmount}</p>
+          <span className="contribAmountPerPush">
+          {_.map(donationAmounts, ((amount, index) => {
+            return <span key={`contrib${index}`} onClick={self.setContribAmountPerPush.bind(null, amount)} className={contribAmountPerPush === amount? 'active' : ''} dangerouslySetInnerHTML={{__html:util.convertCurrency(amount)}} />;
+          }))}
+          </span>
         </div>
-        <button className="onboardingAddPayment" onClick={PaymentsActions.showPaymentMethod.bind(null, username)}>{onboardingSteps.addPaymentsButton}</button>
+        <button className="onboardingAddPayment" onClick={PaymentsActions.showPaymentMethod.bind(null, username)}>{addPaymentsButton}</button>
       </div>
     )
   }
@@ -35,73 +45,15 @@ var RecentActivity = React.createClass({
   }
 });
 
-var Repo = React.createClass({
-  addLoadingIcon() {
-    this.refs.loading.getDOMNode().setAttribute('show', 'true');
-  },
-  removeLoadingIcon() {
-    this.refs.loading.getDOMNode().setAttribute('show', 'false');
-  },
-  isLoadingIconShown() {
-    return !! (this.refs.loading.getDOMNode().getAttribute('show') === 'true');
-  },
-  removeWebhook() {
-    if(!this.isLoadingIconShown()) {
-      this.addLoadingIcon();
-      var {name, webhookId} = this.props.repo,
-        username = this.props.username;
-      UserActions.removeWebhook(username, name, webhookId);
-    }
-  },
-  addWebhook() {
-    if(!this.isLoadingIconShown()) {
-      this.addLoadingIcon();
-      var {name, webhookId} = this.props.repo,
-        username = this.props.username;
-      UserActions.addWebhook(username, name);
-    }
-  },
-  componentDidUpdate() {
-    this.removeLoadingIcon();
-  },
-  render() {
-    var self = this,
-      {contribAmountPerPush} = this.props.model,
-      {name, webhookId, contribLog} = this.props.repo,
-      username = this.props.username,
-      amount = contribLog.length * contribAmountPerPush,
-      buttonClass = (() => {
-        switch(webhookId) {
-          case null: case undefined: case 'false': return 'add';
-          default: return 'remove';
-        }
-      })(),
-      raised = buttonClass === 'remove' ? 'raised yes' : 'raised';
-    return(
-        <tr className={`repo ${buttonClass}`}>
-          <td className="name">{name}</td>
-          <td className={raised}>{`$${amount}`}</td>
-          <td className="repoAction">
-            <div className="loading" ref="loading">
-              <img src="/assets/images/loading-spin.svg" />
-            </div>
-            <div className="button" id="remove" onClick={this.removeWebhook}></div>
-            <div className="button" id="add" onClick={this.addWebhook}></div>
-          </td>
-        </tr>
-    )
-  }
-});
+var Repo = require('./Repo.jsx');
 
 var User = React.createClass({
   render() {
     var self = this,
       model = this.props.model,
       {username, avatarUrl, repos, contribAmountPerPush} = model,
-      hasAddedPaymentMethod = true, //pull in data when new user model is done
+      hasAddedPaymentMethod = false, //pull in data when new user model is done
       {totalText, greetings, reposSection} = this.props.context;
-
-    var onboardingContainer = hasAddedPaymentMethod ? null : <UserOnboarding username={username} context={this.props.context} />;
 
     var totalAmount = 0;
     _.each(repos, (repo) => {totalAmount += (repo.contribLog.length * contribAmountPerPush)});
@@ -121,9 +73,8 @@ var User = React.createClass({
           </div>
 
           <div className="greetings">{greetings[Math.floor(Math.random() * greetings.length)]}</div>
-          <RecentActivity />
 
-          {onboardingContainer}
+          {hasAddedPaymentMethod ? <RecentActivity /> : <UserOnboarding model={model} context={this.props.context} />}
 
           <table className="reposHeader">
             <tr>
@@ -152,10 +103,8 @@ var Dashboard = React.createClass({
       {name, state, context} = this.props.params;
     return (
       <main className={name}>
-      {(() => {
-        return this.state.user.username? <User model={this.state.user} context={context} />
-        : <img className="loadingUserInfo" src="/assets/images/loading-spin.svg" />
-      })()}
+      {this.state.user.username? <User model={this.state.user} context={context} />
+        : <img className="loadingUserInfo" src="/assets/images/loading-spin.svg" />}
       </main>
     );
   }

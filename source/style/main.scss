@@ -28,16 +28,15 @@ h1, h2, h3, h4, h5, p {
   padding: .2em 0;
 }
 
-p {
-  color: lighten($textColor, 30%);
-}
-
 a {
   color: hsl(200, 50%, 50%);
 }
 
 button {
   cursor: pointer;
+  font-family: $bodyFont;
+  font-size: 1em;
+  border: none;
 }
 
 .clearfix:after {

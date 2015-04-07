@@ -1,6 +1,7 @@
 {
   "common": {
-    "projectTitle": "Gitback"
+    "projectTitle": "Gitback",
+    "donationAmounts": [0.01, 0.05, 0.1, 0.25, 0.5, 1]
   },
   "admin": {
   },
@@ -42,11 +43,9 @@
       "title": "Dashboard",
       "totalText": "Total Raised",
       "greetings": ["Welcome, let's get started!","Hey, you're a volunteer!"],
-      "onboardingTitle": "Welcome to Gitback",
       "onboardingSteps": {
-        "pushAmountExampleText": "If you push code 100 times over the next year.",
+        "pushAmountExampleText": "If you push code <span>100</span> times over the next year.",
         "selectDonationAmount": "Select Donation Amount Per Push",
-        "amountValues": ["1 ¢", "5 ¢", "10 ¢", "24 ¢", "50 ¢", "$ 1"],
         "pushAmountExampleValue": "That's #{amount} per year",
         "addPaymentsButton": "Add Payment Details"
       },
@@ -100,8 +99,7 @@
         },
         {
           "id": "contribAmountPerPush",
-          "label": "Donation Amount Per Push",
-          "amounts": [0.01, 0.05, 0.1, 0.25, 0.5, 1]
+          "label": "Donation Amount Per Push"
         },
         {
           "id": "partners",

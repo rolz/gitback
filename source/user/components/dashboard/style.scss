@@ -3,13 +3,47 @@
 /*
 * mixins
 */
-.greenBorderContainer {
+@mixin greenBorderContainer {
   margin: 10px 0;
   padding: 10px;
   border: 1px solid $primaryAccent;
 }
 
 main.dashboard {
+
+  .contribAmountPerPush {
+    > span {
+      border: solid 1px white;
+      margin-right: 5px;
+      padding: 5px 10px;
+      cursor: pointer;
+      border-radius: 6px;
+      line-height: 2.5em;
+      font-family: $boldFont;
+      &.active {
+        cursor: default;
+        background: white;
+        color: $primaryAccent;
+      }
+    }
+  }
+
+  .onboardingContainer {
+    padding: 10px;
+    background: $primaryAccent;
+    color: white;
+    h3 {
+      span {
+        font-family: $boldFont;
+      }
+    }
+    button {
+      background: white;
+      color: $primaryAccent;
+      border-radius: 6px;
+      padding: 8px 10px;
+    }
+  }
 
   .container {
     position: relative;
@@ -89,7 +123,7 @@ main.dashboard {
     }
 
     .activityContainer {
-      @extend .greenBorderContainer;
+      @include greenBorderContainer;
       margin-bottom: 30px;
       .title {
         font: 100% $bodyFont;
@@ -118,7 +152,7 @@ main.dashboard {
 
     .repos {
       width: inherit;
-      @extend .greenBorderContainer;
+      @include greenBorderContainer;
 
       .repo {
 

@@ -22,6 +22,13 @@ function setupSchema() {
     lastLoggedIn: { type: Date, default: Date.now },
     createdAt: { type: Date, default: Date.now },
     contribAmountPerPush: { type: Number, default: .01 },
+    totalContribAmount: { type: Number, default: 0 },
+    currentMonthContribAmount: { type: Number, default: 0 },
+    paymentMethod: {
+      customerId: String,
+      customerToken: String,
+      billingCycleDate: Number
+    },
     repos: [{
       name: String,
       webhookId: String,
@@ -32,8 +39,6 @@ function setupSchema() {
     }]
   }));
 }
-
-
 
 function findToken(username, cb) {
   return PUser.findOne({'username': username}).exec((err, result) => {
@@ -215,8 +220,6 @@ function test() {
   // updatePush(dat);
 }
 
-
-
 function updateContrib(model, cb) {
   var username = model.username;
   findOne(username, ((e) => {
@@ -226,6 +229,9 @@ function updateContrib(model, cb) {
       if(repo) {
         repo.lastContributedAt = Date.now;
         repo.totalCommitCount += model.commits.length;
+        dat.totalContribAmount += dat.contribAmountPerPush;
+        dat.currentMonthContribAmount += dat.contribAmountPerPush;
+        model.contribAmount = dat.contribAmountPerPush;
         repo.contribLog.unshift(model);
       }
       updateUser(username, dat, ((e) => {
@@ -235,6 +241,35 @@ function updateContrib(model, cb) {
           result: dat
         });
       }));
+    } else {
+      if(cb) cb({
+        status: 'error',
+        result: 'no username'
+      });
+    }
+  }));
+}
+
+function updatePaymentMethod(model, cb) {
+  var username = model.username;
+  findOne(username, ((e) => {
+    var dat = e.result;
+    if(dat) {
+      var paymentMethod = dat.paymentMethod;
+      paymentMethod.customerId = model.customerId;
+      paymentMethod.customerToken = model.customerToken;
+      updateUser(username, {paymentMethod: paymentMethod}, ((e) => {
+        log('updated paymentMethod!', 'green');
+        if(cb) cb({
+          status: e.error? 'error': 'success',
+          result: dat
+        });
+      }));
+    } else {
+      if(cb) cb({
+        status: 'error',
+        result: 'no username'
+      });
     }
   }));
 }
@@ -255,6 +290,7 @@ module.exports = ((mongooseDB) => {
     remove: remove,
     addWebhookId: addWebhookId,
     removeWebhookId: removeWebhookId,
-    updateContrib: updateContrib
+    updateContrib: updateContrib,
+    updatePaymentMethod: updatePaymentMethod
   };
 });

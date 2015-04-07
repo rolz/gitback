@@ -10,7 +10,7 @@ var _ = require('lodash-node'),
   options = config.mongodb,
   util = require ('../util'),
   log = util.log('mongodb', 'GB'),
-  app, user, contrib, commit;
+  app, user, contrib, commit, summary;
 
 function setRoutes() {
   app.get('/users/:id', function (req, res, next) {
@@ -56,7 +56,9 @@ function removeAll() {
   user.removeAll(((e) => {
     contrib.removeAll(((e) => {
       commit.removeAll(((e) => {
-        log('removed all!', 'green');
+        summary.removeAll(((e) => {
+          log('removed all!', 'green');
+        }));
       }));
     }));
   }));
@@ -80,9 +82,11 @@ exports.connect = ((expressApp, cb) => {
       user = require('./user.es6')(mongoose);
       contrib = require('./contrib.es6')(mongoose);
       commit = require('./commit.es6')(mongoose);
+      summary = require('./summary.es6')(mongoose);
       exports.user = user;
       exports.contrib = contrib;
       exports.commit = commit;
+      exports.summary = summary;
       setRoutes();
       // removeAll();
       if(cb) {

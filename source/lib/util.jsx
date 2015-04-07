@@ -66,9 +66,11 @@ module.exports = {
   },
   convertCurrency(val) {
     if(val < 1) {
-      return `${val*100}&#162;`;
+      // cent
+      return `${Math.floor(val*100)}&#162;`;
     } else {
-      return `&#36;${val}`;
+      // dollar
+      return `&#36;${Math.floor(val*100)/100}`;
     }
   }
 }

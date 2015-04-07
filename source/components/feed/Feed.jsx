@@ -77,8 +77,7 @@ var LiveFeedItem = React.createClass({
   },
   render() {
     var {isLast, user} = this.props,
-      {username, repo, avatarUrl, createdAt, commits} = user,
-      contribAmountPerPush = 0.01;
+      {username, repo, avatarUrl, createdAt, commits, contribAmount} = user;
     return (
       <li className="userContrib clearfix">
         <div className="userContribItem">
@@ -88,7 +87,7 @@ var LiveFeedItem = React.createClass({
           <ContribItem didMount={this.didMountContribItem} isLast={isLast} name="timeElapsed" label={util.timeago(createdAt)} />
           <ContribItem didMount={this.didMountContribItem} isLast={isLast} name="username" label={username} />
           <ContribItem didMount={this.didMountContribItem} isLast={isLast} name="gave" label={'gave'} />
-          <ContribItem didMount={this.didMountContribItem} isLast={isLast} name="amount" label={`$${contribAmountPerPush}`} />
+          <ContribItem didMount={this.didMountContribItem} isLast={isLast} name="amount" label={`$${contribAmount}`} />
           <ContribItem didMount={this.didMountContribItem} isLast={isLast} name="repo" label={`~/${username}/${repo}`} />
         </div>
       </li>

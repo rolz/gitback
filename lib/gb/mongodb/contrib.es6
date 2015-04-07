@@ -25,6 +25,7 @@ function setupSchema() {
     commits: Array,
     avatarUrl: String,
     hidden: Boolean,
+    contribAmount: Number,
     raw: mongoose.Schema.Types.Mixed,
     createdAt: Date
   }));
@@ -78,19 +79,24 @@ function add(dat, cb) {
             var userData = e.result;
             contribData.hidden = userData.hidden;
             contribData.avatarUrl = userData.avatarUrl;
+            contribData.contribAmount = userData.contribAmountPerPush;
             var model = new PContrib(contribData);
             log(userData, 'yellow');
             model.save((err) => {
-              if(cb) {cb({
-                status: (err? 'error': 'success'),
-                message: `contrib added successfully.`
-              });}
-              if(userData.hidden !== 'true') {
-                socket.emit('onContributed', {
-                  contribData: contribData,
-                  userData: userData
-                });
-              }
+              /* Update summary */
+              db.summary.update(contribData, ((e) => {
+                if(cb) {cb({
+                  status: (err? 'error': 'success'),
+                  message: `contrib added successfully.`
+                });}
+                /* Emit if it is a public data */
+                if(userData.hidden !== 'true') {
+                  socket.emit('onContributed', {
+                    contribData: contribData,
+                    userData: userData
+                  });
+                }
+              }));
             });
           }));
         } else {

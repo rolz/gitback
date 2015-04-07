@@ -32,18 +32,24 @@ var LiveFeedStore = Reflux.createStore({
   /* Common */
   updateUser(user) {
     // logger.debug('updateUser', user);
-    this.users.unshift(user);
-    this.users = this.users;
-    this.trigger(this.users);
+    this.feed.results.unshift(user);
+    this.feed.summary.totalPledgedAmount += user.contribAmount;
+    this.feed = this.feed;
+    this.trigger(this.feed);
   },
-  updateUsers(users) {
+  updateUsers(e) {
     // logger.debug('updateUsers', users);
-    this.users = users;
-    this.trigger(this.users);
+    this.feed = e;
+    this.trigger(this.feed);
   },
   getInitialState() {
-    this.users = [];
-    return this.users;
+    this.feed = {
+      summary: {
+        totalPledgedAmount: 0
+      },
+      results: []
+    };
+    return this.feed;
   }
 });
 

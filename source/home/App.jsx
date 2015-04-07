@@ -2,6 +2,8 @@
 
 var Feed = require('../components/feed');
 
+var feedData;
+
 /*
 * Hero Section
 */
@@ -63,7 +65,7 @@ var UsersContribs = React.createClass({
         <section className="usersContribs">
           <div className="header">
             <div className="title">{heroSection.contribFeedTitle}</div>
-            <div className="total">$0.87</div>
+            <div className="total">{`$${feedData.summary.totalPledgedAmount}`}</div>
           </div>
 
           <Feed users={this.props.users} />
@@ -147,16 +149,16 @@ var Footer = React.createClass({
 
 var App = React.createClass({
   mixins: [
-    Reflux.connect(require('../store/LiveFeedStore.jsx'), 'users')
+    Reflux.connect(require('../store/LiveFeedStore.jsx'), 'feed')
   ],
   render() {
     var self = this,
       context = this.props.context;
-
+    feedData = this.state.feed;
     return (
       <main className="home">
 
-        <Hero context={context} users={this.state.users} />
+        <Hero context={context} users={feedData.results} />
         <Content context={context}/>
         <Footer/>
 

@@ -101,8 +101,12 @@ function setSocket() {
       }));
     }));
     socket.on('findRecentContributions', (() => {
-      db.contrib.findRecentContributions((e) => {
-        io.emit('onFindRecentContributions', e);
+      db.summary.find((e) => {
+        var summary = e.result;
+        db.contrib.findRecentContributions((e) => {
+          e.summary = summary;
+          io.emit('onFindRecentContributions', e);
+        });
       });
     }));
 

@@ -30,6 +30,7 @@ var GB_COOCKIE_KEY = 'gitback',
   GB_LOGIN_COOCKIE_KEY = GB_COOCKIE_KEY + '_login',
   HOME_PATH = '/',
   USER_PATH = '/user',
+  USER_DEFAULT_PATH = USER_PATH + '/dashboard',
   LOGIN_PATH = '/login',
   ADMIN_PATH = '/admin';
 var pathname = window.location.pathname;
@@ -67,7 +68,7 @@ if(pathname === ADMIN_PATH) {
             init('user');
           } else {
             // Redirect to user page
-            window.location.replace(USER_PATH);
+            window.location.replace(USER_DEFAULT_PATH);
           }
         }
       } else {
@@ -90,7 +91,7 @@ if(pathname === ADMIN_PATH) {
       logger.info('added coockie!!', GB_COOCKIE_KEY, GB.gitlogin);
       // Redirect to user page
       Cookies.set(GB_LOGIN_COOCKIE_KEY, true);
-      window.location.replace(USER_PATH);
+      window.location.replace(USER_DEFAULT_PATH);
     } else {
       // Show homepage
       if(pathname === HOME_PATH) {

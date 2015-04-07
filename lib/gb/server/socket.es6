@@ -72,7 +72,6 @@ function setSocket() {
     socket.on('setAnonymous', ((username, flag) => {
       log(`setAnonymous: ${username, flag}`, 'yellow');
       db.user.update(username, {hidden: flag}, ((e) => {
-        log(e.result);
         io.emit('onSetAnonymous', e.result);
       }));
       db.contrib.setHidden(username, flag);
@@ -95,7 +94,6 @@ function setSocket() {
       });
     }));
     socket.on('findUser', ((username) => {
-      log(username, 'green');
       db.user.findOne(username, ((e) => {
         io.emit('onFindUser', e);
       }));

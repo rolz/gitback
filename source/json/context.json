@@ -43,14 +43,13 @@
       "totalText": "Total Raised",
       "greetings": ["Welcome, let's get started!","Hey, you're a volunteer!"],
       "onboardingTitle": "Welcome to Gitback",
-      "onboardingSteps": [
-        "Everytime you contribute code to one of your public Github repos, you can donate 1 cent to help girls get into coding.",
-        "You made 311 contributions last year, that means you would have donated $3.11 over the same period.",
-        "We’ve went along and added all your public repos. You can easily add or remove them.",
-        "You can also set the amount you wold like to give per contribution, as well as a limit per month, in your settings.",
-        "Know your making a difference! Let’s do this!"
-      ],
-      "addPaymentsButton": "Add Payment Details",
+      "onboardingSteps": {
+        "pushAmountExampleText": "If you push code 100 times over the next year.",
+        "selectDonationAmount": "Select Donation Amount Per Push",
+        "amountValues": ["1 ¢", "5 ¢", "10 ¢", "24 ¢", "50 ¢", "$ 1"],
+        "pushAmountExampleValue": "That's #{amount} per year",
+        "addPaymentsButton": "Add Payment Details"
+      },
       "reposSection":["Your Repo Name", "Raised", "Status"]
     },
     "leaderboard": {

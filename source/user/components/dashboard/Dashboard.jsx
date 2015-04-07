@@ -10,19 +10,15 @@ var UserOnboarding = React.createClass({
   render() {
 
     var self =this,
-      {onboardingTitle, onboardingSteps, addPaymentsButton} = this.props.context,
+      {onboardingTitle, onboardingSteps} = this.props.context,
       username = this.props.username;
 
     return (
       <div className="onboardingContainer">
         <div className="onboardingTitle">{onboardingTitle}</div>
         <div className="onboardingSteps">
-        {_.map(onboardingSteps, ((step, index) => {
-          var bullet =  (index + 1)+". ";
-          return <div key={`step${index}`}><span>{bullet}</span><span>{step}</span></div>
-        }))}
         </div>
-        <button className="onboardingAddPayment" onClick={PaymentsActions.showPaymentMethod.bind(null, username)}>{addPaymentsButton}</button>
+        <button className="onboardingAddPayment" onClick={PaymentsActions.showPaymentMethod.bind(null, username)}>{onboardingSteps.addPaymentsButton}</button>
       </div>
     )
   }

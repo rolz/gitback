@@ -124,7 +124,7 @@ var User = React.createClass({
             <div className="text amount">{`$${totalAmount}`}</div>
           </div>
 
-          <div className="greetings">{greetings[0]}</div>
+          <div className="greetings">{greetings[Math.floor(Math.random() * greetings.length)]}</div>
           <RecentActivity />
 
           {onboardingContainer}

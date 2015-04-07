@@ -63,5 +63,12 @@ module.exports = {
   },
   timeago(timestamp) {
     return timeago(+new Date(timestamp));
+  },
+  convertCurrency(val) {
+    if(val < 1) {
+      return `${val*100}&#162;`;
+    } else {
+      return `&#36;${val}`;
+    }
   }
 }

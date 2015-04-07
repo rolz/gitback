@@ -156,7 +156,10 @@ var Dashboard = React.createClass({
       {name, state, context} = this.props.params;
     return (
       <main className={name}>
-        <User model={this.state.user} context={context} />
+      {(() => {
+        return this.state.user.username? <User model={this.state.user} context={context} />
+        : <img className="loadingUserInfo" src="/assets/images/loading-spin.svg" />
+      })()}
       </main>
     );
   }

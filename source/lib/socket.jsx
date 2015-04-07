@@ -13,9 +13,19 @@ var LiveFeedActions = require('../actions/LiveFeedActions.jsx');
 var socket = io();
 
 /* UserActions */
+socket.on('onFindUser', ((e) => {
+  // logger.debug('onFindUser', e);
+  UserActions.updateUser(e.result);
+}));
 socket.on('onSetAnonymous', ((user) => {
   // logger.debug('onSetAnonymous', user);
   UsersActions.refreshUsers();
+  UserActions.updateUser(user);
+}));
+
+socket.on('onSetContribAmountPerPush', ((user) => {
+  // logger.debug('onSetContribAmountPerPush', user);
+  // UsersActions.refreshUsers();
   UserActions.updateUser(user);
 }));
 

@@ -8,7 +8,7 @@ App = React.createClass({
   render() {
     return (
       <div>
-        <Header link={Link}/>
+        <Header />
         <RouteHandler {...this.props}/>
         <PaymentMethod />
       </div>

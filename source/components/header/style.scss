@@ -49,8 +49,7 @@
 }
 
 .menu {
-  float: right;
-  margin-right: 20px;
+  right: 20px;
   padding: 1px;
   width: 160px;
   background: #34495E;
@@ -60,7 +59,7 @@
   opacity: 0;
   transition: all 0.2s ease;
   z-index: 10;
-  position: relative;
+  position: absolute;
 
   &.visible {
     opacity: 1;
@@ -80,6 +79,10 @@
     font-size: 16px;
     color: $heroTextColor;
     &:hover {
+      color: #8EEAE9;
+    }
+    &.active {
+      cursor: default;
       color: #8EEAE9;
     }
   }

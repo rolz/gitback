@@ -8,6 +8,7 @@ main.settings {
         .public {
           cursor: pointer;
           background: gray;
+          color: white;
         }
         .private {
         }
@@ -18,14 +19,30 @@ main.settings {
         .private {
           cursor: pointer;
           background: gray;
+          color: white;
         }
       }
     }
     .type {
       border: solid 1px gray;
-      padding: 2px;
+      padding: 2px 4px;
       &:first-child {
         border-right: none;
+      }
+    }
+  }
+  .contribAmountPerPush {
+    > span {
+      border: solid 1px gray;
+      margin-right: 10px;
+      padding: 2px 4px;
+      cursor: pointer;
+      background: gray;
+      color: white;
+      &.active {
+        cursor: default;
+        background: white;
+        color: inherit;
       }
     }
   }

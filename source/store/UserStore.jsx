@@ -11,7 +11,13 @@ var UserStore = Reflux.createStore({
   init() {
     setTimeout(() => {
       socket = require('../lib/socket.jsx')();
+      if(GB.username) socket.emit('findUser', GB.username);
     });
+  },
+
+  /* ContribAmountPerPush */
+  onSetContribAmountPerPush(username, amount) {
+    socket.emit('setContribAmountPerPush', username, amount);
   },
 
   /* Anonymous */
@@ -56,7 +62,7 @@ var UserStore = Reflux.createStore({
     }
   },
   getInitialState() {
-    this.user = GB.user || _.find(GB.users, ((user) => {return user.username === GB.username})) || {};
+    this.user = this.user || {};
     return this.user;
   }
 

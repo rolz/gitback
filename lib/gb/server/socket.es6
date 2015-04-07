@@ -36,14 +36,6 @@ function setSocket() {
   /* Disconnnect */
   io.on('connection', ((socket) => {
     log(`a user connected: ${socket.id}`, 'blue');
-    socket.on('setAnonymous', ((username, flag) => {
-      log(`setAnonymous: ${username, flag}`, 'yellow');
-      db.user.update(username, {hidden: flag}, ((e) => {
-        log(e.result);
-        io.emit('onSetAnonymous', e.result);
-      }));
-      db.contrib.setHidden(username, flag);
-    }));
 
     /* Webhooks */
     socket.on('addWebhook', ((username, repoName) => {
@@ -70,6 +62,21 @@ function setSocket() {
     }));
 
     /* User */
+    socket.on('setContribAmountPerPush', ((username, amount) => {
+      log(`setContribAmountPerPush: ${username, amount}`, 'yellow');
+      db.user.update(username, {contribAmountPerPush: amount}, ((e) => {
+        log(e.result);
+        io.emit('onSetContribAmountPerPush', e.result);
+      }));
+    }));
+    socket.on('setAnonymous', ((username, flag) => {
+      log(`setAnonymous: ${username, flag}`, 'yellow');
+      db.user.update(username, {hidden: flag}, ((e) => {
+        log(e.result);
+        io.emit('onSetAnonymous', e.result);
+      }));
+      db.contrib.setHidden(username, flag);
+    }));
     socket.on('removeUser', ((username) => {
       log(`removeUser: ${username}`);
       db.user.remove(username, ((e) => {
@@ -86,6 +93,12 @@ function setSocket() {
       db.user.findAll((e) => {
         io.emit('onFindAllUsers', e);
       });
+    }));
+    socket.on('findUser', ((username) => {
+      log(username, 'green');
+      db.user.findOne(username, ((e) => {
+        io.emit('onFindUser', e);
+      }));
     }));
     socket.on('findRecentContributions', (() => {
       db.contrib.findRecentContributions((e) => {

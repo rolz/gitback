@@ -100,6 +100,11 @@
           "label": "Donation Method"
         },
         {
+          "id": "contribAmountPerPush",
+          "label": "Donation Amount Per Push",
+          "amounts": [0.01, 0.05, 0.1, 0.25, 0.5, 1]
+        },
+        {
           "id": "partners",
           "label": "See our cause",
           "partners": [

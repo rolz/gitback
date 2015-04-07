@@ -29,9 +29,29 @@ Partners = React.createClass({
   }
 }),
 
+ContribAmountPerPush = React.createClass({
+  setContribAmountPerPush(val) {
+    if(val !== user.contribAmountPerPush) {
+      // console.log(val, user.username);
+      UserActions.setContribAmountPerPush(user.username, val);
+    }
+  },
+  render() {
+    var self = this,
+      contribAmountPerPush = user.contribAmountPerPush;
+    return (
+      <span className="contribAmountPerPush">
+      {_.map(this.props.item.amounts, ((amount, index) => {
+        return <span key={`contrib${index}`} onClick={self.setContribAmountPerPush.bind(null, amount)} className={contribAmountPerPush === amount? 'active' : ''} dangerouslySetInnerHTML={{__html:util.convertCurrency(amount)}} />;
+      }))}
+      </span>
+    );
+  }
+}),
+
 AccountType = React.createClass({
   setAnonymous(flag) {
-    var {username, hidden} = this.props.user;
+    var {username, hidden} = user;
     if(flag === 'private' && hidden !== true) {
       UserActions.setAnonymous(username, true);
     } else if(flag === 'public' && hidden === true) {
@@ -65,27 +85,54 @@ Settings = React.createClass({
       {name, state, context} = this.props.params,
       {title, items} = context,
       getItem = ((item) => {
-        if(item.id === 'accountType') return <AccountType item={item} user={user} />;
+        if(item.id === 'accountType') return <AccountType item={item} />;
         else if(item.id === 'email') return <Email item={item} />;
         else if(item.id === 'payment') return <Payment item={item} />;
         else if(item.id === 'partners') return <Partners item={item} />;
+        else if(item.id === 'contribAmountPerPush') return <ContribAmountPerPush item={item} />;
         else return null;
       });
     return (
       <main className={name}>
-        <h1>{title}</h1>
-        <h2>{username}</h2>
-        {_.map(items, ((item, index) => {
+      {(() => {
+        if(this.state.user.username) {
           return (
-            <section className={item.id} key={`settingItem${index}`}>
-              <p>{item.label}: {getItem(item)}</p>
-            </section>
-          );
-        }))}
-        <button onClick={util.logout}>Logout</button>
+            <div>
+              <h1>{title}</h1>
+              <h2>{username}</h2>
+              {_.map(items, ((item, index) => {
+                return (
+                  <section className={item.id} key={`settingItem${index}`}>
+                    <p>{item.label}: {getItem(item)}</p>
+                  </section>
+                );
+              }))}
+              <button onClick={util.logout}>Logout</button>
+            </div>
+        );
+        } else {
+          return <img className="loadingUserInfo" src="/assets/images/loading-spin.svg" />;
+        }
+      })()}
       </main>
     );
   }
 });
+
+/*var Dashboard = React.createClass({
+  mixins: [Reflux.connect(require('../../../store/UserStore.jsx'), 'user')],
+  render() {
+    var self = this,
+      {name, state, context} = this.props.params;
+    return (
+      <main className={name}>
+      {(() => {
+        return this.state.user.username? <User model={this.state.user} context={context} />
+        : <img className="loadingUserInfo" src="/assets/images/loading-spin.svg" />
+      })()}
+      </main>
+    );
+  }
+});*/
 
 module.exports = Settings;

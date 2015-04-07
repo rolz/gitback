@@ -39,11 +39,10 @@ logger.info('coockieValue:', coockieValue);
 logger.info('loginCoockieValue:', loginCoockieValue);
 logger.info('gitlogin:', GB.gitlogin);
 
-
+GB.username = coockieValue;
 if(pathname === ADMIN_PATH) {
   // Ignore auth in admin page
   logger.info('admin app');
-  GB.username = coockieValue;
   init('admin');
 } else {
   // If user info is updated, go through.
@@ -63,8 +62,8 @@ if(pathname === ADMIN_PATH) {
         } else {
           if(('/' + pathname.split('/')[1]) === USER_PATH) {
             // Show user app
-            logger.info('user app', e);
-            GB.user = e.result;
+            logger.info('user app');
+            // GB.user = e.result;
             init('user');
           } else {
             // Redirect to user page

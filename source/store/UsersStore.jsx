@@ -8,8 +8,10 @@ var UsersStore = Reflux.createStore({
   listenables: [require('../actions/UsersActions.jsx')],
 
   init() {
+    var self = this;
     setTimeout(() => {
       socket = require('../lib/socket.jsx')();
+      self.refreshUsers();
     });
   },
 
@@ -29,7 +31,7 @@ var UsersStore = Reflux.createStore({
     this.trigger(users);
   },
   getInitialState() {
-    this.users = GB.users || [];
+    this.users = this.users || [];
     return this.users;
   }
 });

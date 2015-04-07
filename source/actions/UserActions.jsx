@@ -15,5 +15,6 @@ module.exports = Reflux.createActions([
   'addWebhook',
   'setAnonymous',
   'updateUser',
-  'addPaymentMethod'
+  'addPaymentMethod',
+  'setContribAmountPerPush'
 ]);

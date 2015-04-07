@@ -79,7 +79,12 @@ main.home {
       color: $heroTextColor;
       .tagline {
         font: 100% $bodyFont;
-        font-size: 48px;
+        font-size: 36px;
+        line-height: 120%;
+      }
+      .subline {
+        margin-top: 10px;
+        line-height: 140%;
       }
       .userActions {
         margin-top: 50px;

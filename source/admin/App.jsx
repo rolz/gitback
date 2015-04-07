@@ -18,8 +18,8 @@ var Repo = React.createClass({
     return (
       <div className={`repo ${buttonClass}`}>
         <span className="repoInfo">{name}: {webhookId} </span>
-        <button className="remove" onClick={UserActions.removeWebhook.bind(null, username, name, webhookId)}>remove webhook</button>
-        <button className="add" onClick={UserActions.addWebhook.bind(null, username, name)}>add webhook</button>
+        <button className="remove" onClick={UserActions.removeWebhook.bind(null, username, name, webhookId)}>Remove</button>
+        <button className="add" onClick={UserActions.addWebhook.bind(null, username, name)}>Add</button>
         <span>
         {_.map(contribLog.slice(0,3), ((item, index) => {
           // console.log(item);
@@ -46,9 +46,9 @@ var User = React.createClass({
         <div className="about">
           <h2>{username}</h2>
           <p>{email}</p>
-          <button onClick={UserActions.removeUser.bind(null, username)}>remove this user</button>
+          <button onClick={UserActions.removeUser.bind(null, username)}>Remove</button>
           <br/>
-          <button onClick={PaymentsActions.showPaymentMethod.bind(null, username)}>update payment method</button>
+          <button onClick={PaymentsActions.showPaymentMethod.bind(null, username)}>Update payment method</button>
         </div>
         <div className="repos">
         {_.map(repos, ((repo, index) => {

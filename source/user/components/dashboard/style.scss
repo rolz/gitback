@@ -127,17 +127,18 @@ main.dashboard {
         }
 
         .name {
-          width: 400px;
+          width: 390px;
           font: 100% $codeFontRegular;
           font-size: 20px;
           text-align: left;
         }
 
         .raised {
-          width: 120px;
+          width: 110px;
           font: 100% $boldFont;
           font-size: 24px;
           color: #BDC3C7;
+          text-align: left;
         }
 
         .yes {

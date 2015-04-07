@@ -57,8 +57,10 @@
         list-style-type: none;
         margin-bottom: 10px;
         padding: 2px 0;
+        overflow: hidden;
+        max-width: 450px;
         .userContribItem {
-          float: left;
+          display: inline-block;
           white-space: nowrap;
           &:last-child {
             width: 400px;
@@ -68,9 +70,6 @@
           > span {
             display: inline-block;
             margin-left: 10px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 160px;
           }
         }
         .tbAvatar {

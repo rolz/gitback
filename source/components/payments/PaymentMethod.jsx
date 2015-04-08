@@ -25,6 +25,12 @@ var PaymentMethod = React.createClass({
       errorMessage: null
     };
   },
+  componentDidUpdate() {
+    var paymentMethod = this.state.payments.paymentMethod;
+    if(paymentMethod.status !== 'show') {
+      this.refs.loading.getDOMNode().style.display = 'none';
+    }
+  },
   componentDidMount() {
     request.get('/braintreeclienttoken', ((result) => {
       var body = JSON.parse(result.text);
@@ -78,6 +84,7 @@ var PaymentMethod = React.createClass({
 
     // console.log(obj);
 
+    this.refs.loading.getDOMNode().style.display = 'block';
 
     var client = new braintree.api.Client({clientToken: this.state.clientTokenFromServer});
     client.tokenizeCard(obj, ((err, nonce) => {
@@ -118,8 +125,10 @@ var PaymentMethod = React.createClass({
     //   {username, avatarUrl} = this.state.user,
     //   {name, state, context} = this.props.params,
     //   {title} = context;
+    var showStyle = paymentMethod.status === 'show'? ' show' : '';
     return (
-      <div className={'paymentMethod' + (paymentMethod.status === 'show'? ' show' : '')}>
+      <div className={`paymentMethod ${showStyle}`}>
+        <div ref="loading" className="loading" />
         <div className="helloPaymentWrapper">
           <div className="closeButton" onClick={PaymentsActions.hidePaymentMethod} />
           <div className="errorMessage">{this.state.errorMessage}</div>

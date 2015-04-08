@@ -1,91 +1,24 @@
 'use strict'
 
 var util = require('../../../lib/util.jsx'),
-  logger = Logger.get('Dashboard'),
-  UserActions = require('../../../actions/UserActions.jsx'),
-  PaymentMethod = require('../../../components/payments');
+logger = Logger.get('Dashboard'),
 
-var UserOnboarding = React.createClass({
-  setContribAmountPerPush(val) {
-    var {username, contribAmountPerPush} = this.props.model;
-    if(val !== contribAmountPerPush) {
-      UserActions.setContribAmountPerPush(username, val);
-    }
-  },
-  showPaymentMethod() {
-    var {username} = this.props.model;
-    PaymentMethod.show(username);
-    this.setState({ showPayment: true });
-  },
-  cancelPaymentMethod() {
-    this.setState({ showPayment: false });
-    this.tid = setTimeout(() => {
-      PaymentMethod.hide();
-    }, 800);
-  },
-  componentWillUnmount () {
-    clearTimeout(this.tid);
-  },
-  componentDidUpdate () {
-    if(this.props.model.cardNumber) {
-      var el = this.getDOMNode();
-      TweenMax.to(el, .5, {height: 0});
-    }
-  },
-  getInitialState() {
-    return {
-      showPayment: false
-    };
-  },
-  render() {
-    var self = this,
-      {username, contribAmountPerPush} = this.props.model,
-      {donationAmounts} = this.props.context,
-      {addPaymentsButton, pushAmountExampleText, pushAmountExampleValue, selectDonationAmount} = this.props.context.onboardingSteps;
-    pushAmountExampleValue = pushAmountExampleValue.replace('#{amount}', `<span>${util.convertCurrency(contribAmountPerPush * 100)}</span>`);
-    return (
-      <div className={`onboardingContainer ${this.state.showPayment? 'showPayment': ''}`}>
-        <div className="pushAmountContainer">
-          <div className="onboardingSteps">
-            <h2>{selectDonationAmount}</h2>
-            <h3 dangerouslySetInnerHTML={{__html:pushAmountExampleText}} />
-            <span className="contribAmountPerPush">
-            {_.map(donationAmounts, ((amount, index) => {
-              return <span key={`contrib${index}`} onClick={self.setContribAmountPerPush.bind(null, amount)} className={contribAmountPerPush === amount? 'active' : ''}>{util.convertCurrency(amount)}</span>;
-            }))}
-            </span>
-          </div>
-          <h3 className="pushAmountExampleValue" dangerouslySetInnerHTML={{__html: pushAmountExampleValue}} />
-          <button className="onboardingAddPayment" onClick={this.showPaymentMethod}>{addPaymentsButton}</button>
-        </div>
-        <PaymentMethod cancel={this.cancelPaymentMethod} />
-      </div>
-    )
-  }
-});
+UserActions = require('../../../actions/UserActions.jsx'),
+PaymentMethod = require('../../../components/payments'),
+Counter = require('../../../components/counter'),
 
-var RecentActivity = React.createClass({
-  render() {
-    var self= this;
-    return(
-      <div className="activityContainer">
-        <div className="title">Recent Activity</div>
-      </div>
-    )
-  }
-});
+UserOnboarding = require('./UserOnboarding.jsx'),
+RecentActivity = require('./RecentActivity.jsx'),
+Repo = require('./Repo.jsx'),
+Greeting = require('./Greeting.jsx'),
 
-var Repo = require('./Repo.jsx');
-
-var User = React.createClass({
+User = React.createClass({
   getInitialState () {
     return {
-      hasAddedPaymentMethod: false,
-      greetings: null
+      hasAddedPaymentMethod: false
     };
   },
-  componentDidUpdate (prevProps, prevState) {
-    // console.log(prevProps, prevState);
+  componentDidUpdate () {
     var self = this;
     if(!this.state.hasAddedPaymentMethod && this.props.model.cardNumber) {
       PaymentMethod.hide();
@@ -93,61 +26,20 @@ var User = React.createClass({
         self.setState({
           hasAddedPaymentMethod: true
         });
-      }, 800);
-    }
-    // Show greeting
-    var greetings = this.getGreeting();
-    if(greetings !== prevState.greetings) {
-      this.setState({ greetings: greetings });
-      var el = this.refs.greetings.getDOMNode();
-      el.innerHTML = '';
-      TweenMax.set(el, {
-        opacity: 0,
-        y: 20,
-        onComplete() {
-          el.innerHTML = greetings;
-          TweenMax.to(el, .3, {
-            opacity: 1,
-            y: 0,
-            delay: .5
-          });
-        }
-      });
+      }, 500);
     }
   },
   componentDidMount () {
     this.setState({
-      greetings: this.getGreeting(),
       hasAddedPaymentMethod: !!(this.props.model.cardNumber)
     });
   },
-  getGreeting() {
-    var {repos, cardNumber} = this.props.model,
-      {greetings} = this.props.context;
-    if(cardNumber) {
-      var addedWebhook = false;
-      _.each(repos, ((repo) => {
-        if(repo.webhookId) {
-          addedWebhook = true;
-          return false;
-        }
-      }));
-      if(addedWebhook) {
-        var arr = greetings.genericGreetings;
-        return arr[Math.floor(Math.random() * arr.length)];
-      } else {
-        return greetings.hasAddedPaymentMethod;
-      }
-    } else {
-      return greetings.hasNotAddedPaymentMethod;
-    }
-  },
   render() {
     var self = this,
-      model = this.props.model,
+      {model, context} = this.props,
       {username, avatarUrl, repos, contribAmountPerPush, totalContribAmount, cardNumber} = model,
       {hasAddedPaymentMethod} = this.state, //pull in data when new user model is done
-      {totalText, greetings, reposSection} = this.props.context;
+      {totalText, greetings, reposSection} = context;
     return (
       <section className="container">
 
@@ -160,12 +52,14 @@ var User = React.createClass({
             </div>
             <div className="text total">{totalText}</div>
             <hr />
-            <div className="text amount">{util.convertCurrency(totalContribAmount)}</div>
+            <Counter amount={totalContribAmount} />
           </div>
 
-          <div className="greetings" ref="greetings"></div>
+          <Greeting model={model} context={context} />
 
-          {hasAddedPaymentMethod ? <RecentActivity /> : <UserOnboarding model={model} context={this.props.context} />}
+          {hasAddedPaymentMethod ?
+            <RecentActivity model={model} context={context} /> :
+            <UserOnboarding model={model} context={context} />}
 
           <table className="reposHeader">
             <tr>
@@ -185,9 +79,9 @@ var User = React.createClass({
     );
   }
 
-});
+}),
 
-var Dashboard = React.createClass({
+Dashboard = React.createClass({
   mixins: [Reflux.connect(require('../../../store/UserStore.jsx'), 'user')],
   render() {
     var self = this,

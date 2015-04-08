@@ -24,7 +24,7 @@ main.dashboard {
       }
     }
     button {
-      margin: 10px 0 5px;
+      margin: 10px 0 0;
       background: $primaryAccent;
       border: 1px white solid;
       color: white;
@@ -33,6 +33,9 @@ main.dashboard {
       &:hover {
         background: $primaryAccentHover;
       }
+    }
+    *:focus {
+      outline: none;
     }
     .pushAmountContainer, .paymentMethod {
       transition: transform .5s ease-in-out;
@@ -97,14 +100,15 @@ main.dashboard {
           right: 0;
           color: $primaryAccent;
         }
-        &.amount {
-          font: 100% $boldFont;
-          font-size: 36px;
-          float: right;
-          top: 80px;
-          right: 0;
-          color: $primaryAccent;
-        }
+      }
+      .amountCounter {
+        position: absolute;
+        font: 100% $boldFont;
+        font-size: 36px;
+        float: right;
+        top: 80px;
+        right: 0;
+        color: $primaryAccent;
       }
 
       hr {
@@ -138,7 +142,7 @@ main.dashboard {
       }
     }
 
-    .greetings {
+    .greeting {
       position: relative;
       margin: 30px auto 20px;
       width: inherit;
@@ -151,8 +155,29 @@ main.dashboard {
       @include greenBorderContainer;
       margin-bottom: 30px;
       .title {
-        font: 100% $bodyFont;
-        font-size: 12px;
+        font-family: $bodyFont;
+        font-size: 18px;
+        padding: 7px 0;
+      }
+      .activitiesItems {
+        margin: 0 auto;
+        padding: 0;
+        font-family: $codeFontRegular;
+        position: relative;
+        > * {
+          text-align: left;
+          padding: 4px 0 7px;
+          list-style: none;
+          display: inline-block;
+          .amount {
+            font-family: $codeFontBold;
+            color: $primaryAccent;
+            font-size: 1.2em;
+          }
+          &[animation="true"] {
+            animation: updateRecentActivity .8s;
+          }
+        }
       }
     }
 
@@ -246,5 +271,14 @@ main.dashboard {
       }
     }
 
+  }
+}
+
+@keyframes updateRecentActivity {
+  0%, 50%, 100% {
+    opacity: 1;
+  }
+  25%, 75% {
+    opacity: 0;
   }
 }

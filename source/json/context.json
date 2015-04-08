@@ -43,6 +43,8 @@
     "dashboard": {
       "title": "Dashboard",
       "totalText": "Total Raised",
+      "recentActivityTitle": "Recent Activity",
+      "recentActivityMessage": "You contributed <span class='amount'>#{amount}</span> ~/#{username}/#{repo} #{timeago}",
       "greetings": {
         "hasNotAddedPaymentMethod": "Welcome, let's get started!",
         "hasAddedPaymentMethod": "Add your repos!",

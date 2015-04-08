@@ -67,13 +67,18 @@ module.exports = {
   convertCurrency(val) {
     if(!val) {
       return `$0`;
-    }
-    else if(val < 1) {
+    } else if(val < 1) {
       // cent
       return `${Math.floor(val*100)}¢`;
+    } else if (val === 1){
+      return `$1`;
     } else {
       // dollar
-      return `$${Math.floor(val*100)/100}`;
+      val = Math.floor(val * 100) / 100;
+      if(val * 10 % 1 === 0) {
+        val = val.toString() + '0';
+      }
+      return `$${val}`;
     }
   }
 }

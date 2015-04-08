@@ -47,7 +47,7 @@
         "hasNotAddedPaymentMethod": "Welcome, let's get started!",
         "hasAddedPaymentMethod": "Add your repos!",
         "hasAddedRepos": "Your ready to go!",
-        "genericGreetings": ["Hey!", "What's up!"]
+        "genericGreetings": ["What's up!"]
       },
       "onboardingSteps": {
         "pushAmountExampleText": "If you push code <span>100</span> times over the next year.",

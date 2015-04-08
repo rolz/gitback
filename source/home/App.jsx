@@ -2,6 +2,9 @@
 
 var Feed = require('../components/feed');
 
+var util = require('../lib/util.jsx'),
+  logger = Logger.get('Feed');
+
 var feedData;
 
 /*
@@ -61,12 +64,13 @@ var Jumbotron = React.createClass({
 var UsersContribs = React.createClass({
     render() {
       var self = this,
-        {heroSection} = this.props.context;
+        {heroSection} = this.props.context,
+        {totalPledgedAmount} = feedData.summary;
       return(
         <section className="usersContribs">
           <div className="header">
             <div className="title">{heroSection.contribFeedTitle}</div>
-            <div className="total">{`$${feedData.summary.totalPledgedAmount}`}</div>
+            <div className="total">{util.convertCurrency(totalPledgedAmount)}</div>
           </div>
 
           <Feed users={this.props.users} />

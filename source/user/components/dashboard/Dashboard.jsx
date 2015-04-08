@@ -71,7 +71,8 @@ var Repo = require('./Repo.jsx');
 var User = React.createClass({
   getInitialState () {
     return {
-      hasAddedPaymentMethod: false
+      hasAddedPaymentMethod: false,
+      greetings: null
     };
   },
   componentDidUpdate (prevProps, prevState) {
@@ -85,19 +86,57 @@ var User = React.createClass({
         });
       }, 800);
     }
+    // Show greeting
+    var greetings = this.getGreeting();
+    if(greetings !== prevState.greetings) {
+      this.setState({ greetings: greetings });
+      var el = this.refs.greetings.getDOMNode();
+      el.innerHTML = '';
+      TweenMax.set(el, {
+        opacity: 0,
+        y: 20,
+        onComplete() {
+          el.innerHTML = greetings;
+          TweenMax.to(el, .3, {
+            opacity: 1,
+            y: 0,
+            delay: .5
+          });
+        }
+      });
+    }
   },
   componentDidMount () {
-    var self = this;
-    if(this.props.model.cardNumber) {
-      self.setState({
-        hasAddedPaymentMethod: true
-      });
+    this.setState({
+      greetings: this.getGreeting(),
+      hasAddedPaymentMethod: !!(this.props.model.cardNumber)
+    });
+  },
+  getGreeting() {
+    var {repos, cardNumber} = this.props.model,
+      {greetings} = this.props.context;
+    if(cardNumber) {
+      var addedWebhook = false;
+      _.each(repos, ((repo) => {
+        if(repo.webhookId) {
+          addedWebhook = true;
+          return false;
+        }
+      }));
+      if(addedWebhook) {
+        var arr = greetings.genericGreetings;
+        return arr[Math.floor(Math.random() * arr.length)];
+      } else {
+        return greetings.hasAddedPaymentMethod;
+      }
+    } else {
+      return greetings.hasNotAddedPaymentMethod;
     }
   },
   render() {
     var self = this,
       model = this.props.model,
-      {username, avatarUrl, repos, contribAmountPerPush, totalContribAmount} = model,
+      {username, avatarUrl, repos, contribAmountPerPush, totalContribAmount, cardNumber} = model,
       {hasAddedPaymentMethod} = this.state, //pull in data when new user model is done
       {totalText, greetings, reposSection} = this.props.context;
 
@@ -116,7 +155,7 @@ var User = React.createClass({
             <div className="text amount">{util.convertCurrency(totalContribAmount)}</div>
           </div>
 
-          <div className="greetings">{greetings[Math.floor(Math.random() * greetings.length)]}</div>
+          <div className="greetings" ref="greetings"></div>
 
           {hasAddedPaymentMethod ? <RecentActivity /> : <UserOnboarding model={model} context={this.props.context} />}
 

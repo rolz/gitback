@@ -9,7 +9,7 @@ main.settings {
   }
 
   section {
-    margin: 5px 0;
+    margin: 20px 0;
   }
 
 
@@ -38,9 +38,15 @@ main.settings {
     cursor: pointer;
     background: $textColor;
     color: white;
+    padding: 8px 16px;
     &:hover {
       background: $textColorHover;
     }
+  }
+
+  .left {
+    display: inline-block;
+    margin-right: 10px;
   }
 
   .accountType {
@@ -74,7 +80,7 @@ main.settings {
     }
     .type {
       border: 1px solid $primaryAccent;
-      padding: 2px 4px;
+      padding: 8px 16px;
       &:first-child {
         border-right: none;
       }
@@ -83,11 +89,12 @@ main.settings {
   .contribAmountPerPush {
     > span {
       border: 1px solid $primaryAccent;
-      margin-right: 10px;
-      padding: 2px 4px;
+      margin-right: 8px;
+      padding: 8px 16px;
       cursor: pointer;
       background: $primaryAccent;
       color: white;
+      font-family: $boldFont;
       &:hover {
         background: $primaryAccentHover;
       }

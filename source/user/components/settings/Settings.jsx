@@ -101,7 +101,10 @@ Settings = React.createClass({
           {_.map(items, ((item, index) => {
             return (
               <section className={item.id} key={`settingItem${index}`}>
-                <p>{item.label}: {getItem(item)}</p>
+                <p>
+                  <span className="left">{`${item.label}: `}</span>
+                  {getItem(item)}
+                </p>
               </section>
             );
           }))}

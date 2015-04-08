@@ -119,8 +119,11 @@ main.home {
           margin-top: 20px;
           font-size: 24px;
         }
-        .total{
+        .amountCounter{
           font-size: 54px;
+          &.zero {
+            display: none;
+          }
         }
       }
     }

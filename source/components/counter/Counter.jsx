@@ -32,8 +32,14 @@ var Counter = React.createClass({
       }, 80);
     }
   },
-  componentDidUpdate() {
-    this.update();
+  componentDidUpdate(prevProps, prevState) {
+    if(this.props.amount && !prevProps.amount) {
+      this.setState({
+        amount: this.props.amount
+      });
+    } else {
+      this.update();
+    }
   },
   componentDidMount() {
     if(this.props.amount) {
@@ -46,8 +52,9 @@ var Counter = React.createClass({
     clearTimeout(this.tid);
   },
   render() {
+    var zero = this.props.amount? '': 'zero';
     return (
-      <div className="amountCounter">{util.convertCurrency(this.state.amount)}</div>
+      <div className={`amountCounter ${zero}`}>{util.convertCurrency(this.state.amount)}</div>
     );
   }
 

@@ -7,6 +7,8 @@ var util = require('../lib/util.jsx'),
 
 var feedData;
 
+var Counter = require('../components/counter');
+
 /*
 * Hero Section
 */
@@ -70,7 +72,7 @@ var UsersContribs = React.createClass({
         <section className="usersContribs">
           <div className="header">
             <div className="title">{heroSection.contribFeedTitle}</div>
-            <div className="total">{util.convertCurrency(totalPledgedAmount)}</div>
+            <Counter amount={totalPledgedAmount} />
           </div>
 
           <Feed users={this.props.users} />

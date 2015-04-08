@@ -14,8 +14,8 @@ var Counter = React.createClass({
       currentAmount = this.state.amount;
     if(amount > currentAmount) {
       clearTimeout(this.tid);
-      if(amount < .8) {
-        currentAmount += .017;
+      if(amount < 1) {
+        currentAmount += .012;
       } else {
         var diff = amount - currentAmount;
         if(diff < 0.02) {

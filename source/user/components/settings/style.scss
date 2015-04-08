@@ -16,13 +16,13 @@ main.settings {
   h1 {
     font: 100% $bodyFont;
     font-size: 36px;
-    color: $primaryAccent;
+    color: $textColor;
   }
 
   h2 {
     font: 100% $bodyFont;
     font-size: 24px;
-    color: $textColor;
+    color: $primaryAccent;
   }
 
   a {

@@ -29,7 +29,7 @@ var Counter = React.createClass({
         self.setState({
           amount: currentAmount
         });
-      }, 80);
+      }, 33);
     }
   },
   componentDidUpdate(prevProps, prevState) {

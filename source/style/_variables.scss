@@ -44,15 +44,21 @@ $codeFontRegular: 'Source Code Pro Regular','Helvetica Neue', Helvetica, Arial, 
 $bgColor: rgba(255,255,255,1);
 $heroTextColor: rgba(255,255,255,1);
 $textColor: #34495E;
-$lineColor: rgba(0,0,0,1);
+$textColorHover: #2c3e50;
 $primaryAccent: #2ECC71;
+$primaryAccentHover: #27ae60;
 $secondaryAccent: #64B5F6;
+$lineColor: rgba(0,0,0,1);
 
 // DIMENSIONS
 $headerTabHeight: 50px;
-$homeMaxWidth: 1280px;
+$maxWidth: 1280px;
 $feedWidth: 460px;
 
+
+/*
+* mixins
+*/
 
 // CENTERING IN THE UNKNOWN
 @mixin centering {
@@ -67,4 +73,17 @@ $feedWidth: 460px;
     display: inline-block;
     vertical-align: middle;
   }
+}
+
+@mixin pageContainer {
+  position: relative;
+  margin: 0 auto;
+  max-width: $maxWidth;
+}
+
+// Green Borders
+@mixin greenBorderContainer {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid $primaryAccent;
 }

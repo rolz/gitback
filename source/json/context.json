@@ -9,7 +9,8 @@
     "heroSection": {
       "nav": ["Get Involved", "Our Mission"],
       "login": "Login",
-      "tagline": "Empower girls <br/>every time you code.",
+      "tagline": "Strengthen the Dev Community<br/>One Push at a Time.",
+      "subline": "Every time you push code to Github, you donate a small amount<br/>to teach computer science to girls from underserved communities.",
       "signUp": "Sign in with Github",
       "contribFeedTitle": "Total Raised"
     },
@@ -42,7 +43,12 @@
     "dashboard": {
       "title": "Dashboard",
       "totalText": "Total Raised",
-      "greetings": ["Welcome, let's get started!","Hey, you're a volunteer!"],
+      "greetings": {
+        "hasNotAddedPaymentMethod": "Welcome, let's get started!",
+        "hasAddedPaymentMethod": "Add your repos!",
+        "hasAddedRepos": "Your ready to go!",
+        "genericGreetings": ["Hey!", "What's up!"]
+      },
       "onboardingSteps": {
         "pushAmountExampleText": "If you push code <span>100</span> times over the next year.",
         "selectDonationAmount": "Select Donation Amount Per Push",

@@ -69,7 +69,7 @@ main.home {
 
     .content {
       margin: 0 auto;
-      max-width: 1280px;
+      max-width: $maxWidth;
     }
 
     .jumbotron {
@@ -79,7 +79,12 @@ main.home {
       color: $heroTextColor;
       .tagline {
         font: 100% $bodyFont;
-        font-size: 48px;
+        font-size: 36px;
+        line-height: 120%;
+      }
+      .subline {
+        margin-top: 10px;
+        line-height: 140%;
       }
       .userActions {
         margin-top: 50px;
@@ -157,13 +162,13 @@ main.home {
 
 
       &.one {
-        max-width: $homeMaxWidth;
+        max-width: $maxWidth;
       }
       &.two {
         background-color: #F7F7F7;
         .text {
           padding: 0 200px;
-          max-width: $homeMaxWidth;
+          max-width: $maxWidth;
           font-size: 20px;
         }
       }

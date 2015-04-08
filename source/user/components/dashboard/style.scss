@@ -1,14 +1,5 @@
 @import "../../../style/variables";
 
-/*
-* mixins
-*/
-@mixin greenBorderContainer {
-  margin: 10px 0;
-  padding: 10px;
-  border: 1px solid $primaryAccent;
-}
-
 main.dashboard {
 
   .contribAmountPerPush {
@@ -67,9 +58,7 @@ main.dashboard {
 
 
   .container {
-    position: relative;
-    margin: 0 auto;
-    max-width: 1280px;
+    @include pageContainer;
 
     .userProfile {
       width: 600px;

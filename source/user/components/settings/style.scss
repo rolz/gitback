@@ -1,30 +1,79 @@
+@import "../../../style/variables";
+
 main.settings {
+
+  .settingsContainer {
+    @include pageContainer;
+    padding: 0 40px;
+    text-align: left;
+  }
+
+  section {
+    margin: 5px 0;
+  }
+
+
+  h1 {
+    font: 100% $bodyFont;
+    font-size: 36px;
+    color: $textColor;
+  }
+
+  h2 {
+    font: 100% $bodyFont;
+    font-size: 24px;
+    color: $primaryAccent;
+  }
+
   a {
     margin-right: 10px;
+    color: $primaryAccent;
+    &:hover {
+      color: $primaryAccentHover;
+    }
   }
+
+  button {
+    margin: 5px 0;
+    cursor: pointer;
+    background: $textColor;
+    color: white;
+    &:hover {
+      background: $textColorHover;
+    }
+  }
+
   .accountType {
     .types {
       &.hidden {
         .public {
           cursor: pointer;
-          background: gray;
+          background: $primaryAccent;
           color: white;
+          &:hover {
+            background: $primaryAccentHover;
+          }
         }
         .private {
+          color: $primaryAccent;
         }
       }
       &:not(.hidden) {
         .public {
+          color: $primaryAccent;
         }
         .private {
           cursor: pointer;
-          background: gray;
+          background: $primaryAccent;
           color: white;
+          &:hover {
+            background: $primaryAccentHover;
+          }
         }
       }
     }
     .type {
-      border: solid 1px gray;
+      border: 1px solid $primaryAccent;
       padding: 2px 4px;
       &:first-child {
         border-right: none;
@@ -33,16 +82,19 @@ main.settings {
   }
   .contribAmountPerPush {
     > span {
-      border: solid 1px gray;
+      border: 1px solid $primaryAccent;
       margin-right: 10px;
       padding: 2px 4px;
       cursor: pointer;
-      background: gray;
+      background: $primaryAccent;
       color: white;
+      &:hover {
+        background: $primaryAccentHover;
+      }
       &.active {
         cursor: default;
         background: white;
-        color: inherit;
+        color: $primaryAccent;
       }
     }
   }

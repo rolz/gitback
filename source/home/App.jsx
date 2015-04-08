@@ -49,6 +49,7 @@ var Jumbotron = React.createClass({
     return(
       <section className="jumbotron">
         <div className="tagline" dangerouslySetInnerHTML={{__html:heroSection.tagline}}></div>
+        <div className="subline" dangerouslySetInnerHTML={{__html:heroSection.subline}}></div>
         <div className="userActions">
           <a href="/login"><span className="signUp">{heroSection.signUp}<img src="/assets/images/github-logo.svg"/></span></a>
         </div>

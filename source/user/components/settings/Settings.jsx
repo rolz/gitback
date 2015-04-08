@@ -95,7 +95,7 @@ Settings = React.createClass({
     return (
       <main className={name}>
       {this.state.user.username? (
-        <div>
+        <div className="settingsContainer">
           <h1>{title}</h1>
           <h2>{username}</h2>
           {_.map(items, ((item, index) => {

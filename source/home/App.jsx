@@ -36,8 +36,8 @@ var Header = React.createClass({
       <section className="header clearfix">
         <a className="logo">{projectTitle}</a>
         <ul>
-          <li><a href="#getInvolved">{heroSection.nav[0]}</a></li>
-          <li><a href="#ourMission">{heroSection.nav[1]}</a></li>
+          <li><a href={`#${heroSection.nav[0]}`}>{heroSection.nav[0]}</a></li>
+          <li><a href={`#${heroSection.nav[1]}`}>{heroSection.nav[1]}</a></li>
         </ul>
         <a href="/login" className="login">{heroSection.login}</a>
       </section>
@@ -103,6 +103,7 @@ var C1 = React.createClass({
       {content} = this.props.context;
     return(
       <section className="contentSection one clearfix">
+        <a name={content.one.title} />
         <div className="title">{content.one.title}</div>
         <img className="line" src="/assets/images/line.png" />
         <div className="contentSteps">
@@ -124,7 +125,8 @@ var C2 = React.createClass({
     var self = this,
       {content} = this.props.context;
     return(
-      <section className="contentSection two">
+      <section name="two" className="contentSection two">
+        <a name={content.two.title} />
         <div className="title">{content.two.title}</div>
         <img className="line" src="/assets/images/line.png" />
         {_.map(content.two.text, ((text, index) => {

@@ -17,6 +17,15 @@ var UserOnboarding = React.createClass({
     PaymentMethod.show(username);
     this.setState({ showPayment: true });
   },
+  cancelPaymentMethod() {
+    this.setState({ showPayment: false });
+    this.tid = setTimeout(() => {
+      PaymentMethod.hide();
+    }, 800);
+  },
+  componentWillUnmount () {
+    clearTimeout(this.tid);
+  },
   componentDidUpdate () {
     if(this.props.model.cardNumber) {
       var el = this.getDOMNode();
@@ -38,8 +47,8 @@ var UserOnboarding = React.createClass({
       <div className={`onboardingContainer ${this.state.showPayment? 'showPayment': ''}`}>
         <div className="pushAmountContainer">
           <div className="onboardingSteps">
+            <h2>{selectDonationAmount}</h2>
             <h3 dangerouslySetInnerHTML={{__html:pushAmountExampleText}} />
-            <p>{selectDonationAmount}</p>
             <span className="contribAmountPerPush">
             {_.map(donationAmounts, ((amount, index) => {
               return <span key={`contrib${index}`} onClick={self.setContribAmountPerPush.bind(null, amount)} className={contribAmountPerPush === amount? 'active' : ''}>{util.convertCurrency(amount)}</span>;
@@ -49,7 +58,7 @@ var UserOnboarding = React.createClass({
           <h3 className="pushAmountExampleValue" dangerouslySetInnerHTML={{__html: pushAmountExampleValue}} />
           <button className="onboardingAddPayment" onClick={this.showPaymentMethod}>{addPaymentsButton}</button>
         </div>
-        <PaymentMethod />
+        <PaymentMethod cancel={this.cancelPaymentMethod} />
       </div>
     )
   }
@@ -139,7 +148,6 @@ var User = React.createClass({
       {username, avatarUrl, repos, contribAmountPerPush, totalContribAmount, cardNumber} = model,
       {hasAddedPaymentMethod} = this.state, //pull in data when new user model is done
       {totalText, greetings, reposSection} = this.props.context;
-
     return (
       <section className="container">
 

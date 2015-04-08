@@ -2,24 +2,7 @@
 
 main.dashboard {
 
-  .contribAmountPerPush {
-    > span {
-      border: solid 1px white;
-      margin-right: 5px;
-      padding: 5px 10px;
-      cursor: pointer;
-      border-radius: 6px;
-      line-height: 2.5em;
-      font-family: $boldFont;
-      &.active {
-        cursor: default;
-        background: white;
-        color: $primaryAccent;
-      }
-    }
-  }
-
-  $onboardingHeight: 300px;
+  $onboardingHeight: 280px;
 
   .onboardingContainer {
     background: $primaryAccent;
@@ -27,16 +10,29 @@ main.dashboard {
     height: $onboardingHeight;
     overflow: hidden;
     @include centering;
+    h2 {
+      margin-bottom: 20px;
+      padding: 0;
+    }
     h3 {
+      margin-bottom: 10px;
       span {
         font-family: $boldFont;
       }
+      &.pushAmountExampleValue {
+        margin-top: 10px;
+      }
     }
     button {
-      background: white;
-      color: $primaryAccent;
-      border-radius: 6px;
+      margin: 10px 0 5px;
+      background: $primaryAccent;
+      border: 1px white solid;
+      color: white;
       padding: 8px 10px;
+      font-family: $boldFont;
+      &:hover {
+        background: $primaryAccentHover;
+      }
     }
     .pushAmountContainer, .paymentMethod {
       transition: transform .5s ease-in-out;
@@ -56,6 +52,24 @@ main.dashboard {
     }
   }
 
+  .contribAmountPerPush {
+    > span {
+      border: solid 1px white;
+      margin: 0 8px 0 0;
+      padding: 5px 10px;
+      cursor: pointer;
+      line-height: 2.5em;
+      font-family: $boldFont;
+      &:hover {
+        background: $primaryAccentHover;
+      }
+      &.active {
+        cursor: default;
+        background: white;
+        color: $primaryAccent;
+      }
+    }
+  }
 
   .container {
     @include pageContainer;
@@ -126,7 +140,7 @@ main.dashboard {
 
     .greetings {
       position: relative;
-      margin: 30px auto;
+      margin: 30px auto 20px;
       width: inherit;
       height: 40px;
       font: 100% $bodyFont;
@@ -143,6 +157,7 @@ main.dashboard {
     }
 
     .reposHeader {
+      margin-top: 20px;
       text-align: left;
       width: inherit;
       .one {

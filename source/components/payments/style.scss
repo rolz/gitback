@@ -41,11 +41,12 @@ div.paymentMethod {
   ul {
     list-style: none;
     margin: 0;
-    padding: 0 0 30px;
+    padding: 0 0 10px;
     text-align: left;
     li {
       display: inline-block;
       margin-right: 10px;
+      margin-bottom: 1px;
       span {
         font-size: 1.2em;
       }
@@ -54,23 +55,42 @@ div.paymentMethod {
       }
       &.expirationMonth, &.expirationYear {
         input {
+          margin-left: 5px;
           width: 40px;
         }
       }
       &.cvv {
+        margin-left: 15px;
+        margin-right: 0;
         input {
+          margin-left: 5px;
           width: 50px;
         }
       }
       &.postalCode {
+        margin-left: 26px;
+        margin-right: 0;
         input {
+          margin-left: 4px;
           width: 70px;
+        }
+      }
+      &.number {
+        input {
+          margin-left: 91px;
         }
       }
     }
   }
   button {
     text-align: left;
+    &.cancel, &.add {
+      width: 100px;
+      text-align: center;
+    }
+    &.cancel {
+      margin-right: 8px;
+    }
   }
   &.show {
     display: block;

@@ -35,6 +35,15 @@ var PaymentMethod = React.createClass({
       }
     }).bind(this));
   },
+  cancel(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.nativeEvent.stopImmediatePropagation();
+
+    if(this.props.cancel) {
+      this.props.cancel();
+    }
+  },
   add(e) {
     e.preventDefault();
     e.stopPropagation();
@@ -116,14 +125,15 @@ var PaymentMethod = React.createClass({
           <div className="errorMessage">{this.state.errorMessage}</div>
           <form ref="helloPayment">
             <ul>
-              <li className="cardholderName"><input name="cardholderName" defaultValue="John Smith" />&nbsp;cardholderName</li>
-              <li className="number"><input name="number" defaultValue="4111111111111111" />&nbsp;number</li>
-              <li className="expirationMonth"><input name="expirationMonth" defaultValue="10" />&nbsp;MM</li>
-              <li className="expirationYear"><input name="expirationYear" defaultValue="20" />&nbsp;YY</li>
-              <li className="cvv"><input name="cvv" defaultValue="100" />&nbsp;cvv</li>
-              <li className="postalCode"><input name="postalCode" defaultValue="94107" />&nbsp;postalCode</li>
+              <li className="cardholderName">Cardholder Name&nbsp;<input name="cardholderName" defaultValue="John Smith"/></li>
+              <li className="number">Number&nbsp;<input name="number" defaultValue="4111111111111111" /></li>
+              <li className="expirationMonth">MM&nbsp;<input name="expirationMonth" defaultValue="10" /></li>
+              <li className="expirationYear">YY&nbsp;<input name="expirationYear" defaultValue="20" /></li>
+              <li className="cvv">CVV&nbsp;<input name="cvv" defaultValue="100" /></li>
+              <li className="postalCode">Zip Code&nbsp;<input name="postalCode" defaultValue="94107" /></li>
             </ul>
-            <button onClick={this.add}>Add Payment Method</button>
+            <button className="cancel" onClick={this.cancel}>Cancel</button>
+            <button className="add" onClick={this.add}>Add</button>
           </form>
         </div>
       </div>

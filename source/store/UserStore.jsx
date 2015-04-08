@@ -58,7 +58,14 @@ var UserStore = Reflux.createStore({
     // logger.debug('updateUser', user);
     if(!this.user || !this.user.username || this.user.username === user.username) {
       this.user = user;
-      this.trigger(user);
+      this.trigger(this.user);
+    }
+  },
+  onUpdateCardNumber(dat) {
+    // logger.debug('onUpdateCardNumber', dat);
+    if(this.user && this.user.username === dat.username) {
+      this.user.cardNumber = dat.cardNumber;
+      this.trigger(this.user);
     }
   },
   getInitialState() {

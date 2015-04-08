@@ -2,9 +2,9 @@
 
 div.paymentMethod {
   display: none;
-  background: rgba(0,255,255,.5);
-  position: fixed;
-  z-index: 100;
+  // background: rgba(0,255,255,.5);
+  // position: fixed;
+  // z-index: 100;
   top: 0;
   left: 0;
   width: 100%;
@@ -12,6 +12,8 @@ div.paymentMethod {
   .helloPaymentWrapper {
     @include centering;
     height: 100%;
+    opacity: 0;
+    transition: opacity .5s;
   }
   .closeButton {
     position: absolute;
@@ -24,24 +26,56 @@ div.paymentMethod {
     }
   }
   form {
+    position: relative;
+    width: 500px;
+    margin: auto;
     input {
       margin-bottom: 10px;
       font-family: $bodyFont;
       padding: 10px;
       font-size: 1em;
       border: none;
+      width: 320px;
     }
   }
   ul {
     list-style: none;
     margin: 0;
-    padding: 0;
+    padding: 0 0 30px;
     text-align: left;
+    li {
+      display: inline-block;
+      margin-right: 10px;
+      span {
+        font-size: 1.2em;
+      }
+      &.cardholderName, &.number {
+        width: 100%;
+      }
+      &.expirationMonth, &.expirationYear {
+        input {
+          width: 40px;
+        }
+      }
+      &.cvv {
+        input {
+          width: 50px;
+        }
+      }
+      &.postalCode {
+        input {
+          width: 70px;
+        }
+      }
+    }
   }
   button {
     text-align: left;
   }
   &.show {
     display: block;
+    .helloPaymentWrapper {
+      opacity: 1;
+    }
   }
 }

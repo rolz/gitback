@@ -14,6 +14,7 @@ var PaymentsStore = Reflux.createStore({
   },
 
   onShowPaymentMethod(username) {
+    // logger.debug(username);
     this.payments.username = username;
     this.payments.paymentMethod.status = 'show';
     this.trigger(this.payments);

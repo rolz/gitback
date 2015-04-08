@@ -17,9 +17,9 @@ var _ = require('lodash-node'),
 // CREATE BRAINTREE GATE AND ADD APP CREDENTIALS
 var gateway = braintree.connect({
   environment: braintree.Environment.Sandbox,
-  merchantId: "5s3t2pzqy4kjmcps",
-  publicKey: "tw5p84mjv7qcx3dj",
-  privateKey: "8914a5205592a56d90119eaa75e85c61"
+  merchantId: '5s3t2pzqy4kjmcps',
+  publicKey: 'tw5p84mjv7qcx3dj',
+  privateKey: '8914a5205592a56d90119eaa75e85c61'
 });
 
 // CREATE A CUSTOMER WITH CARD VALIDATION (test with admin page) https://developers.braintreepayments.com/javascript+node/sdk/server/customer-management/create
@@ -51,7 +51,7 @@ function setRoutes() {
           verifyCard: true
         }
       }
-    }, function (err, result) {
+    }, ((err, result) => {
       if(err) {
         log(err, 'red');
         res.json({
@@ -59,74 +59,65 @@ function setRoutes() {
         });
       } else {
         if(result.success) {
-          // true
-          log('customer id : ' + result.customer.id, 'green');
-          // e.g 160923
 
-          log('customer card token : ' + result.customer.creditCards[0].token, 'green');
-          // e.g f28wm
+          var customer = result.customer,
+            customerId = customer.id,
+            paymentMethodToken = customer.creditCards[0].token,
+            billingDayOfMonth = getBillingCycleDate(),
+            paymentMethod = {
+              planId: 'standardplan',
+              paymentMethodToken: paymentMethodToken,
+              billingDayOfMonth: billingDayOfMonth
+            };
 
-          // ADD CUSTOMER PAYMENT DETAILS TO USER PROFILE
-            // save customer id/token
-          res.json(result);
+          // log(paymentMethod, 'blue');
 
-          //Add payment subscription to customer profile in braintree
-          addPaymentSubscription(result.customer.creditCards[0].token);
-
+          // CREATE A SUBSCRIPTON SERVICE THAT BILLS THE CUSTOMER EVERY MONTH
+          // one time create subscription for user at 1 cent
+          gateway.subscription.create(paymentMethod, ((err, result) => {
+            if(err) {
+              log(err.message, 'red');
+            } else {
+              if(result.success) {
+                var model = {
+                  username: dat.username,
+                  cardNumber: dat.last,
+                  paymentMethod: _.extend(paymentMethod, {
+                    customerId: customerId,
+                    subscriptionId: result.subscription.id
+                  })
+                };
+                // log(model, 'green');
+                db.user.updatePaymentMethod(model, ((e) => {
+                  log(`updatePaymentMethod: ${e.status}`, 'blue');
+                  var result = e.result || {};
+                  res.json({
+                    status: e.status,
+                    result: {
+                      username: result.username,
+                      cardNumber: result.cardNumber,
+                    }
+                  });
+                }));
+              }
+            }
+          }));
         }
       }
-    });
+    }));
   });
-
-
-  // Todo: UPDATE USER PAYMENT METHOD
-
 }
 
-// CREATE A SUBSCRIPTON SERVICE THAT BILLS THE CUSTOMER EVERY MONTH
-function addPaymentSubscription(userCardToken) {
-
-  // set subscription cycle to in one month.
-  var today = new Date().getDate;
+// Get subscription cycle to in one month.
+function getBillingCycleDate() {
+  var today = (new Date()).getDate();
   // Billing Day of Month must be between 1 and 28, or 31.
-  var dd;
   switch(today) {
-    case 29:
-    case 30:
-    case 31:
-      dd = 28;
-      break;
-    default:
-      dd = today - 1
+    case 29: case 30: case 31: return 28;
+    default: return today - 1;
   }
+}
 
-  // one time create subscription for user at 1 cent
-  gateway.subscription.create({
-    paymentMethodToken: userCardToken,
-    planId: "standardplan",
-    billingDayOfMonth: dd
-  }, function (err, result) {
-      if(err) {
-        log(err, 'red');
-        res.json({
-          status: 'error'
-        });
-      } else {
-        if(result.success) {
-          log('subscription plan has been created' + JSON.stringify(result), 'green');
-
-          // add this user isSubscribed to user model
-          // add SubscriptionId to user model
-          // add user payment date cycle to user model
-
-        } else {
-          log('not error but not success: ' + JSON.stringify(result), 'red');
-        }
-      }
-  });
-
-
-};
 
 // Todo : UPDATE THE SUBSCRIPTON PRICE MONTHLY BASED ON USER'S CURRENT CONTRIB AMOUNT
 // PAYMENT DATE CYCLE
@@ -135,7 +126,7 @@ function addPaymentSubscription(userCardToken) {
 function updateDonationAmountForPaymentSubscription(user) {
 
 
-  // if user contrib amount = 0, update price to $0.00. 
+  // if user contrib amount = 0, update price to $0.00.
 
   gateway.subscription.update({
     paymentMethodToken: userCardToken,

@@ -24,10 +24,18 @@ function setupSchema() {
     contribAmountPerPush: { type: Number, default: .01 },
     totalContribAmount: { type: Number, default: 0 },
     currentMonthContribAmount: { type: Number, default: 0 },
+    cardNumber: String,
+    paymentSummary: [
+      {
+        timestamp: { type: Date, default: Date.now },
+        contribAmount: { type: Number, default: 0 }
+      }
+    ],
     paymentMethod: {
       customerId: String,
-      customerToken: String,
-      billingCycleDate: Number
+      subscriptionId: String,
+      paymentMethodToken: String,
+      billingDayOfMonth: Number
     },
     repos: [{
       name: String,
@@ -55,7 +63,7 @@ function findToken(username, cb) {
 
 function findOne(username, cb, needToken) {
   return PUser.findOne({'username': username},
-    needToken? {} : {'tokenId': false})
+    needToken? {} : {'tokenId': false, paymentMethod: false })
   .exec((err, result) => {
     if(err) log(`Error on finding #{username}`, 'red');
     if(cb) {cb({
@@ -79,7 +87,13 @@ function updateUser(username, dat, cb) {
 
 
 function findAll(cb) {
-  return PUser.find({}, {'tokenId': false}).exec((err, result) => {
+  var noData = {
+    tokenId: false,
+    cardNumber: false,
+    paymentSummary: false,
+    paymentMethod: false
+  };
+  return PUser.find({}, noData).exec((err, result) => {
     if(err) log(`Error on finding`, 'red');
     if(cb) {cb({
       status: (err? 'error': 'success'),
@@ -264,29 +278,13 @@ function updateContrib(model, cb) {
 }
 
 function updatePaymentMethod(model, cb) {
-  var username = model.username;
-  findOne(username, ((e) => {
-    var dat = e.result;
-    if(dat) {
-      var paymentMethod = dat.paymentMethod;
-      paymentMethod.customerId = model.customerId;
-      paymentMethod.customerToken = model.customerToken;
-      updateUser(username, {paymentMethod: paymentMethod}, ((e) => {
-        log('updated paymentMethod!', 'green');
-        if(cb) cb({
-          status: e.error? 'error': 'success',
-          result: dat
-        });
-      }));
-    } else {
-      if(cb) cb({
-        status: 'error',
-        result: 'no username'
-      });
-    }
+  updateUser(model.username, {
+    cardNumber: model.cardNumber,
+    paymentMethod: model.paymentMethod
+  }, ((e) => {
+    if(cb) cb(e);
   }));
 }
-
 
 module.exports = ((mongooseDB) => {
   mongoose = mongooseDB;

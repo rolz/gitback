@@ -7,12 +7,22 @@
 var request = require('superagent');
 
 var PaymentsActions = require('../../actions/PaymentsActions.jsx');
+var UserActions = require('../../actions/UserActions.jsx');
 
 var PaymentMethod = React.createClass({
   mixins: [Reflux.connect(require('../../store/PaymentsStore.jsx'), 'payments')],
+  statics: {
+    show(username) {
+      PaymentsActions.showPaymentMethod(username);
+    },
+    hide() {
+      PaymentsActions.hidePaymentMethod();
+    }
+  },
   getInitialState() {
     return {
-      clientTokenFromServer: null
+      clientTokenFromServer: null,
+      errorMessage: null
     };
   },
   componentDidMount() {
@@ -30,6 +40,7 @@ var PaymentMethod = React.createClass({
     e.stopPropagation();
     e.nativeEvent.stopImmediatePropagation();
 
+    var self = this;
 
     // get currently logged in user's details
     var username = this.state.payments.username;
@@ -66,17 +77,27 @@ var PaymentMethod = React.createClass({
       } else {
         // send nonce
         request
-         .post('/addcustomerandpaymentmethod')
-         .send({username: username, nonce: nonce})
-         .end(function(err, res){
-           if (res.ok) {
-             console.log('yay got ' + JSON.stringify(res.body));
-           } else {
-             console.log('Oh no! error ' + res.text);
-           }
+          .post('/addcustomerandpaymentmethod')
+          .send({username: username, nonce: nonce, last: obj.number.toString().slice(-4)})
+          .end(function(err, res){
+            if (res.ok) {
+              var dat = res.body;
+              if(dat.status === 'success') {
+                PaymentsActions.hidePaymentMethod();
+                UserActions.updateCardNumber(dat.result);
+              } else {
+                self.setState({
+                  errorMessage: 'Try one more time'
+                });
+              }
+            } else {
+              console.log('Oh no! error ' + res.text);
+              self.setState({
+                errorMessage: 'Try one more time'
+              });
+            }
          });
       }
-      console.log(nonce);
     }));
 
 
@@ -92,14 +113,15 @@ var PaymentMethod = React.createClass({
       <div className={'paymentMethod' + (paymentMethod.status === 'show'? ' show' : '')}>
         <div className="helloPaymentWrapper">
           <div className="closeButton" onClick={PaymentsActions.hidePaymentMethod} />
+          <div className="errorMessage">{this.state.errorMessage}</div>
           <form ref="helloPayment">
             <ul>
-              <li><input name="cardholderName" defaultValue="John Smith" />&nbsp;cardholderName</li>
-              <li><input name="number" defaultValue="4111111111111111" />&nbsp;number</li>
-              <li><input name="expirationMonth" defaultValue="10" />&nbsp;expirationMonth</li>
-              <li><input name="expirationYear" defaultValue="2020" />&nbsp;expirationYear</li>
-              <li><input name="cvv" defaultValue="100" />&nbsp;cvv</li>
-              <li><input name="postalCode" defaultValue="94107" />&nbsp;postalCode</li>
+              <li className="cardholderName"><input name="cardholderName" defaultValue="John Smith" />&nbsp;cardholderName</li>
+              <li className="number"><input name="number" defaultValue="4111111111111111" />&nbsp;number</li>
+              <li className="expirationMonth"><input name="expirationMonth" defaultValue="10" />&nbsp;MM</li>
+              <li className="expirationYear"><input name="expirationYear" defaultValue="20" />&nbsp;YY</li>
+              <li className="cvv"><input name="cvv" defaultValue="100" />&nbsp;cvv</li>
+              <li className="postalCode"><input name="postalCode" defaultValue="94107" />&nbsp;postalCode</li>
             </ul>
             <button onClick={this.add}>Add Payment Method</button>
           </form>

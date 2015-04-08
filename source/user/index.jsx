@@ -13,6 +13,12 @@ var util = require('../lib/util.jsx');
 util.setLogger();
 
 /*
+ * Gsap
+ * http://greensock.com/docs/#/HTML5/GSAP/TweenMax/
+ */
+require('gsap/src/uncompressed/TweenMax');
+
+/*
  * Temporary contect data.
  */
 var context = require('../json/context');

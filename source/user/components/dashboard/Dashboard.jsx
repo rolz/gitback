@@ -3,7 +3,7 @@
 var util = require('../../../lib/util.jsx'),
   logger = Logger.get('Dashboard'),
   UserActions = require('../../../actions/UserActions.jsx'),
-  PaymentsActions = require('../../../actions/PaymentsActions.jsx');
+  PaymentMethod = require('../../../components/payments');
 
 var UserOnboarding = React.createClass({
   setContribAmountPerPush(val) {
@@ -12,6 +12,22 @@ var UserOnboarding = React.createClass({
       UserActions.setContribAmountPerPush(username, val);
     }
   },
+  showPaymentMethod() {
+    var {username} = this.props.model;
+    PaymentMethod.show(username);
+    this.setState({ showPayment: true });
+  },
+  componentDidUpdate () {
+    if(this.props.model.cardNumber) {
+      var el = this.getDOMNode();
+      TweenMax.to(el, .5, {height: 0});
+    }
+  },
+  getInitialState() {
+    return {
+      showPayment: false
+    };
+  },
   render() {
     var self = this,
       {username, contribAmountPerPush} = this.props.model,
@@ -19,18 +35,21 @@ var UserOnboarding = React.createClass({
       {addPaymentsButton, pushAmountExampleText, pushAmountExampleValue, selectDonationAmount} = this.props.context.onboardingSteps;
     pushAmountExampleValue = pushAmountExampleValue.replace('#{amount}', `<span>${util.convertCurrency(contribAmountPerPush * 100)}</span>`);
     return (
-      <div className="onboardingContainer">
-        <div className="onboardingSteps">
-          <h3 dangerouslySetInnerHTML={{__html:pushAmountExampleText}} />
-          <p>{selectDonationAmount}</p>
-          <span className="contribAmountPerPush">
-          {_.map(donationAmounts, ((amount, index) => {
-            return <span key={`contrib${index}`} onClick={self.setContribAmountPerPush.bind(null, amount)} className={contribAmountPerPush === amount? 'active' : ''}>{util.convertCurrency(amount)}</span>;
-          }))}
-          </span>
+      <div className={`onboardingContainer ${this.state.showPayment? 'showPayment': ''}`}>
+        <div className="pushAmountContainer">
+          <div className="onboardingSteps">
+            <h3 dangerouslySetInnerHTML={{__html:pushAmountExampleText}} />
+            <p>{selectDonationAmount}</p>
+            <span className="contribAmountPerPush">
+            {_.map(donationAmounts, ((amount, index) => {
+              return <span key={`contrib${index}`} onClick={self.setContribAmountPerPush.bind(null, amount)} className={contribAmountPerPush === amount? 'active' : ''}>{util.convertCurrency(amount)}</span>;
+            }))}
+            </span>
+          </div>
+          <h3 className="pushAmountExampleValue" dangerouslySetInnerHTML={{__html: pushAmountExampleValue}} />
+          <button className="onboardingAddPayment" onClick={this.showPaymentMethod}>{addPaymentsButton}</button>
         </div>
-        <h3 className="pushAmountExampleValue" dangerouslySetInnerHTML={{__html: pushAmountExampleValue}} />
-        <button className="onboardingAddPayment" onClick={PaymentsActions.showPaymentMethod.bind(null, username)}>{addPaymentsButton}</button>
+        <PaymentMethod />
       </div>
     )
   }
@@ -50,11 +69,36 @@ var RecentActivity = React.createClass({
 var Repo = require('./Repo.jsx');
 
 var User = React.createClass({
+  getInitialState () {
+    return {
+      hasAddedPaymentMethod: false
+    };
+  },
+  componentDidUpdate (prevProps, prevState) {
+    // console.log(prevProps, prevState);
+    var self = this;
+    if(!this.state.hasAddedPaymentMethod && this.props.model.cardNumber) {
+      PaymentMethod.hide();
+      setTimeout(() => {
+        self.setState({
+          hasAddedPaymentMethod: true
+        });
+      }, 800);
+    }
+  },
+  componentDidMount () {
+    var self = this;
+    if(this.props.model.cardNumber) {
+      self.setState({
+        hasAddedPaymentMethod: true
+      });
+    }
+  },
   render() {
     var self = this,
       model = this.props.model,
       {username, avatarUrl, repos, contribAmountPerPush, totalContribAmount} = model,
-      hasAddedPaymentMethod = false, //pull in data when new user model is done
+      {hasAddedPaymentMethod} = this.state, //pull in data when new user model is done
       {totalText, greetings, reposSection} = this.props.context;
 
     return (

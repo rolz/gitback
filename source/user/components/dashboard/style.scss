@@ -28,10 +28,14 @@ main.dashboard {
     }
   }
 
+  $onboardingHeight: 300px;
+
   .onboardingContainer {
-    padding: 10px;
     background: $primaryAccent;
     color: white;
+    height: $onboardingHeight;
+    overflow: hidden;
+    @include centering;
     h3 {
       span {
         font-family: $boldFont;
@@ -43,7 +47,24 @@ main.dashboard {
       border-radius: 6px;
       padding: 8px 10px;
     }
+    .pushAmountContainer, .paymentMethod {
+      transition: transform .5s ease-in-out;
+    }
+    .paymentMethod {
+      .closeButton {
+        display: none;
+      }
+    }
+    &.showPayment {
+      .pushAmountContainer {
+        transform: translate3d(0, $onboardingHeight*-1, 0);
+      }
+      .paymentMethod {
+        transform: translate3d(0, $onboardingHeight*-1, 0);
+      }
+    }
   }
+
 
   .container {
     position: relative;

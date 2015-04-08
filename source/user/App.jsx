@@ -1,8 +1,7 @@
 'use strict'
 
 var Header = require('../components/header');
-var PaymentMethod = require('../components/payments');
-var {RouteHandler, Link} = Router,
+var {RouteHandler} = Router,
 
 App = React.createClass({
   render() {
@@ -10,7 +9,6 @@ App = React.createClass({
       <div>
         <Header />
         <RouteHandler {...this.props}/>
-        <PaymentMethod />
       </div>
     );
   }

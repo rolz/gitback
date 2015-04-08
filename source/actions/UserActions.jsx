@@ -16,5 +16,6 @@ module.exports = Reflux.createActions([
   'setAnonymous',
   'updateUser',
   'addPaymentMethod',
-  'setContribAmountPerPush'
+  'setContribAmountPerPush',
+  'updateCardNumber'
 ]);

@@ -74,7 +74,7 @@ function findOne(username, cb, needToken) {
 }
 
 function updateUser(username, dat, cb) {
-  log(dat, 'blue');
+  log(username, 'blue');
   return PUser.findOneAndUpdate({'username': username}, dat, ((err, result) => {
     if(err) log(`Error on finding #{username}`, 'red');
     if(cb) {cb({
@@ -201,7 +201,7 @@ function addWebhookId(username, repoName, webhookId, cb) {
       repo.webhookId = webhookId;
       repo.createdWebhookAt = Date.now;
       updateUser(username, dat, ((e) => {
-        log('updated!' + JSON.stringify(e), 'green');
+        log('added addWebhook!', 'green');
         if(cb) cb(e);
       }));
     }
@@ -223,7 +223,7 @@ function removeWebhookId(username, repoName, cb) {
       // repo.totalCommitCount = 0;
       // repo.contribLog = [];
       updateUser(username, dat, ((e) => {
-        log('updated!' + JSON.stringify(e), 'green');
+        log('removed addWebhook!', 'green');
         if(cb) cb(e);
       }));
     }

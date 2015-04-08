@@ -71,11 +71,13 @@ module.exports = {
       // cent
       return `${Math.floor(val*100)}¢`;
     } else if (val === 1){
-      return `$1`;
+      return `$1.00`;
     } else {
       // dollar
       val = Math.floor(val * 100) / 100;
-      if(val * 10 % 1 === 0) {
+      if(val % 1 === 0) {
+        val = val.toString() + '.00';
+      } else if(val * 10 % 1 === 0) {
         val = val.toString() + '0';
       }
       return `$${val}`;

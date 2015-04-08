@@ -213,15 +213,19 @@ main.dashboard {
         }
 
         &.remove {
-          .button#remove {
+          .button.remove {
             display: inline-block;
             background: url(/assets/images/remove.png) no-repeat;
           }
         }
         &.add {
-          .button#add {
+          .button.add {
             display: inline-block;
             background: url(/assets/images/add.png) no-repeat;
+            &.notValid {
+              opacity: .4;
+              cursor: default;
+            }
           }
         }
       }

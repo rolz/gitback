@@ -25,7 +25,7 @@ var Repo = React.createClass({
     }
   },
   addWebhook() {
-    if(!this.isLoadingIconShown()) {
+    if(this.props.model.cardNumber && !this.isLoadingIconShown()) {
       this.addLoadingIcon();
       var {name, webhookId} = this.props.repo,
         username = this.props.username;
@@ -37,7 +37,7 @@ var Repo = React.createClass({
   },
   render() {
     var self = this,
-      {contribAmountPerPush} = this.props.model,
+      {contribAmountPerPush, cardNumber} = this.props.model,
       {name, webhookId, contribLog, totalContribAmount} = this.props.repo,
       username = this.props.username,
       buttonClass = (() => {
@@ -55,8 +55,8 @@ var Repo = React.createClass({
             <div className="loading" ref="loading">
               <img src="/assets/images/loading-spin.svg" />
             </div>
-            <div className="button" id="remove" onClick={this.removeWebhook}></div>
-            <div className="button" id="add" onClick={this.addWebhook}></div>
+            <div className="button remove" onClick={this.removeWebhook}></div>
+            <div className={`button add ${cardNumber? '':'notValid'}`} onClick={this.addWebhook}></div>
           </td>
         </tr>
     )

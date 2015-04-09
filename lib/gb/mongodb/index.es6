@@ -50,14 +50,23 @@ function setRoutes() {
       }
     }));
   });
+
+  app.get('/removeAll', function (req, res) {
+    removeAll((e) => {
+      res.json(e);
+    });
+  });
 }
 
-function removeAll() {
+function removeAll(cb) {
   user.removeAll(((e) => {
     contrib.removeAll(((e) => {
       commit.removeAll(((e) => {
         summary.removeAll(((e) => {
           log('removed all!', 'green');
+          if(cb) cb({
+            status: 'success'
+          });
         }));
       }));
     }));

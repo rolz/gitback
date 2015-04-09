@@ -46,6 +46,7 @@ function update(dat, cb) {
 
 function removeAll(cb) {
   return PSummary.remove({}, (err) => {
+    init();
     if(cb) {cb({
       status: (err? 'error': 'success')
     });}

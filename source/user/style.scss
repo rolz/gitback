@@ -26,6 +26,9 @@ a {
 main {
   margin: 60px auto 0;
   text-align: center;
+  @media (max-width: $breakpointMin) {
+    margin-top: 20px;
+  }
   .loadingUserInfo {
   }
 }

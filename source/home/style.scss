@@ -13,6 +13,9 @@ main.home {
     position: relative;
     width: 100%;
     height: 512px;
+    @media (max-width: $breakpointMin) {
+      height: auto;
+    }
     overflow: hidden;
     background: #8fe286; /* Old browsers */
     /* IE9 SVG, needs conditional override of 'filter' to 'none' */
@@ -45,17 +48,30 @@ main.home {
           padding-left: 20px;
           font: 100% $GBFont;
           font-size: 28px;
+          @media (max-width: $breakpointMin) {
+            float: none;
+            text-align: center;
+            padding: 0;
+            width: 100%;
+            display: inline-block;
+          }
         }
         &.login {
           float: right;
           margin: 35px 20px 0 0;
+          @media (max-width: $breakpointMin) {
+            margin-top: 20px;
+          }
         }
       }
       ul {
         float: left;
-        width: 240px;
-        margin: 35px 0px 0px 40px;
+        width: 230px;
         padding: 0;
+        margin: 35px 0px 0px 40px;
+        @media (max-width: $breakpointMin) {
+          margin: 20px 0 0 20px;
+        }
         li {
           float: left;
           margin: 0 10px;
@@ -77,10 +93,18 @@ main.home {
       margin-top: 110px;
       margin-left: 40px;
       color: $heroTextColor;
+      @media (max-width: $breakpointMin) {
+        float: none;
+        padding: 20px;
+        margin: 0;
+      }
       .tagline {
         font: 100% $bodyFont;
         font-size: 36px;
         line-height: 120%;
+        @media (max-width: $breakpointMin) {
+          font-size: 28px;
+        }
       }
       .subline {
         margin-top: 10px;
@@ -90,6 +114,9 @@ main.home {
         margin-top: 50px;
         font: 100% $bodyFont;
         font-size: 24px;
+        @media (max-width: $breakpointMin) {
+          margin-top: 20px;
+        }
         a {
           color: $heroTextColor;
           text-decoration: none;
@@ -97,6 +124,14 @@ main.home {
         .signUp {
           padding: 15px;
           border: 1px white solid;
+          @media (max-width: $breakpointMin) {
+            padding: 0;
+            font-size: 21px;
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            line-height: 3em;
+          }
           img{
             position: relative;
             width: 35px;
@@ -113,11 +148,21 @@ main.home {
       top: 76px;
       margin-right: 40px;
       text-align: center;
+      @media (max-width: $breakpointMin) {
+        float: none;
+        margin: auto;
+        top: auto;
+        width: 100%;
+        overflow: hidden;
+      }
       .header {
         color: $heroTextColor;
         .title {
           margin-top: 20px;
           font-size: 24px;
+          @media (max-width: $breakpointMin) {
+            margin-top: 0;
+          }
         }
         .amountCounter{
           font-size: 54px;
@@ -173,6 +218,10 @@ main.home {
           padding: 0 200px;
           max-width: $maxWidth;
           font-size: 20px;
+          @media (max-width: $breakpointMin) {
+            font-size: 14px;
+            padding: 0 20px;
+          }
         }
       }
 
@@ -182,16 +231,30 @@ main.home {
         .step {
           float: left;
           width: 33.33%;
+          @media (max-width: $breakpointMin) {
+            float: none;
+            width: 100%;
+            img {
+              max-width: 90%;
+            }
+          }
 
           .steptitle {
             margin-bottom: 10px;
             font: 100% $bodyFont;
             font-size: 20px;
+            @media (max-width: $breakpointMin) {
+              margin: 0;
+            }
           }
 
           .text {
             padding: 0 40px;
             font-size: 14px;
+            @media (max-width: $breakpointMin) {
+              padding: 0 10px 20px;
+              text-align: center;
+            }
           }
 
         }

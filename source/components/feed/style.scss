@@ -14,6 +14,11 @@
     background-color: #2C3E50;
     transform: translateY(100%);
     transition: transform .3s ease;
+    @media (max-width: $breakpointMin) {
+      position: relative;
+      height: 293px;
+      transform: translateY(0);
+    }
 
     &.visible {
       transform: translateY(0);

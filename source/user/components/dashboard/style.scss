@@ -80,6 +80,10 @@ main.dashboard {
     .userProfile {
       width: 600px;
       margin: 0 auto;
+      @media (max-width: $breakpointMin) {
+        width: 100%;
+        padding: 0 20px;
+      }
     }
 
     .wings {
@@ -90,15 +94,27 @@ main.dashboard {
         position: absolute;
         font: 100% $bodyFont;
         font-size: 24px;
+        @media (max-width: $breakpointMin) {
+          text-align: center;
+          position: relative;
+        }
         &.username {
           float: right;
           top: 40px;
+          @media (max-width: $breakpointMin) {
+            float: none;
+            top: 0;
+          }
         }
         &.total {
           float: right;
           top: 40px;
           right: 0;
           color: $primaryAccent;
+          @media (max-width: $breakpointMin) {
+            float: none;
+            top: 0;
+          }
         }
       }
       .amountCounter {
@@ -109,6 +125,11 @@ main.dashboard {
         top: 80px;
         right: 0;
         color: $primaryAccent;
+        @media (max-width: $breakpointMin) {
+          position: relative;
+          float: none;
+          top: auto;
+        }
       }
 
       hr {
@@ -122,6 +143,11 @@ main.dashboard {
         margin: 0;
         padding: 0;
         z-index: 1;
+        @media (max-width: $breakpointMin) {
+          position: relative;
+          top: auto;
+          margin: 10px auto;
+        }
       }
 
       .avatarWrapper {
@@ -134,10 +160,22 @@ main.dashboard {
         z-index: 2;
         img {
           position: absolute;
-          width: 140px;
+          width: 100%;
           top: 50%;
           left: 50%;
           transform: translate(-50%,-50%);
+        }
+        @media (max-width: $breakpointMin) {
+          width: 100px;
+          height: 100px;
+          margin: 20px auto;
+          text-align: center;
+          img {
+            position: relative;
+            top: auto;
+            left: auto;
+            transform: none;
+          }
         }
       }
     }
@@ -149,6 +187,9 @@ main.dashboard {
       height: 40px;
       font: 100% $bodyFont;
       font-size: 36px;
+      @media (max-width: $breakpointMin) {
+        margin-top: 20px;
+      }
     }
 
     .activityContainer {
@@ -164,11 +205,15 @@ main.dashboard {
         padding: 0;
         font-family: $codeFontRegular;
         position: relative;
+        overflow: hidden;
         > * {
           text-align: left;
           padding: 4px 0 7px;
           list-style: none;
           display: inline-block;
+          @media (max-width: $breakpointMin) {
+            white-space: nowrap;
+          }
           .amount {
             font-family: $codeFontBold;
             color: $primaryAccent;
@@ -185,19 +230,18 @@ main.dashboard {
       margin-top: 20px;
       text-align: left;
       width: inherit;
+      font: 100% $bodyFont;
+      font-size: 18px;
+      @media (max-width: $breakpointMin) {
+        font-size: 14px;
+      }
       .one {
         width: 400px;
-        font: 100% $bodyFont;
-        font-size: 18px;
       }
       .two {
         width: 120px;
-        font: 100% $bodyFont;
-        font-size: 18px;
       }
       .three {
-        font: 100% $bodyFont;
-        font-size: 18px;
       }
     }
 
@@ -216,6 +260,9 @@ main.dashboard {
           font: 100% $codeFontRegular;
           font-size: 20px;
           text-align: left;
+          @media (max-width: $breakpointMin) {
+            font-size: 16px;
+          }
         }
 
         .raised {
@@ -224,6 +271,9 @@ main.dashboard {
           font-size: 24px;
           color: #BDC3C7;
           text-align: left;
+          @media (max-width: $breakpointMin) {
+            font-size: 1.2em;
+          }
         }
 
         .yes {
@@ -243,6 +293,9 @@ main.dashboard {
             background: white;
             display: none;
             margin-left: 22px;
+            @media (max-width: $breakpointMin) {
+              margin-left: 0;
+            }
             img {
               width: $repoActionIconSize;
             }

@@ -6,6 +6,9 @@ main.settings {
     @include pageContainer;
     padding: 0 40px;
     text-align: left;
+    @media (max-width: $breakpointMin) {
+      padding: 0 20px;
+    }
   }
 
   section {
@@ -47,6 +50,10 @@ main.settings {
   .left {
     display: inline-block;
     margin-right: 10px;
+    @media (max-width: $breakpointMin) {
+      width: 100%;
+      padding-bottom: 20px;
+    }
   }
 
   .accountType {
@@ -95,6 +102,12 @@ main.settings {
       background: $primaryAccent;
       color: white;
       font-family: $boldFont;
+      @media (max-width: $breakpointMin) {
+        display: block;
+        text-align: center;
+        max-width: 100px;
+        margin-right: 0;
+      }
       &:hover {
         background: $primaryAccentHover;
       }
@@ -102,6 +115,14 @@ main.settings {
         cursor: default;
         background: white;
         color: $primaryAccent;
+      }
+    }
+  }
+  .partners {
+    a {
+      @media (max-width: $breakpointMin) {
+        display: block;
+        margin-bottom: 10px;
       }
     }
   }

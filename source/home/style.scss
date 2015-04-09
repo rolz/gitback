@@ -72,11 +72,12 @@ main.home {
         @media (max-width: $breakpointMin) {
           margin:20px 0 0 20px;
           float: none;
-          width: auto
+          width: auto;
+          letter-spacing: -0.03em;
         }
         li {
           float: left;
-          margin: 0 10px;
+          margin-left: 10px;
           list-style: none;
           &:first-child{
             margin-left: 0;
@@ -190,7 +191,7 @@ main.home {
       position: relative;
       margin: 0 auto;
       text-align: center;
-      margin-bottom: 40px;
+      padding-bottom: 40px;
 
       .title {
         padding-top: 40px;

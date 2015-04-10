@@ -38,7 +38,10 @@ var LiveFeedStore = Reflux.createStore({
     this.trigger(this.feed);
   },
   updateUsers(e) {
-    // logger.debug('updateUsers', users);
+    // logger.debug('updateUsers', e);
+    if(this.feed && this.feed.results && this.feed.results.length > 0) {
+      if(e.results[0]._id === this.feed.results[0]._id) return;
+    }
     this.feed = e;
     this.trigger(this.feed);
   },

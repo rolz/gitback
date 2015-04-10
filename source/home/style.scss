@@ -11,7 +11,7 @@ main.home {
 
   .hero {
     position: relative;
-    height: 480px;
+    height: 512px;
     @media (max-width: $midiumBreakpointMin) {
       height: auto;
     }
@@ -107,8 +107,11 @@ main.home {
 
     .jumbotron {
       float: left;
-      margin-top: 65px;
       color: $heroTextColor;
+      margin-top: 80px;
+      @media (max-width: $maxWidth) {
+        margin-top: 65px;
+      }
       @media (max-width: $midiumBreakpointMin) {
         float: none;
         padding: 20px;
@@ -185,10 +188,17 @@ main.home {
             margin-top: 0;
           }
         }
-        .amountCounter{
+        .amountCounter {
           font-size: 54px;
           &.zero {
             visibility: hidden;
+          }
+        }
+      }
+      .feed {
+        .terminal {
+          @media (min-width: $midiumBreakpointMin) {
+            height: 325px;
           }
         }
       }

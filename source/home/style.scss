@@ -11,9 +11,8 @@ main.home {
 
   .hero {
     position: relative;
-    width: 100%;
-    height: 512px;
-    @media (max-width: $breakpointMin) {
+    height: 480px;
+    @media (max-width: $midiumBreakpointMin) {
       height: auto;
     }
     overflow: hidden;
@@ -34,21 +33,25 @@ main.home {
       background: url(/assets/images/bgshader.png);
     }
 
-    .header {
+    .bgShader > .header {
 
+      @media (max-width: $breakpointMin) {
+        text-align: center;
+      }
       a {
-        float: left;
         font: 100% $bodyFont;
         font-size: 16px;
         font-weight: 700;
         color: $heroTextColor;
         text-decoration: none;
         &.logo {
+          float: left;
           margin-top: 20px;
           padding-left: 20px;
           font: 100% $GBFont;
           font-size: 28px;
           @media (max-width: $breakpointMin) {
+            margin-bottom: 20px;
             float: none;
             text-align: center;
             padding: 0;
@@ -60,7 +63,8 @@ main.home {
           float: right;
           margin: 35px 20px 0 0;
           @media (max-width: $breakpointMin) {
-            margin-top: 20px;
+            float: none;
+            margin: 20px auto;
           }
         }
       }
@@ -70,17 +74,19 @@ main.home {
         padding: 0;
         margin: 35px 0px 0px 40px;
         @media (max-width: $breakpointMin) {
-          margin:20px 0 0 20px;
+          margin: 20px auto;
           float: none;
           width: auto;
           letter-spacing: -0.03em;
+          display: inline;
         }
         li {
           float: left;
-          margin-left: 10px;
+          margin-right: 10px;
           list-style: none;
-          &:first-child{
-            margin-left: 0;
+          display: inline;
+          @media (max-width: $breakpointMin) {
+            float: none;
           }
         }
       }
@@ -89,17 +95,20 @@ main.home {
     .content {
       margin: 0 auto;
       max-width: $maxWidth;
+      @media (max-width: $maxWidth + 40) {
+        padding: 0 20px;
+      }
     }
 
     .jumbotron {
       float: left;
-      margin-top: 110px;
-      margin-left: 40px;
+      margin-top: 65px;
       color: $heroTextColor;
-      @media (max-width: $breakpointMin) {
+      @media (max-width: $midiumBreakpointMin) {
         float: none;
-        padding: 20px;
+        padding: 20px 0;
         margin: 0;
+        text-align: center;
       }
       .tagline {
         font: 100% $bodyFont;
@@ -110,14 +119,18 @@ main.home {
         }
       }
       .subline {
-        margin-top: 10px;
+        margin: 10px auto 0;
         line-height: 140%;
+        max-width: 530px;
+        @media (max-width: $maxWidth) {
+          max-width: 375px;
+        }
       }
       .userActions {
         margin-top: 50px;
         font: 100% $bodyFont;
         font-size: 24px;
-        @media (max-width: $breakpointMin) {
+        @media (max-width: $maxWidth) {
           margin-top: 20px;
         }
         a {
@@ -132,6 +145,7 @@ main.home {
             font-size: 21px;
             display: inline-block;
             width: 100%;
+            max-width: 280px;
             text-align: center;
             line-height: 3em;
           }
@@ -148,13 +162,9 @@ main.home {
     .usersContribs {
       width: $feedWidth;
       float: right;
-      top: 76px;
-      margin-right: 40px;
       text-align: center;
-      @media (max-width: $breakpointMin) {
+      @media (max-width: $midiumBreakpointMin) {
         float: none;
-        margin: auto;
-        top: auto;
         width: 100%;
         overflow: hidden;
       }
@@ -170,7 +180,7 @@ main.home {
         .amountCounter{
           font-size: 54px;
           &.zero {
-            display: none;
+            visibility: hidden;
           }
         }
       }
@@ -218,12 +228,12 @@ main.home {
       &.two {
         background-color: #F7F7F7;
         .text {
-          padding: 0 200px;
+          width: 80%;
           max-width: $maxWidth;
           font-size: 20px;
+          margin: auto;
           @media (max-width: $breakpointMin) {
             font-size: 14px;
-            padding: 0 20px;
           }
         }
       }
@@ -234,12 +244,9 @@ main.home {
         .step {
           float: left;
           width: 33.33%;
-          @media (max-width: $breakpointMin) {
+          @media (max-width: $midiumBreakpointMin) {
             float: none;
             width: 100%;
-            img {
-              max-width: 90%;
-            }
           }
 
           .steptitle {
@@ -251,15 +258,25 @@ main.home {
             }
           }
 
-          .text {
-            padding: 0 40px;
-            font-size: 14px;
-            @media (max-width: $breakpointMin) {
-              padding: 0 10px 20px;
-              text-align: center;
+          .stepImage {
+            height: 284px;
+            @media (max-width: $midiumBreakpointMin) {
+              height: auto;
+            }
+            img {
+              max-width: 90%;
             }
           }
 
+          .text {
+            font-size: 14px;
+            margin: auto;
+            width: 80%;
+            @media (max-width: $midiumBreakpointMin) {
+              padding: 0 0 20px;
+              text-align: center;
+            }
+          }
         }
       }
     }

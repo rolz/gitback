@@ -37,11 +37,11 @@ var Header = React.createClass({
     return(
       <section className="header clearfix">
         <a className="logo">{projectTitle}</a>
-        <a href="/login" className="login">{heroSection.login}</a>
         <ul>
           <li><a href={`#${heroSection.nav[0]}`}>{heroSection.nav[0]}</a></li>
           <li><a href={`#${heroSection.nav[1]}`}>{heroSection.nav[1]}</a></li>
         </ul>
+        <a href="/login" className="login">{heroSection.login}</a>
       </section>
     )
   }
@@ -112,7 +112,9 @@ var C1 = React.createClass({
           {_.map(content.one.steps, ((step, index) => {
             return <div key={`step${index}`} className="step">
               <div className="steptitle">{step.title}</div>
-              <img src={step.image}/>
+              <div className="stepImage">
+                <img src={step.image}/>
+              </div>
               <div className="text">{step.text}</div>
             </div>
           }))}

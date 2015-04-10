@@ -4,19 +4,19 @@
 .feed {
   width: $feedWidth;
   text-align: left;
+  margin: auto;
 
   .terminal {
     position: absolute;
     margin-top: 25px;
     width: inherit;
     bottom: 0px;
-    height: 322px;
+    height: 293px;
     background-color: #2C3E50;
     transform: translateY(100%);
     transition: transform .3s ease;
-    @media (max-width: $breakpointMin) {
+    @media (max-width: $midiumBreakpointMin) {
       position: relative;
-      height: 293px;
       transform: translateY(0);
     }
 

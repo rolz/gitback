@@ -52,9 +52,25 @@ $lineColor: rgba(0,0,0,1);
 
 // DIMENSIONS
 $headerTabHeight: 50px;
-$maxWidth: 1280px;
+$maxWidth: 1100px;
 $feedWidth: 460px;
 $breakpointMin: 568px;
+$midiumBreakpointMin: 880px;
+
+br {
+  &.maxWidth {
+    display: none;
+    @media (max-width: $maxWidth) {
+      display: inherit;
+    }
+  }
+  &.breakpointMin {
+    display: none;
+    @media (max-width: $breakpointMin) {
+      display: inherit;
+    }
+  }
+}
 
 
 /*

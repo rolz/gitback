@@ -161,12 +161,6 @@ main.home {
         @media (max-width: $taglineBreakpoint) {
           max-width: $line3;
         }
-        @media (max-width: $breakpointMin) {
-          max-width: $line2;
-        }
-        @media (max-width: $taglineBreakpoint2) {
-          max-width: $line3;
-        }
       }
       .userActions {
         margin-top: 50px;

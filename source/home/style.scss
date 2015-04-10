@@ -95,6 +95,14 @@ main.home {
     .content {
       margin: 0 auto;
       max-width: $maxWidth;
+      @media (max-width: $maxWidth) {
+        max-width: $midiumBreakpointMin;
+        width: 96%;
+      }
+      @media (max-width: $midiumBreakpointMin) {
+        max-width: inherit;
+        width: auto;
+      }
     }
 
     .jumbotron {

@@ -95,9 +95,9 @@ main.home {
     .content {
       margin: 0 auto;
       max-width: $maxWidth;
+      width: 96%;
       @media (max-width: $maxWidth) {
         max-width: $midiumBreakpointMin;
-        width: 96%;
       }
       @media (max-width: $midiumBreakpointMin) {
         max-width: inherit;
@@ -124,11 +124,14 @@ main.home {
         }
       }
       .subline {
-        margin: 10px auto 0;
+        margin-top: 10px;
         line-height: 140%;
         max-width: 530px;
         @media (max-width: $maxWidth) {
           max-width: 375px;
+        }
+        @media (max-width: $midiumBreakpointMin) {
+          margin: 10px auto 0;
         }
       }
       .userActions {

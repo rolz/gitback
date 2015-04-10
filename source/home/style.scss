@@ -106,6 +106,8 @@ main.home {
     }
 
     .jumbotron {
+      $taglineBreakpoint: 608px;
+      $taglineBreakpoint2: 515px;
       float: left;
       color: $heroTextColor;
       margin-top: 80px;
@@ -114,9 +116,12 @@ main.home {
       }
       @media (max-width: $midiumBreakpointMin) {
         float: none;
-        padding: 20px;
+        padding: 20px 0px;
         margin: 0;
         text-align: center;
+      }
+      @media (max-width: $taglineBreakpoint2) {
+        padding: 20px;
       }
       .tagline {
         font: 100% $bodyFont;
@@ -125,16 +130,42 @@ main.home {
         @media (max-width: $breakpointMin) {
           font-size: 28px;
         }
+        br.maxWidth {
+          @media (max-width: $midiumBreakpointMin) {
+            display: none;
+          }
+          @media (max-width: $taglineBreakpoint) {
+            display: inherit;
+          }
+          @media (max-width: $breakpointMin) {
+            display: none;
+          }
+          @media (max-width: $taglineBreakpoint2) {
+            display: inherit;
+          }
+        }
       }
       .subline {
+        $line2: 530px;
+        $line3: 375px;
         margin-top: 10px;
         line-height: 140%;
-        max-width: 530px;
+        max-width: $line2;
         @media (max-width: $maxWidth) {
-          max-width: 375px;
+          max-width: $line3;
         }
         @media (max-width: $midiumBreakpointMin) {
           margin: 10px auto 0;
+          max-width: $line2;
+        }
+        @media (max-width: $taglineBreakpoint) {
+          max-width: $line3;
+        }
+        @media (max-width: $breakpointMin) {
+          max-width: $line2;
+        }
+        @media (max-width: $taglineBreakpoint2) {
+          max-width: $line3;
         }
       }
       .userActions {

@@ -9,7 +9,7 @@
     "heroSection": {
       "nav": ["Get Involved", "Our Mission"],
       "login": "Login",
-      "tagline": "Strengthen the <br class='maxWidth'/>Dev Community<br/>One Push at a Time.",
+      "tagline": "Strengthen <br class='maxWidth'/>the Dev Community<br/>One Push at a Time.",
       "subline": "Every time you push code to Github, you donate a small amount to teach computer science to girls from underserved communities.",
       "signUp": "Sign in with Github",
       "contribFeedTitle": "Total Raised"

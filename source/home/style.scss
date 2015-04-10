@@ -95,9 +95,6 @@ main.home {
     .content {
       margin: 0 auto;
       max-width: $maxWidth;
-      @media (max-width: $maxWidth + 40) {
-        padding: 0 20px;
-      }
     }
 
     .jumbotron {
@@ -106,7 +103,7 @@ main.home {
       color: $heroTextColor;
       @media (max-width: $midiumBreakpointMin) {
         float: none;
-        padding: 20px 0;
+        padding: 20px;
         margin: 0;
         text-align: center;
       }

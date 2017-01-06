@@ -49,7 +49,7 @@ WEBHOOKURL=http://3da9c26d.ngrok.com/webhook
 https://sandbox.braintreegateway.com/login
 username: gitback
 
-## gitback.org/admin
+## /admin
 
 username: gitback
 password: sheherher01

@@ -48,30 +48,9 @@ WEBHOOKURL=http://3da9c26d.ngrok.com/webhook
 
 https://sandbox.braintreegateway.com/login
 username: gitback
-password: sheherher01
 
 ## gitback.org/admin
 
 username: gitback
-password: sherherher01
+password: sheherher01
 
-## Deployment
-
-Please ask @mayognaise to add your email to heroku app.
-
-(We are going to prepare two apps for development and production later.)
-
-```
-// Login to heroku
-heroku login
-
-// Make sure all stuff has been commited.
-// It does NOT have to be pushed to remote.
-git push heroku dev:master
-
-// Open the app in browser
-heroku open
-
-// Log with tail
-heroku logs -t
-```
